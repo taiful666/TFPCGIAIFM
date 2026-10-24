@@ -1,0 +1,20 @@
+{
+  "name": "TF Post Card Studio",
+  "short_name": "Post Card",
+  "description": "ফেসবুক পেজের জন্য ফটো কার্ড ও ক্যাপশন — সাধারণ ও ইসলামিক (প্রশান্তির বার্তা)",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#f5f4f1",
+  "theme_color": "#0f3d24",
+  "lang": "bn",
+  "categories": ["photo", "productivity", "social"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
