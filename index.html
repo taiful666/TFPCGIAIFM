@@ -1913,6 +1913,7 @@ async function downloadCard(type){ const b = await exportCard(type); if(b){ down
 async function shareCard(){
   const b = await exportCard('png'); if(!b) return;
   const file = new File([b], fileName('png'), { type: 'image/png' });
+  if(!$('capText').value.trim()) quickCaption();
   const cap = $('capText').value.trim(); if(cap && await copyText(cap)) toast(t('tShareCap'));
   try{ await navigator.share({ files: [file], text: cap }); }catch(e){ if(e && e.name !== 'AbortError') download(b, fileName('png')); }
 }
