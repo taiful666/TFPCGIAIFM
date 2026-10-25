@@ -182,7 +182,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
   .stagebar .grp{flex-wrap:nowrap;gap:6px}
   .stagebar .btn,.stagebar .seg button{white-space:nowrap;padding:8px 11px}
   .stagebar .grp{display:contents}
-  #pngBtn{order:-6}#shareBtn{order:-5}#undoBtn{order:-4}#redoBtn{order:-3}#ratioSeg{order:-2;flex:none}#pvBtn{order:-1}
+  #monoBtn{order:-7}#pngBtn{order:-6}#shareBtn{order:-5}#undoBtn{order:-4}#redoBtn{order:-3}#ratioSeg{order:-2;flex:none}#pvBtn{order:-1}
   .panel{overflow:visible}
   .tabs{position:fixed;left:0;right:0;bottom:0;z-index:60;justify-content:space-around;gap:2px;padding:5px 4px calc(5px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:0;box-shadow:0 -6px 20px rgba(0,0,0,.07);overflow:visible}
   .tab{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 1px 5px;border-radius:12px;font-size:10.5px;line-height:1.15;transition:background .15s,color .15s}
@@ -208,6 +208,16 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
   .ctrls{gap:5px}
 }
 @media (display-mode: standalone){ .install-ui{display:none!important} }
+/* monetization check */
+.monolist{display:flex;flex-direction:column;gap:6px}
+.mi{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface);font-size:13px;line-height:1.5}
+.mi .ic{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff}
+.mi.ok .ic{background:var(--ok)}.mi.warn .ic{background:#d08a00}.mi.bad .ic{background:var(--danger)}.mi.info .ic{background:#3b6fb6}
+.mi b{display:block;font-size:13px}.mi small{display:block;color:var(--muted);font-size:12px}
+.mi .btn{margin-top:5px}
+.monobtn{font-weight:700}
+.monobtn.ok{border-color:var(--ok);color:var(--ok)}.monobtn.warn{border-color:#d08a00;color:#b07400}.monobtn.bad{border-color:var(--danger);color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--surface))}
+#brandNudge input{border:1px solid var(--warn-line);border-radius:8px;padding:8px 10px;background:var(--surface);font-size:15px;min-width:0}
 </style>
 </head>
 <body>
@@ -220,7 +230,6 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <button type="button" data-mode="islamic"><span>🕌</span> <span class="lbl" data-i18n="mIslamic"></span></button>
       </div>
       <button type="button" class="btn primary hidden install-ui" id="installBtn"><span>📲</span> <span class="lbl" data-i18n="install"></span></button>
-      <button type="button" class="btn" id="hdrResetBtn" style="color:var(--danger);border-color:var(--danger)"><span>⟲</span> <span class="lbl" data-i18n="allReset"></span></button>
       <button type="button" class="btn desk-only" id="langBtn">বাংলা</button>
       <button type="button" class="btn desk-only" id="themeBtn" title="theme">🌙</button>
     </div>
@@ -234,6 +243,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
     <p class="warnline hidden" id="stageWarn"></p>
     <p class="hint" data-i18n="stageHint"></p>
     <div class="stagebar">
+      <button type="button" class="btn monobtn" id="monoBtn" title="Monetization check"><span id="monoBadge">🛡️</span></button>
       <button type="button" class="btn" id="pvBtn" data-i18n="pvSize"></button>
       <div class="seg" id="ratioSeg">
         <button type="button" data-ratio="1:1">1:1</button>
@@ -268,6 +278,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
     <!-- TEXT -->
     <div class="pane" id="p-text">
       <div class="banner hidden install-ui" id="installBanner"><b data-i18n="installBannerText"></b><button type="button" class="btn primary sm" id="installBtn2" data-i18n="install"></button><button type="button" class="btn sm" id="installX" aria-label="close">✕</button></div>
+      <div class="warn hidden" id="brandNudge"><b data-i18n="nudgeTitle"></b><span class="row" style="margin-top:6px;gap:6px"><input type="text" id="nudgeName" data-i18n-ph="nudgePh" style="flex:1 1 160px"><button type="button" class="btn primary sm" id="nudgeSave" data-i18n="save"></button></span></div>
       <div class="sect" id="src-ai" style="border:2px solid var(--accent);background:var(--accent-soft)">
         <h4><span data-i18n="aiTitle"></span></h4>
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
@@ -412,6 +423,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <label class="fld" style="margin-top:10px"><span data-i18n="zoom"></span><input type="range" id="zoom" min="100" max="300"></label>
         <label class="fld"><span data-i18n="blur"></span><input type="range" id="blur" min="0" max="40"></label>
         <button type="button" class="btn sm" id="centerBtn" data-i18n="center"></button>
+        <label class="fld" style="margin-top:12px"><span data-i18n="fCredit"></span><input type="text" id="f-credit" data-f="credit" data-i18n-ph="creditPh"><small data-i18n="creditNote"></small></label>
       </div>
       <div class="sect"><h4><span data-i18n="aiImgTitle"></span></h4>
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
@@ -437,6 +449,9 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
           <label class="fld"><span data-i18n="bHandle"></span><input type="text" id="b-handle" data-b="handle"></label>
         </div>
         <label class="chk"><input type="checkbox" id="b-show"> <span data-i18n="bShow"></span></label>
+        <label class="fld" style="margin-top:10px"><span data-i18n="bStyle"></span><select id="b-style"><option value="plain" data-i18n="bsPlain"></option><option value="pill" data-i18n="bsPill"></option></select></label>
+        <label class="chk"><input type="checkbox" id="b-wm"> <span data-i18n="bWm"></span></label>
+        <p class="note" data-i18n="brandWhy"></p>
       </div>
       <div class="sect"><h4><span data-i18n="bLogo"></span><small data-i18n="optional"></small></h4>
         <input type="file" id="logoFile" class="hidden" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
@@ -468,6 +483,15 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <label class="fld" style="margin-top:10px"><textarea id="capText" class="cap" data-i18n-ph="capPh"></textarea></label>
         <div class="row"><button type="button" class="btn primary" id="capCopyBtn" data-i18n="capCopy"></button><button type="button" class="btn" id="capBothBtn" data-i18n="capBoth"></button></div>
         <p class="note" data-i18n="capNote"></p>
+      </div>
+      <div class="sect" id="monoSect">
+        <h4><span data-i18n="monoTitle"></span><small id="monoScore"></small></h4>
+        <div class="monolist" id="monoList"></div>
+        <div class="row" style="margin-top:8px"><button type="button" class="btn primary sm" id="monoFixBtn" data-i18n="monoFix"></button><button type="button" class="btn sm" id="monoRecheck" data-i18n="monoRecheck"></button></div>
+        <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:600;font-size:13px" data-i18n="monoRulesT"></summary>
+          <ul class="steps" style="font-size:13px;margin-top:6px"><li data-i18n="mr1"></li><li data-i18n="mr2"></li><li data-i18n="mr3"></li><li data-i18n="mr4"></li><li data-i18n="mr5"></li><li data-i18n="mr6"></li></ul>
+          <p class="note" data-i18n="monoHonest"></p>
+        </details>
       </div>
     </div>
 
@@ -505,7 +529,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <p class="note" data-i18n="fullNote"></p>
       </div>
       <div class="sect" style="border-color:var(--warn-line)"><h4><span data-i18n="resetTitle"></span></h4>
-        <div class="row"><button type="button" class="btn sm" id="resetAllBtn" data-i18n="resetAll"></button><button type="button" class="btn sm" id="masterResetBtn" data-i18n="masterReset" style="color:var(--danger);border-color:var(--danger)"></button></div>
+        <div class="row"><button type="button" class="btn sm" id="hdrResetBtn" style="color:var(--danger);border-color:var(--danger)">⟲ <span data-i18n="allReset"></span></button><button type="button" class="btn sm" id="resetAllBtn" data-i18n="resetAll"></button><button type="button" class="btn sm" id="masterResetBtn" data-i18n="masterReset" style="color:var(--danger);border-color:var(--danger)"></button></div>
         <label class="chk" style="margin-top:8px"><input type="checkbox" id="keepLib" checked> <span data-i18n="keepLib"></span></label>
         <p class="note" data-i18n="resetNote"></p>
       </div>
@@ -598,7 +622,7 @@ const T = {
   aiImgTitle:'Generate a background with AI',aiImgPrompt:'Describe the image (1–2 sentences, Bengali or English)',suggest:'💡 Suggest from text',imgGen:'🎨 Generate image',imgWorking:'Generating (10–60 s)…',noFigures:'Islamic-friendly: no people, faces or animals',imgDl:'⬇ Download AI image',imgModelUsed:'Model used',
   brandPage:'Page name on card',bName:'Page name',bHandle:'Handle / website',bShow:'Show page name on card',bLogo:'Logo',optional:'optional',logoUp:'📁 Upload logo',logoRm:'🗑 Remove',logoSize:'Logo size',logoPos:'Position',
   pTL:'Top left',pTC:'Top center',pTR:'Top right',pBL:'Bottom left',pBC:'Bottom center',pBR:'Bottom right',logoNote:'Transparent PNG works best. Each mode (General / Islamic) remembers its own page name, logo and hashtags.',noLogo:'No logo — the card works fine without one.',bTags:'Default hashtags',brandForG:'These settings are for your GENERAL page',brandForI:'These settings are for your ISLAMIC page',
-  capTitle:'Facebook caption',capStyle:'Style',capEmoji:'Emoji',capTags:'Hashtags',capFull:'Full text + reference',capCta:'Call to action',capGen:'✨ Write with AI',capQuick:'⚡ Quick (no AI)',capPh:'Your caption appears here — edit freely.',capCopy:'📋 Copy caption',capBoth:'⬇ Card + 📋 caption',
+  capTitle:'Facebook caption',capStyle:'Style',capEmoji:'Emoji',capTags:'Hashtags',capFull:'Full text + reference',capCta:'Discussion question (no bait)',capGen:'✨ Write with AI',capQuick:'⚡ Quick (no AI)',capPh:'Your caption appears here — edit freely.',capCopy:'📋 Copy caption',capBoth:'⬇ Card + 📋 caption',
   capNote:'For hadith/ayah, the original text and reference are inserted exactly as collected; AI only writes the intro and closing lines. Posting is manual — this app does not post to Facebook.',
   libTitle:'Saved texts',libSearch:'Search…',libExport:'⬇ Backup (JSON)',libImport:'⬆ Restore',libEmpty:'Nothing saved yet. Press ⭐ Save in the Text tab.',del:'Delete',
   setAi:'AI (Google Gemini)',setTextModel:'Text model (empty = default)',setImgModel:'Image model (empty = auto)',save:'Save',test:'Test',remove:'Remove',
@@ -611,7 +635,33 @@ const T = {
   tHadithFail:'Could not get a hadith — check the internet and try again',tAyahFail:'Could not get the ayah — check the reference (e.g. 2:255)',tLibSaved:'Saved to library',tLibImported:'Library restored',tNothingPrev:'Nothing to undo',tPasteDenied:'Browser blocked clipboard — paste into the Main text box with Ctrl+V',
   eKey:'Invalid API key — check Settings',eQuota:'API quota or rate limit reached — try later, or check billing in Google AI Studio',ePerm:'Permission denied — this model may need billing enabled',eNet:'Network problem — try again',eTimeout:'Took too long — try again',eSafety:'Blocked by the AI safety filter — change the text/prompt',eOther:'AI error',
   eNoImgModel:'No image model is available for this key — enable billing in Google AI Studio',eModelMissing:'Model "{m}" is not available for this key',eNoImg:'The model returned no image — try another prompt',eModelNoImg:'This model cannot make images — set an image model (e.g. gemini-3.1-flash-image-preview) or leave it empty',
-  hadithLbl:'Hadith',gradeLbl:'Grade',retried:'(skipped numbers without Bengali text / not matching the filter)'},
+  hadithLbl:'Hadith',gradeLbl:'Grade',retried:'(skipped numbers without Bengali text / not matching the filter)',
+  nudgeTitle:'🏷️ Your page name is not on the card. Branded cards are recognised as your own original work on Facebook — add your page name:',nudgePh:'Your Facebook page name',
+  fCredit:'Photo credit (shown small on the card)',creditPh:'e.g. Own photo / Unsplash / Freepik',creditNote:'Use only your own photos, AI images, or free-licence photos. Do not use other pages’ or news photos.',
+  bStyle:'Page name style',bsPlain:'Plain text',bsPill:'Badge (easier to read on photos)',bWm:'Faint watermark with my page name (stops others re-posting it as theirs)',
+  brandWhy:'Facebook rewards original content. Your own name/logo on every card shows the work is yours. Never post cards with another page’s watermark.',
+  monoTitle:'🛡️ Monetization check',monoFix:'🧹 Fix automatically',monoRecheck:'↻ Check again',monoRulesT:'📘 Facebook monetization rules in short',
+  mr1:'Original work: your own design, your own words and your page name — not a re-post of someone else’s card or photo.',
+  mr2:'No engagement bait: never ask people to like, react, share, tag, follow or type words like “Amin”/“Yes” in comments.',
+  mr3:'No clickbait or exaggeration (“viral”, “you will be shocked”), no false information.',
+  mr4:'Give the source for quotes (Quran/hadith reference, author name) and use only photos you have the right to use.',
+  mr5:'Add something of your own in the caption — a reflection, a lesson, a question — not just the card text again.',
+  mr6:'Keep 3–5 relevant hashtags. Mark realistic AI images with Facebook’s “AI info” label when posting.',
+  monoHonest:'This check follows Meta’s public content-monetization and engagement-bait rules. It improves each post’s eligibility, but monetization itself also depends on your page (followers, views, policy record), which only Facebook decides.',
+  c_brandOk:'Page name / logo is on the card',c_brandBad:'No page name or logo on the card',c_brandFix:'Add your page name in the 🏷️ Logo tab — it marks the card as your original work.',
+  c_baitOk:'No engagement bait',c_baitBad:'Engagement bait found: {x}',c_baitFix:'Facebook reduces reach and can stop monetization for posts that ask for likes, shares, tags or specific comments. Press “Fix automatically”.',
+  c_click:'Clickbait-style words: {x}',c_clickFix:'Words like these can be marked as clickbait. Use calm, honest wording.',
+  c_tagsOk:'Hashtags: {n} (good)',c_tagsBad:'Too many hashtags: {n}',c_tagsFix:'Keep 3–5 relevant hashtags. “Fix automatically” keeps the first 5.',
+  c_ownOk:'Caption has your own words',c_ownBad:'Caption only repeats the card text',c_ownFix:'Add 1–2 lines of your own (a reflection, a lesson or a question). “✨ Write with AI” does this for you.',
+  c_capEmpty:'No caption yet',c_capEmptyFix:'Write a caption (⚡ Quick or ✨ AI). A caption with your own words helps the post count as original.',
+  c_srcOk:'Source/reference is given',c_srcBad:'Quran/hadith text without a reference',c_srcFix:'Add the reference (e.g. Sahih Bukhari, hadith 1) in the Reference box.',
+  c_imgLink:'Photo taken from a website link',c_imgLinkFix:'Photos from news sites or other pages are copyrighted — this can block monetization. Use your own photo, an AI image or a free-licence photo, and fill in the photo credit.',
+  c_imgUp:'Uploaded photo',c_imgUpFix:'Make sure it is your own photo or a free-licence one, and fill in the photo credit (Image tab).',c_imgUpOk:'Uploaded photo with credit',
+  c_imgAi:'AI-generated background',c_imgAiFix:'Fine for monetization. If the image looks like a real photo, turn on “AI info” when posting on Facebook.',
+  c_small:'Text is small for a phone screen',c_smallFix:'Shorten the text or use 4:5 size so it is easy to read in the feed.',
+  c_ratioOk:'Size {r} — fits the Facebook feed well',c_ratioBad:'Size {r} — Facebook crops it in the feed',c_ratioFix:'4:5 (1080×1350) or 1:1 shows fully in the feed. 9:16 is for Stories.',
+  c_emoji:'Many emoji ({n})',c_emojiFix:'Use a few fitting emoji — too many looks spammy.',
+  tMonoIssues:'⚠️ Monetization check: {n} problem(s) — see the 💬 Caption tab',tMonoFixed:'✅ Fixed what could be fixed automatically',tMonoNothing:'Nothing to fix automatically',monoAll:'all clear',monoScore:'{a}/{b} passed'},
  bn:{install:'ইনস্টল',installHow:'📲 ফোনে ইনস্টল',installBannerText:'📲 অ্যাপটি ফোনে ইনস্টল করুন — হোম স্ক্রিনের আইকন থেকে সাধারণ অ্যাপের মতো খুলবে, দুর্বল ইন্টারনেটেও চলবে।',
   installTitle:'📲 TF Post Card Studio ইনস্টল করুন',instAndroid:'অ্যান্ড্রয়েড (Chrome):',instA1:'অ্যাপের লিংকটি Chrome-এ খুলুন।',instA2:'উপরে ডান কোণের ⋮ মেনুতে চাপুন।',instA3:'“Install app” (বা “Add to Home screen”) → Install চাপুন।',
   instIos:'আইফোন (Safari):',instI1:'অ্যাপের লিংকটি Safari-তে খুলুন।',instI2:'নিচের Share বাটন □↑ চাপুন।',instI3:'“Add to Home Screen” → Add চাপুন।',
@@ -652,7 +702,7 @@ const T = {
   aiImgTitle:'AI দিয়ে ব্যাকগ্রাউন্ড ছবি',aiImgPrompt:'ছবির বর্ণনা (১–২ বাক্য, বাংলা বা ইংরেজি)',suggest:'💡 লেখা থেকে প্রস্তাব',imgGen:'🎨 ছবি তৈরি',imgWorking:'ছবি তৈরি হচ্ছে (১০–৬০ সেকেন্ড)…',noFigures:'ইসলামিক উপযোগী: মানুষ, মুখ বা প্রাণী থাকবে না',imgDl:'⬇ AI ছবি ডাউনলোড',imgModelUsed:'ব্যবহৃত মডেল',
   brandPage:'কার্ডে পেজের নাম',bName:'পেজের নাম',bHandle:'হ্যান্ডেল / ওয়েবসাইট',bShow:'কার্ডে পেজের নাম দেখান',bLogo:'লোগো',optional:'ঐচ্ছিক',logoUp:'📁 লোগো আপলোড',logoRm:'🗑 সরান',logoSize:'লোগোর আকার',logoPos:'অবস্থান',
   pTL:'উপরে বামে',pTC:'উপরে মাঝে',pTR:'উপরে ডানে',pBL:'নিচে বামে',pBC:'নিচে মাঝে',pBR:'নিচে ডানে',logoNote:'স্বচ্ছ PNG সবচেয়ে ভালো। প্রতিটি মোড (সাধারণ / ইসলামিক) নিজের পেজের নাম, লোগো ও হ্যাশট্যাগ মনে রাখে।',noLogo:'কোনো লোগো নেই — লোগো ছাড়াও কার্ড ঠিকমতো তৈরি হবে।',bTags:'ডিফল্ট হ্যাশট্যাগ',brandForG:'এই সেটিং আপনার সাধারণ পেজের জন্য',brandForI:'এই সেটিং আপনার ইসলামিক পেজের জন্য',
-  capTitle:'ফেসবুক ক্যাপশন',capStyle:'ধরন',capEmoji:'ইমোজি',capTags:'হ্যাশট্যাগ',capFull:'পূর্ণ লেখা + রেফারেন্স',capCta:'শেয়ার/কমেন্টের আহ্বান',capGen:'✨ AI দিয়ে লিখুন',capQuick:'⚡ দ্রুত (AI ছাড়া)',capPh:'ক্যাপশন এখানে আসবে — ইচ্ছেমতো সম্পাদনা করুন।',capCopy:'📋 ক্যাপশন কপি',capBoth:'⬇ কার্ড + 📋 ক্যাপশন',
+  capTitle:'ফেসবুক ক্যাপশন',capStyle:'ধরন',capEmoji:'ইমোজি',capTags:'হ্যাশট্যাগ',capFull:'পূর্ণ লেখা + রেফারেন্স',capCta:'আলোচনার প্রশ্ন (বেইট ছাড়া)',capGen:'✨ AI দিয়ে লিখুন',capQuick:'⚡ দ্রুত (AI ছাড়া)',capPh:'ক্যাপশন এখানে আসবে — ইচ্ছেমতো সম্পাদনা করুন।',capCopy:'📋 ক্যাপশন কপি',capBoth:'⬇ কার্ড + 📋 ক্যাপশন',
   capNote:'হাদিস/আয়াতের ক্ষেত্রে মূল লেখা ও রেফারেন্স হুবহু বসানো হয়; AI শুধু শুরু ও শেষের লাইন লেখে। পোস্ট আপনাকে নিজে করতে হবে — অ্যাপটি সরাসরি ফেসবুকে পোস্ট করে না।',
   libTitle:'সংরক্ষিত লেখা',libSearch:'খুঁজুন…',libExport:'⬇ ব্যাকআপ (JSON)',libImport:'⬆ ফিরিয়ে আনুন',libEmpty:'এখনো কিছু সংরক্ষণ করা হয়নি। "লেখা" ট্যাবে ⭐ সংরক্ষণ চাপুন।',del:'মুছুন',
   setAi:'AI (Google Gemini)',setTextModel:'লেখার মডেল (খালি = ডিফল্ট)',setImgModel:'ছবির মডেল (খালি = স্বয়ংক্রিয়)',save:'সংরক্ষণ',test:'পরীক্ষা',remove:'সরান',
@@ -665,9 +715,35 @@ const T = {
   tHadithFail:'হাদিস আনা যায়নি — ইন্টারনেট দেখে আবার চেষ্টা করুন',tAyahFail:'আয়াত আনা যায়নি — রেফারেন্স ঠিক আছে কি না দেখুন (যেমন ২:২৫৫ → 2:255)',tLibSaved:'লাইব্রেরিতে সংরক্ষিত',tLibImported:'লাইব্রেরি ফিরিয়ে আনা হয়েছে',tNothingPrev:'বাতিল করার কিছু নেই',tPasteDenied:'ব্রাউজার ক্লিপবোর্ড আটকে দিয়েছে — "মূল লেখা" ঘরে Ctrl+V চাপুন',
   eKey:'API কী সঠিক নয় — সেটিংস দেখুন',eQuota:'API কোটা/লিমিট শেষ — পরে চেষ্টা করুন বা Google AI Studio-তে বিলিং দেখুন',ePerm:'অনুমতি নেই — এই মডেলের জন্য বিলিং চালু করতে হতে পারে',eNet:'নেটওয়ার্ক সমস্যা — আবার চেষ্টা করুন',eTimeout:'অনেক সময় লাগছে — আবার চেষ্টা করুন',eSafety:'AI নিরাপত্তা ফিল্টারে আটকে গেছে — লেখা/প্রম্পট বদলান',eOther:'AI ত্রুটি',
   eNoImgModel:'এই কী-তে কোনো ছবির মডেল নেই — Google AI Studio-তে বিলিং চালু করুন',eModelMissing:'"{m}" মডেলটি এই কী-তে নেই',eNoImg:'মডেল কোনো ছবি দেয়নি — অন্য প্রম্পট দিন',eModelNoImg:'এই মডেল ছবি বানাতে পারে না — ছবির মডেল দিন (যেমন gemini-3.1-flash-image-preview) বা ঘর খালি রাখুন',
-  hadithLbl:'হাদিস',gradeLbl:'মান',retried:'(বাংলা লেখা নেই বা ফিল্টারে মেলেনি এমন নম্বর বাদ দেওয়া হয়েছে)'}
+  hadithLbl:'হাদিস',gradeLbl:'মান',retried:'(বাংলা লেখা নেই বা ফিল্টারে মেলেনি এমন নম্বর বাদ দেওয়া হয়েছে)',
+  nudgeTitle:'🏷️ কার্ডে আপনার পেজের নাম নেই। নিজের নাম থাকলে ফেসবুক কার্ডটিকে আপনার নিজস্ব (অরিজিনাল) কাজ হিসেবে চেনে — পেজের নাম দিন:',nudgePh:'আপনার ফেসবুক পেজের নাম',
+  fCredit:'ছবির ক্রেডিট (কার্ডে ছোট করে দেখাবে)',creditPh:'যেমন: নিজের তোলা / Unsplash / Freepik',creditNote:'শুধু নিজের ছবি, AI ছবি বা ফ্রি-লাইসেন্সের ছবি ব্যবহার করুন। অন্য পেজ বা পত্রিকার ছবি নয়।',
+  bStyle:'পেজের নামের ধরন',bsPlain:'সাধারণ লেখা',bsPill:'ব্যাজ (ছবির ওপর সহজে পড়া যায়)',bWm:'আমার পেজের নামের হালকা জলছাপ (অন্যরা নিজের নামে পোস্ট করতে পারবে না)',
+  brandWhy:'ফেসবুক অরিজিনাল কনটেন্টকে গুরুত্ব দেয়। প্রতিটি কার্ডে নিজের নাম/লোগো থাকলে বোঝা যায় কাজটি আপনার। অন্য পেজের জলছাপওয়ালা কার্ড কখনো পোস্ট করবেন না।',
+  monoTitle:'🛡️ মনিটাইজেশন চেক',monoFix:'🧹 নিজে থেকে ঠিক করুন',monoRecheck:'↻ আবার চেক',monoRulesT:'📘 ফেসবুক মনিটাইজেশনের মূল নিয়ম (সংক্ষেপে)',
+  mr1:'নিজস্ব কাজ: নিজের ডিজাইন, নিজের লেখা ও নিজের পেজের নাম — অন্যের কার্ড বা ছবি হুবহু আবার পোস্ট নয়।',
+  mr2:'এনগেজমেন্ট বেইট নয়: লাইক, রিঅ্যাক্ট, শেয়ার, ট্যাগ, ফলো করতে বলা বা কমেন্টে “আমিন”/“ইয়েস” লিখতে বলা যাবে না।',
+  mr3:'ক্লিকবেইট বা অতিরঞ্জন নয় (“ভাইরাল”, “দেখলে অবাক হবেন”), কোনো ভুল তথ্য নয়।',
+  mr4:'উদ্ধৃতির সূত্র দিন (কুরআন/হাদিসের রেফারেন্স, লেখকের নাম) এবং শুধু ব্যবহারের অধিকার আছে এমন ছবি দিন।',
+  mr5:'ক্যাপশনে নিজের কিছু যোগ করুন — ভাবনা, শিক্ষা বা একটি প্রশ্ন — শুধু কার্ডের লেখা আবার নয়।',
+  mr6:'৩–৫টি প্রাসঙ্গিক হ্যাশট্যাগ রাখুন। বাস্তব ছবির মতো দেখায় এমন AI ছবিতে পোস্ট করার সময় ফেসবুকের “AI info” লেবেল দিন।',
+  monoHonest:'এই চেক Meta-র প্রকাশিত কনটেন্ট মনিটাইজেশন ও এনগেজমেন্ট-বেইট নিয়ম অনুযায়ী তৈরি। এতে প্রতিটি পোস্ট মনিটাইজেশনের উপযোগী হয়, তবে মনিটাইজেশন চালু হবে কি না তা পেজের ওপরও নির্ভর করে (ফলোয়ার, ভিউ, নীতিমালা মানার রেকর্ড) — এটি শুধু ফেসবুকই ঠিক করে।',
+  c_brandOk:'কার্ডে পেজের নাম / লোগো আছে',c_brandBad:'কার্ডে পেজের নাম বা লোগো নেই',c_brandFix:'🏷️ লোগো ট্যাবে পেজের নাম দিন — এতে কার্ডটি আপনার নিজস্ব কাজ হিসেবে চিহ্নিত হবে।',
+  c_baitOk:'এনগেজমেন্ট বেইট নেই',c_baitBad:'এনগেজমেন্ট বেইট পাওয়া গেছে: {x}',c_baitFix:'লাইক, শেয়ার, ট্যাগ বা নির্দিষ্ট কমেন্ট চাইলে ফেসবুক রিচ কমিয়ে দেয় এবং মনিটাইজেশন বন্ধ করতে পারে। “নিজে থেকে ঠিক করুন” চাপুন।',
+  c_click:'ক্লিকবেইট ধরনের শব্দ: {x}',c_clickFix:'এ ধরনের শব্দ ক্লিকবেইট হিসেবে ধরা পড়তে পারে। শান্ত, সৎ ভাষা ব্যবহার করুন।',
+  c_tagsOk:'হ্যাশট্যাগ: {n}টি (ঠিক আছে)',c_tagsBad:'হ্যাশট্যাগ বেশি: {n}টি',c_tagsFix:'৩–৫টি প্রাসঙ্গিক হ্যাশট্যাগ রাখুন। “নিজে থেকে ঠিক করুন” প্রথম ৫টি রাখবে।',
+  c_ownOk:'ক্যাপশনে আপনার নিজের লেখা আছে',c_ownBad:'ক্যাপশনে শুধু কার্ডের লেখাই আবার আছে',c_ownFix:'নিজের ১–২ লাইন যোগ করুন (ভাবনা, শিক্ষা বা একটি প্রশ্ন)। “✨ AI দিয়ে লিখুন” এটি করে দেয়।',
+  c_capEmpty:'এখনো ক্যাপশন নেই',c_capEmptyFix:'ক্যাপশন লিখুন (⚡ দ্রুত বা ✨ AI)। নিজের কথাসহ ক্যাপশন পোস্টটিকে অরিজিনাল হিসেবে গণ্য করতে সাহায্য করে।',
+  c_srcOk:'সূত্র/রেফারেন্স দেওয়া আছে',c_srcBad:'রেফারেন্স ছাড়া কুরআন/হাদিসের লেখা',c_srcFix:'"রেফারেন্স" ঘরে সূত্র দিন (যেমন: সহিহ বুখারি, হাদিস ১)।',
+  c_imgLink:'ওয়েবসাইটের লিংক থেকে নেওয়া ছবি',c_imgLinkFix:'পত্রিকা বা অন্য পেজের ছবি কপিরাইটযুক্ত — এতে মনিটাইজেশন আটকে যেতে পারে। নিজের ছবি, AI ছবি বা ফ্রি-লাইসেন্সের ছবি দিন এবং ছবির ক্রেডিট লিখুন।',
+  c_imgUp:'আপলোড করা ছবি',c_imgUpFix:'নিশ্চিত হোন ছবিটি আপনার নিজের বা ফ্রি-লাইসেন্সের, এবং "ছবি" ট্যাবে ছবির ক্রেডিট লিখুন।',c_imgUpOk:'আপলোড করা ছবি, ক্রেডিটসহ',
+  c_imgAi:'AI দিয়ে তৈরি ব্যাকগ্রাউন্ড',c_imgAiFix:'মনিটাইজেশনে সমস্যা নেই। ছবিটি বাস্তব ছবির মতো দেখালে ফেসবুকে পোস্টের সময় “AI info” চালু করুন।',
+  c_small:'ফোনের পর্দায় লেখা ছোট দেখাবে',c_smallFix:'লেখা ছোট করুন বা ৪:৫ আকার নিন, যাতে ফিডে সহজে পড়া যায়।',
+  c_ratioOk:'আকার {r} — ফেসবুক ফিডে পুরোটা দেখাবে',c_ratioBad:'আকার {r} — ফেসবুক ফিডে কেটে দেখাবে',c_ratioFix:'৪:৫ (১০৮০×১৩৫০) বা ১:১ ফিডে পুরো দেখায়। ৯:১৬ স্টোরির জন্য।',
+  c_emoji:'ইমোজি বেশি ({n}টি)',c_emojiFix:'অল্প কয়েকটি মানানসই ইমোজি দিন — বেশি হলে স্প্যামের মতো দেখায়।',
+  tMonoIssues:'⚠️ মনিটাইজেশন চেকে {n}টি সমস্যা — 💬 ক্যাপশন ট্যাবে দেখুন',tMonoFixed:'✅ যা নিজে থেকে ঠিক করা যায়, ঠিক করা হয়েছে',tMonoNothing:'নিজে থেকে ঠিক করার মতো কিছু নেই',monoAll:'সব ঠিক আছে',monoScore:'{a}/{b} পাস'}
 };
-let LANG = store.get('lang', 'en');
+let LANG = store.get('lang', 'bn');
 const t = k => (T[LANG] && T[LANG][k]) || T.en[k] || k;
 const L = o => (o && (o[LANG] || o.en)) || '';
 function applyI18n(){
@@ -743,14 +819,14 @@ const tplsFor = m => Object.keys(TPLS).filter(k => TPLS[k].mode === m);
 let MODE = store.get('mode', 'islamic'); if(MODE !== 'general' && MODE !== 'islamic') MODE = 'islamic';
 function defDesign(m){ const k = m === 'islamic' ? 'pbm' : 'soft'; return Object.assign({ template:k, ratio:'4:5', bfont:'hind', afont:'amiri', tSize:100, aSize:100, headFont:'', hlStyle:'', hlFont:'', hSize:100, rSize:100, nSize:100, bSize:100, hcol:'', acol:'', rcol:'', ncol:'', bcol:'', textY:0, blur:16 }, TPLS[k].def); }
 const DEF_FIELDS = {
-  islamic: { heading:'আজকের আয়াত', arabic:'إِنَّ مَعَ الْعُسْرِ يُسْرًا', text:'নিশ্চয়ই কষ্টের সাথে *স্বস্তি* রয়েছে।', ref:'সূরা আল-ইনশিরাহ, আয়াত ৬', note:'', origin:'ayah', full:null },
-  general: { heading:'জীবনের কথা', arabic:'', text:'সব কিছু একদিন *ঠিক হয়ে যাবে*,\nশুধু নিজের ওপর বিশ্বাস রাখো।', ref:'', note:'', origin:'manual', full:null }
+  islamic: { heading:'আজকের আয়াত', arabic:'إِنَّ مَعَ الْعُسْرِ يُسْرًا', text:'নিশ্চয়ই কষ্টের সাথে *স্বস্তি* রয়েছে।', ref:'সূরা আল-ইনশিরাহ, আয়াত ৬', note:'', credit:'', origin:'ayah', full:null },
+  general: { heading:'জীবনের কথা', arabic:'', text:'সব কিছু একদিন *ঠিক হয়ে যাবে*,\nশুধু নিজের ওপর বিশ্বাস রাখো।', ref:'', note:'', credit:'', origin:'manual', full:null }
 };
 const DEFAULT_LOGO = { islamic: 'data:image/webp;base64,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', general: '' };
 const getLogo = m => { const v = store.get('logo_' + m, null); return v === null ? DEFAULT_LOGO[m] : (v || ''); };
 const DEF_BRAND = {
-  islamic: { name:'প্রশান্তির বার্তা', handle:'', show:true, tags:'#প্রশান্তির_বার্তা #ইসলামিক_পোস্ট #কুরআন #হাদিস', logoSize:15, logoPos:'tc', logoDX:0, logoDY:0 },
-  general: { name:'', handle:'', show:true, tags:'#উক্তি #জীবন #আবেগ #বাংলা_উক্তি', logoSize:14, logoPos:'tr', logoDX:0, logoDY:0 }
+  islamic: { name:'প্রশান্তির বার্তা', handle:'', show:true, tags:'#প্রশান্তির_বার্তা #ইসলামিক_পোস্ট #কুরআন #হাদিস', logoSize:15, logoPos:'tc', logoDX:0, logoDY:0, bStyle:'plain', wm:false },
+  general: { name:'', handle:'', show:true, tags:'#উক্তি #জীবন #আবেগ #বাংলা_উক্তি', logoSize:14, logoPos:'tr', logoDX:0, logoDY:0, bStyle:'pill', wm:false }
 };
 const DESIGN = { general: Object.assign(defDesign('general'), store.get('design_general', {})), islamic: Object.assign(defDesign('islamic'), store.get('design_islamic', {})) };
 const FIELDS = { general: Object.assign({}, DEF_FIELDS.general, store.get('fields_general', {})), islamic: Object.assign({}, DEF_FIELDS.islamic, store.get('fields_islamic', {})) };
@@ -772,10 +848,17 @@ const fontStr = (s, w, fam) => w + ' ' + Math.max(6, Math.round(s)) + 'px ' + fa
 function fitOne(ctx, s, maxW){ s = String(s || ''); if(ctx.measureText(s).width <= maxW) return s; const ch = Array.from(s); while(ch.length > 1 && ctx.measureText(ch.join('') + '…').width > maxW) ch.pop(); return ch.join('') + '…'; }
 function rng(seed){ let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t2 = Math.imul(a ^ a >>> 15, 1 | a); t2 = t2 + Math.imul(t2 ^ t2 >>> 7, 61 | t2) ^ t2; return ((t2 ^ t2 >>> 14) >>> 0) / 4294967296; }; }
 function tokens(text){
-  const out = []; let hl = false;
+  const out = []; let hl = false, endSp = true;
   String(text || '').split(/(\*)/).forEach(seg => {
     if(seg === '*'){ hl = !hl; return; }
-    seg.split(/(\n)/).forEach(p => { if(p === '\n'){ out.push({ br: true }); return; } p.split(/[ \t ]+/).filter(Boolean).forEach(w => out.push({ w, hl })); });
+    if(!seg) return;
+    seg.split(/(\n)/).forEach(p => {
+      if(p === '\n'){ out.push({ br: true }); endSp = true; return; }
+      if(!p) return;
+      const ws = p.split(/[ \t\u00a0]+/), lead = ws[0] === '';
+      ws.filter(Boolean).forEach((w, i) => { const prev = out[out.length - 1]; out.push({ w, hl, glue: i === 0 && !lead && !endSp && !!prev && !prev.br }); });
+      endSp = /[ \t\u00a0]$/.test(p);
+    });
   });
   return out;
 }
@@ -786,8 +869,9 @@ function layoutLines(ctx, toks, maxW, fN, fH){
     if(tk.br){ lines.push({ words: cur, w: cw }); cur = []; cw = 0; return; }
     let ww;
     if(fH && tk.hl){ ctx.font = fH; ww = ctx.measureText(tk.w).width; ctx.font = fN; } else ww = ctx.measureText(tk.w).width;
-    if(cur.length && cw + sp + ww > maxW){ lines.push({ words: cur, w: cw }); cur = []; cw = 0; }
-    cur.push({ w: tk.w, hl: tk.hl, ww }); cw += (cur.length > 1 ? sp : 0) + ww;
+    const g = cur.length && tk.glue ? 0 : sp;
+    if(cur.length && !tk.glue && cw + sp + ww > maxW){ lines.push({ words: cur, w: cw }); cur = []; cw = 0; }
+    cur.push({ w: tk.w, hl: tk.hl, ww, g: cur.length ? g : 0 }); cw += (cur.length > 1 ? g : 0) + ww;
   });
   if(cur.length) lines.push({ words: cur, w: cw });
   while(lines.length && !lines[lines.length - 1].words.length) lines.pop();
@@ -815,7 +899,7 @@ function measureItem(ctx, it, maxW, u){
   if(lay.lines.length > cap){
     lay.lines = lay.lines.slice(0, cap);
     const last = lay.lines[cap - 1];
-    if(last.words.length){ const lw = last.words[last.words.length - 1]; lw.w += '…'; lw.ww = ctx.measureText(lw.w).width; last.w = last.words.reduce((s, wd, i) => s + wd.ww + (i ? lay.sp : 0), 0); }
+    if(last.words.length){ const lw = last.words[last.words.length - 1]; lw.w += '…'; lw.ww = ctx.measureText(lw.w).width; last.w = last.words.reduce((s, wd, i) => s + wd.ww + (i ? wd.g : 0), 0); }
     it.cut = true;
   }
   const tw = lay.lines.reduce((m, l) => Math.max(m, l.w), 0);
@@ -872,11 +956,11 @@ function drawItem(ctx, it, boxX, y, boxW, align){
     const cy = y + it.padY + i * it.lhpx + it.lhpx / 2 + it.fs * 0.05;
     if(it.rtl){
       ctx.direction = 'rtl'; ctx.textAlign = 'right'; ctx.fillStyle = it.color; shadowOn();
-      ctx.fillText(ln.words.map(w => w.w).join(' '), lx + ln.w, cy); shadowOff(); ctx.direction = 'ltr'; ctx.textAlign = 'left'; return;
+      ctx.fillText(ln.words.map((w, j) => (j && w.g ? ' ' : '') + w.w).join(''), lx + ln.w, cy); shadowOff(); ctx.direction = 'ltr'; ctx.textAlign = 'left'; return;
     }
     const mode = it.hlMode || 'color', fs = it.fs;
     const fN = fontStr(fs, it.weight, it.fam), fH = it.hlF ? fontStr(fs * (it.hlF.scale || 1), it.hlF.w, it.hlF.fam) : fN;
-    const xs = []; let x = lx; ln.words.forEach(wd => { xs.push(x); x += wd.ww + it.lay.sp; });
+    const xs = []; let x = lx; ln.words.forEach((wd, j) => { if(j) x += wd.g; xs.push(x); x += wd.ww; });
     const runs = [];
     if(it.hl) ln.words.forEach((wd, j) => { if(!wd.hl) return; const r = runs[runs.length - 1]; if(r && r.e === j - 1) r.e = j; else runs.push({ s: j, e: j }); });
     runs.forEach(r => { r.x0 = xs[r.s]; r.x1 = xs[r.e] + ln.words[r.e].ww; });
@@ -929,12 +1013,39 @@ function place(ctx, st, box, align, valign){
 function brandText(){ const b = B(); if(!b.show) return ''; return [b.name, b.handle].map(norm).filter(Boolean).join('  •  '); }
 function drawBrand(ctx, x, y, w, h, color, size, align){
   const s = brandText(); if(!s) return;
+  size *= 1.35; /* page name must stay readable on a phone feed */
   if(DZ){ size *= (DZ.bSize || 100) / 100; if(DZ.bcol) color = DZ.bcol; }
-  ctx.font = fontStr(size, 600, BODY); ctx.textBaseline = 'middle'; ctx.direction = 'ltr'; ctx.textAlign = 'left'; ctx.fillStyle = color;
-  const tx = fitOne(ctx, s, w), tw = ctx.measureText(tx).width;
-  const lx = align === 'left' ? x : align === 'right' ? x + w - tw : x + (w - tw) / 2;
-  ctx.fillText(tx, lx, y + h / 2 + size * 0.05);
-  C.regions.push({ k: 'brand', x: lx, y, w: tw, h });
+  const pill = B().bStyle === 'pill', px = pill ? size * 0.85 : 0;
+  ctx.font = fontStr(size, 600, BODY); ctx.textBaseline = 'middle'; ctx.direction = 'ltr'; ctx.textAlign = 'left';
+  const tx = fitOne(ctx, s, w - 2 * px), tw = ctx.measureText(tx).width, bw = tw + 2 * px;
+  const lx = align === 'left' ? x : align === 'right' ? x + w - bw : x + (w - bw) / 2;
+  if(pill){
+    const m = String(color).match(/rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/), rgb = m ? [+m[1], +m[2], +m[3]] : hexRgb(color);
+    const ph = Math.min(h, size * 1.9), py = y + (h - ph) / 2, light = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255 > 0.55;
+    ctx.save(); ctx.fillStyle = light ? 'rgba(0,0,0,.40)' : 'rgba(255,255,255,.80)'; rr(ctx, lx, py, bw, ph, ph / 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(' + rgb.join(',') + ',.35)'; ctx.lineWidth = Math.max(1, size * 0.06); rr(ctx, lx, py, bw, ph, ph / 2); ctx.stroke(); ctx.restore();
+    ctx.font = fontStr(size, 600, BODY); ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+  }
+  ctx.fillStyle = color; ctx.fillText(tx, lx + px, y + h / 2 + size * 0.05);
+  C.regions.push({ k: 'brand', x: lx, y, w: bw, h });
+}
+/* photo credit (vertical, right edge) — shows the image source on the card */
+function drawCredit(ctx, W, H, u){
+  let c = norm(F().credit || ''); if(!c || !hasImg()) return;
+  if(!/^(ছবি|ফটো|photo|image|img|©)/i.test(c)) c = (LANG === 'bn' || /[\u0980-\u09FF]/.test(c) ? 'ছবি: ' : 'Photo: ') + c;
+  const fs = 17 * u; ctx.save(); ctx.font = fontStr(fs, 500, BODY); ctx.textBaseline = 'middle'; ctx.textAlign = 'center'; ctx.direction = 'ltr';
+  const tx = fitOne(ctx, c, H * 0.5), tw = ctx.measureText(tx).width + fs * 1.2, th = fs * 1.6;
+  ctx.translate(W - 14 * u - th / 2, H / 2); ctx.rotate(-Math.PI / 2);
+  ctx.fillStyle = 'rgba(0,0,0,.34)'; rr(ctx, -tw / 2, -th / 2, tw, th, th / 2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.92)'; ctx.fillText(tx, 0, fs * 0.05); ctx.restore();
+}
+/* faint diagonal watermark with the page name (optional, discourages re-uploads by others) */
+function drawWatermark(ctx, W, H, u){
+  const b = B(); if(!b.wm) return; const s = norm(b.name) || norm(b.handle); if(!s) return;
+  ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(-Math.atan2(H, W) * 0.75);
+  ctx.font = fontStr(Math.min(W, H) * 0.075, 700, BODY); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.direction = 'ltr';
+  const tx = fitOne(ctx, s, Math.hypot(W, H) * 0.8); ctx.lineWidth = Math.max(1, 2 * u); ctx.strokeStyle = 'rgba(0,0,0,.07)'; ctx.strokeText(tx, 0, 0);
+  ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.fillText(tx, 0, 0); ctx.restore();
 }
 function drawPhoto(ctx, x, y, w, h, rad, blur){
   ctx.save(); rr(ctx, x, y, w, h, rad || 0); ctx.clip();
@@ -1069,7 +1180,8 @@ function tFrame(ctx, W, H, u, land){
   if(land){ pw = Math.round(W * 0.5); ph = H - 2 * m; tx = m + pw + 50 * u; ty = m; tw = W - tx - m; th = H - 2 * m; }
   else { pw = W - 2 * m; ph = Math.round(H * 0.5); tx = m + 16 * u; ty = m + ph + 20 * u; tw = W - 2 * m - 32 * u; th = H - ty - m * 0.6; }
   ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 30 * u; ctx.fillStyle = '#000'; rr(ctx, m, m, pw, ph, 20 * u); ctx.fill(); ctx.restore();
-  if(hasImg()) drawPhoto(ctx, m, m, pw, ph, 20 * u); else { ctx.save(); rr(ctx, m, m, pw, ph, 20 * u); ctx.clip(); const g2 = ctx.createLinearGradient(m, m, m + pw, m + ph); g2.addColorStop(0, shade(d.accent, 0.35)); g2.addColorStop(1, shade(d.accent, -0.2)); ctx.fillStyle = g2; ctx.fillRect(m, m, pw, ph); bokeh(ctx, W, H, u); ctx.restore(); }
+  if(hasImg()) drawPhoto(ctx, m, m, pw, ph, 20 * u); else { ctx.save(); rr(ctx, m, m, pw, ph, 20 * u); ctx.clip(); const g2 = ctx.createLinearGradient(m, m, m + pw, m + ph); g2.addColorStop(0, shade(d.accent, 0.35)); g2.addColorStop(1, shade(d.accent, -0.2)); ctx.fillStyle = g2; ctx.fillRect(m, m, pw, ph); bokeh(ctx, W, H, u); bokeh(ctx, W, H, u, d.hl, 6);
+    ctx.font = '700 ' + Math.round(Math.min(pw, ph) * 0.62) + 'px Georgia,serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = hexA(d.hl, 0.55); ctx.fillText('“', m + pw / 2, m + ph * 0.62); ctx.restore(); }
   ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 4 * u; rr(ctx, m, m, pw, ph, 20 * u); ctx.stroke();
   const fh = brandH(u), box = { x: tx, y: ty, w: tw, h: th - fh, u };
   const st = contentStack(ctx, u, box.w, box.h, { tc: d.tc, hl: d.hl, headColor: d.hl, refColor: d.hl, refPrefix: '— ', textSize: 74 });
@@ -1342,7 +1454,7 @@ function renderTo(cv, opts){
   C.logoReserve = 0;
   if(!opts.tpl && C.logos[MODE] && (B().logoPos || 'tr') === 'tc'){ const im = C.logos[MODE], u0 = Math.min(W, H) / 1080, lw = Math.min(W, H) * B().logoSize / 100; C.logoReserve = 34 * u0 + lw * (im.naturalHeight || 1) / (im.naturalWidth || 1) + B().logoDY * H + 16 * u0; }
   const u = Math.min(W, H) / 1080, land = W > H * 1.2;
-  try{ (TPLF[d.template] || tSoft)(ctx, W, H, u, land); if(!opts.tpl) drawLogo(ctx, W, H, u); }
+  try{ (TPLF[d.template] || tSoft)(ctx, W, H, u, land); if(!opts.tpl){ drawWatermark(ctx, W, H, u); drawCredit(ctx, W, H, u); drawLogo(ctx, W, H, u); } }
   catch(e){ console.error(e); }
   if(opts.tpl) C.regions = keep;
   DZ = null; ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -1350,7 +1462,7 @@ function renderTo(cv, opts){
 
 /* ================= render scheduling ================= */
 let raf = 0, galT = 0;
-function render(){ if(raf) return; raf = requestAnimationFrame(() => { raf = 0; renderTo($('cv')); updateWarn(); }); if(S.tab === 'design'){ clearTimeout(galT); galT = setTimeout(renderGallery, 450); } }
+function render(){ if(raf) return; raf = requestAnimationFrame(() => { raf = 0; renderTo($('cv')); updateWarn(); monoSoon(); }); if(S.tab === 'design'){ clearTimeout(galT); galT = setTimeout(renderGallery, 450); } }
 function updateWarn(){
   const msgs = [];
   if(C.textFs < 30) msgs.push(t('tSmallText'));
@@ -1456,6 +1568,9 @@ async function geminiImage(prompt, ratio){
 }
 const ISL_GUARD = 'IMPORTANT: Never write, quote, paraphrase or invent any hadith or Quran verse, and never attribute any words to Allah, the Prophet ﷺ or the Companions. Do not mention surah or hadith numbers. Write only general Islamic advice, reminders and supplication-style wishes in your own words.';
 const GEN_GUARD = 'Write original lines. Do not attribute quotes to real or famous people.';
+/* Meta content-monetization + engagement-bait rules, added to every caption/post prompt */
+const MONO_GUARD = ' FACEBOOK MONETIZATION RULES (must follow): no engagement bait — never ask readers to like, react, share, tag or mention friends, follow the page, or comment specific words, numbers or emoji (for example "Amin", "আমিন লিখুন", "Yes"), and never write lines like "don\'t leave without…" / "না বলে যাবেন না". No clickbait, no exaggeration ("viral", "you will be shocked"), no false or unverifiable claims. Keep it sincere and original.';
+const CTA_RULE = ' End with ONE sincere, open question about the topic that invites real reflection (it must not ask people to like, share, tag, or type a specific word).';
 const SACRED_PAT = /(রাসূল|রাসুল|নবী|নবীজি|রসূল)[^।\n]{0,25}(বলেছেন|বলেন|ইরশাদ)|হাদিসে|হাদীসে|কুরআনে|কোরআনে|আল্লাহ\s*(তা[‘'আ]*লা\s*)?(বলেন|বলেছেন|ইরশাদ)|সূরা\s|আয়াত|ﷺ|\(সা[ঃ:.]?\)/;
 function needKey(){ if(S.gkey) return false; toast(t('tNoKey')); return true; }
 function refreshKeyHints(){ document.querySelectorAll('[data-keyhint]').forEach(e => e.classList.toggle('hidden', !!S.gkey)); }
@@ -1482,7 +1597,7 @@ function syncDesign(){
 function syncBrand(){
   const b = B();
   $('b-name').value = b.name || ''; $('b-handle').value = b.handle || ''; $('b-tags').value = b.tags || ''; $('b-show').checked = !!b.show;
-  $('logoSize').value = b.logoSize; $('logoPos').value = b.logoPos;
+  $('logoSize').value = b.logoSize; $('logoPos').value = b.logoPos; $('b-style').value = b.bStyle || 'plain'; $('b-wm').checked = !!b.wm;
   $('brandFor').textContent = MODE === 'islamic' ? t('brandForI') : t('brandForG');
   const url = getLogo(MODE);
   $('logoThumb').classList.toggle('hidden', !url); if(url) $('logoThumb').src = url; else $('logoThumb').removeAttribute('src');
@@ -1546,6 +1661,7 @@ function showTab(k){
   document.querySelectorAll('.pane').forEach(p => p.classList.toggle('hidden', p.id !== 'p-' + k));
   if(k === 'design') renderGallery();
   if(k === 'library') renderLib();
+  if(k === 'caption') renderMono();
   refreshKeyHints();
   if(matchMedia('(max-width:900px)').matches && window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1769,7 +1885,7 @@ async function smartPaste(){
 /* ================= captions ================= */
 const CAP_STYLES = {
   general: [ { id:'emotional', n:{en:'Emotional',bn:'আবেগঘন'} }, { id:'simple', n:{en:'Simple',bn:'সাধারণ'} }, { id:'story', n:{en:'Short story intro',bn:'ছোট গল্পের ঢঙে'} }, { id:'question', n:{en:'Ask the audience',bn:'প্রশ্ন দিয়ে আলোচনা'} } ],
-  islamic: [ { id:'dawah', n:{en:'Reminder (da‘wah)',bn:'দাওয়াহ / স্মরণিকা'} }, { id:'short', n:{en:'Short & simple',bn:'ছোট ও সহজ'} }, { id:'reflect', n:{en:'With a short lesson',bn:'ছোট শিক্ষাসহ'} } ]
+  islamic: [ { id:'reflect', n:{en:'With a short lesson (most original)',bn:'ছোট শিক্ষাসহ (সবচেয়ে অরিজিনাল)'} }, { id:'dawah', n:{en:'Reminder (da‘wah)',bn:'দাওয়াহ / স্মরণিকা'} }, { id:'short', n:{en:'Short & simple',bn:'ছোট ও সহজ'} } ]
 };
 const cardPlain = () => { const f = F(); return { heading: norm(f.heading), text: String(f.text || '').replace(/\*/g, '').trim(), ref: norm(f.ref) }; };
 function quickCaption(){
@@ -1779,16 +1895,16 @@ function quickCaption(){
     parts.push((emo ? '🌙 ' : '') + (p.heading || 'আজকের বাণী'));
     if($('capFull').checked){ if(full && full.arabic) parts.push(full.arabic); parts.push((full ? full.text : p.text)); if(full ? full.ref : p.ref) parts.push((emo ? '📚 ' : '— ') + (full ? full.ref : p.ref)); }
     parts.push('আল্লাহ আমাদের সবাইকে আমল করার তাওফিক দান করুন। আমিন।' + (emo ? ' 🤲' : ''));
-    if($('capCta').checked) parts.push((emo ? '🔁 ' : '') + 'শেয়ার করে অন্যদেরও জানার সুযোগ করে দিন।');
+    if($('capCta').checked) parts.push((emo ? '💭 ' : '') + (f.origin === 'ayah' ? 'এই আয়াত থেকে আপনি কোন শিক্ষাটি নিজের জীবনে কাজে লাগাতে চান?' : f.origin === 'hadith' || f.origin === 'sacred' ? 'এই হাদিস থেকে আপনার কাছে সবচেয়ে বড় শিক্ষা কোনটি মনে হয়?' : 'এই কথাটি আজ আপনার জীবনে কীভাবে কাজে লাগাতে পারেন?'));
   } else {
-    parts.push(p.text + (emo ? ' 💭' : ''));
+    parts.push(p.text);
     if(p.ref) parts.push('— ' + p.ref);
-    if($('capCta').checked) parts.push((emo ? '❤️ ' : '') + 'লেখাটি ভালো লাগলে শেয়ার করুন, আর আপনার অনুভূতি কমেন্টে জানান।');
+    if($('capCta').checked) parts.push((emo ? '💭 ' : '') + 'আপনার জীবনেও কি কখনো এমন মুহূর্ত এসেছে?');
   }
-  if($('capTags').checked && norm(b.tags)) parts.push(norm(b.tags));
+  if($('capTags').checked && norm(b.tags)) parts.push(norm(b.tags).split(/\s+/).slice(0, 5).join(' '));
   setCaption(parts.join('\n\n'));
 }
-function setCaption(s){ $('capText').value = s; store.set('cap_' + MODE, s); }
+function setCaption(s){ $('capText').value = s; store.set('cap_' + MODE, s); monoSoon(); }
 async function aiCaption(){
   if(needKey()) return;
   const f = F(), p = cardPlain(), emo = $('capEmoji').checked, style = $('capStyle').value, b = B();
@@ -1798,22 +1914,22 @@ async function aiCaption(){
     let out;
     if(isSacred()){
       const full = f.full || { text: p.text, arabic: f.arabic, ref: p.ref };
-      const prompt = 'You help a Bengali Islamic Facebook page. For the ' + (f.origin === 'ayah' ? 'Quran ayah translation' : 'hadith') + ' below, write in Bengali: "intro" (one warm opening line, style: ' + style + '), ' + (style === 'reflect' ? '"lesson" (1–2 sentences: a general practical takeaway in your own words)' : '"lesson" (empty string)') + ', and "closing" (one short supplication-style line such as asking Allah for guidance). ' + (emo ? 'You may use 1–2 fitting emoji.' : 'No emoji.') + ' Do NOT repeat, paraphrase or add to the sacred text, and do not attribute any new words to Allah or the Prophet ﷺ. Return ONLY JSON {"intro":"","lesson":"","closing":""}.\n\nTEXT:\n' + full.text + '\nREFERENCE: ' + full.ref;
+      const prompt = 'You help a Bengali Islamic Facebook page. For the ' + (f.origin === 'ayah' ? 'Quran ayah translation' : 'hadith') + ' below, write in Bengali: "intro" (one warm opening line, style: ' + style + '), ' + (style === 'reflect' ? '"lesson" (1–2 sentences: a general practical takeaway in your own words)' : '"lesson" (empty string)') + ', "closing" (one short supplication-style line such as asking Allah for guidance), and "question" (' + ($('capCta').checked ? 'one sincere open question asking what lesson the reader takes from it' : 'empty string') + '). ' + (emo ? 'You may use 1–2 fitting emoji.' : 'No emoji.') + ' Do NOT repeat, paraphrase or add to the sacred text, and do not attribute any new words to Allah or the Prophet ﷺ.' + MONO_GUARD + ' Return ONLY JSON {"intro":"","lesson":"","closing":"","question":""}.\n\nTEXT:\n' + full.text + '\nREFERENCE: ' + full.ref;
       const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, responseMimeType: 'application/json' } }, 60000);
       const o = parseJson(r.text); const parts = [];
       if(norm(o.intro)) parts.push(norm(o.intro));
       if($('capFull').checked){ if(full.arabic) parts.push(full.arabic); parts.push(full.text); if(full.ref) parts.push((emo ? '📚 ' : '— ') + full.ref); }
       if(norm(o.lesson) && !SACRED_PAT.test(o.lesson)) parts.push(norm(o.lesson));
       if(norm(o.closing)) parts.push(norm(o.closing));
-      if($('capCta').checked) parts.push((emo ? '🔁 ' : '') + 'শেয়ার করে অন্যদেরও জানার সুযোগ করে দিন।');
+      if($('capCta').checked && norm(o.question) && !baitHits(o.question).length) parts.push((emo ? '💭 ' : '') + norm(o.question));
       out = parts.join('\n\n');
     } else {
-      const prompt = 'Write a Bengali Facebook caption (style: ' + style + ') to post with a photo card whose text is below. 2–5 short lines, natural and engaging. ' + (emo ? 'Use a few fitting emoji.' : 'No emoji.') + ($('capCta').checked ? ' End with a gentle call to share or comment.' : '') + ' No hashtags. ' + (MODE === 'islamic' ? ISL_GUARD : GEN_GUARD) + ' Return only the caption.\n\nCARD TEXT:\n' + (p.heading ? p.heading + '\n' : '') + p.text + (p.ref ? '\n— ' + p.ref : '');
+      const prompt = 'Write a Bengali Facebook caption (style: ' + style + ') to post with a photo card whose text is below. 2–5 short lines, natural and engaging. Add the page owner\'s own perspective, feeling or a small lesson — do not simply repeat the card text. ' + (emo ? 'Use 1–3 fitting emoji.' : 'No emoji.') + ($('capCta').checked ? CTA_RULE : '') + ' No hashtags. ' + (MODE === 'islamic' ? ISL_GUARD : GEN_GUARD) + MONO_GUARD + ' Return only the caption.\n\nCARD TEXT:\n' + (p.heading ? p.heading + '\n' : '') + p.text + (p.ref ? '\n— ' + p.ref : '');
       const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85 } }, 60000);
       out = clean(r.text).replace(/(^|\s)#\S+/g, '').trim();
       if(MODE === 'islamic' && SACRED_PAT.test(out)) throw friendly(t('tNotVerbatim'));
     }
-    if($('capTags').checked && norm(b.tags)) out += '\n\n' + norm(b.tags);
+    if($('capTags').checked && norm(b.tags)) out += '\n\n' + norm(b.tags).split(/\s+/).slice(0, 5).join(' ');
     setCaption(out);
   }catch(e){ toast(aiErr(e)); }
   finally{ btn.disabled = false; busy('capStatus', false); }
@@ -1909,12 +2025,12 @@ async function exportCard(type){
   await ensureFonts(); renderTo($('cv'));
   return new Promise(res => { try{ $('cv').toBlob(b => { if(!b){ toast(t('tTaint')); res(null); return; } res(b); }, type === 'jpg' ? 'image/jpeg' : 'image/png', 0.93); }catch(e){ toast(t('tTaint')); res(null); } });
 }
-async function downloadCard(type){ const b = await exportCard(type); if(b){ download(b, fileName(type)); toast(t('tDl')); } }
+async function downloadCard(type){ const b = await exportCard(type); if(b){ download(b, fileName(type)); toast(monoWarn() || t('tDl')); } }
 async function shareCard(){
   const b = await exportCard('png'); if(!b) return;
   const file = new File([b], fileName('png'), { type: 'image/png' });
   if(!$('capText').value.trim()) quickCaption();
-  const cap = $('capText').value.trim(); if(cap && await copyText(cap)) toast(t('tShareCap'));
+  const cap = $('capText').value.trim(); if(cap && await copyText(cap)) toast(monoWarn() || t('tShareCap'));
   try{ await navigator.share({ files: [file], text: cap }); }catch(e){ if(e && e.name !== 'AbortError') download(b, fileName('png')); }
 }
 async function preview(){ await ensureFonts(); renderTo($('cv')); try{ $('modalImg').src = $('cv').toDataURL('image/png'); $('modal').classList.remove('hidden'); }catch(e){ toast(t('tTaint')); } }
@@ -2093,8 +2209,8 @@ async function aiFullPost(){
     if(MODE === 'islamic' && $('aiSource').value !== 'none'){ const list = await verifiedPosts(desc || L(type.n), 1); applyPost(list[0]); toast(t('tPostReady')); return; }
     const emo = $('capEmoji').checked;
     const prompt = 'You are the writer for a Bengali Facebook page. The page owner describes today’s post: "' + (desc || type.p) + '". ' + (type.id !== 'custom' && desc ? 'Style: ' + type.p + '. ' : '') +
-      'Create one complete post in Bengali: "heading" (1–3 word label for the photo card), "text" (the photo-card text, ' + LEN_TXT[$('aiLen').value] + ', use \\n line breaks for rhythm, wrap the 1–2 most important words in *asterisks*), "caption" (a Facebook caption of 3–6 short lines that expands on the card' + (emo ? ', with a few fitting emoji' : ', no emoji') + ($('capCta').checked ? ', ending with a gentle call to share or comment' : '') + ', no hashtags), and "hashtags" (3–6 relevant Bengali or English hashtags without #). ' +
-      (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + styleBlock() + ' Return ONLY JSON: {"heading":"","text":"","caption":"","hashtags":[]}';
+      'Create one complete post in Bengali: "heading" (1–3 word label for the photo card), "text" (the photo-card text, ' + LEN_TXT[$('aiLen').value] + ', use \\n line breaks for rhythm, wrap the 1–2 most important words in *asterisks*), "caption" (a Facebook caption of 3–6 short lines that expands on the card' + (emo ? ', with 1–3 fitting emoji' : ', no emoji') + ', adding the owner\'s own perspective instead of repeating the card' + ($('capCta').checked ? ', ending with one sincere open question about the topic (not asking to like/share/tag or type a word)' : '') + ', no hashtags), and "hashtags" (3–4 relevant Bengali or English hashtags without #). ' +
+      (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + MONO_GUARD + styleBlock() + ' Return ONLY JSON: {"heading":"","text":"","caption":"","hashtags":[]}';
     const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, responseMimeType: 'application/json' } }, 70000);
     const o = parseJson(r.text);
     const text = clean(o.text || '').replace(/\\n/g, '\n'), cap = clean(o.caption || '').replace(/\\n/g, '\n').replace(/(^|\s)#\S+/g, '').trim();
@@ -2103,7 +2219,7 @@ async function aiFullPost(){
     setFields({ heading: norm(o.heading || ''), text }, 'ai');
     const tags = (Array.isArray(o.hashtags) ? o.hashtags : []).map(h => '#' + String(h).replace(/^#+/, '').replace(/\s+/g, '_')).filter(h => h.length > 1);
     const brandTags = norm(B().tags).split(/\s+/).filter(Boolean);
-    const allTags = $('capTags').checked ? Array.from(new Set(brandTags.concat(tags))).slice(0, 10).join(' ') : '';
+    const allTags = $('capTags').checked ? Array.from(new Set(brandTags.concat(tags))).slice(0, 5).join(' ') : '';
     setCaption(cap + (allTags ? '\n\n' + allTags : ''));
     showPostPreview({ text: $('capText').value, ref: '', tags: [] }); $('aiOpts').querySelector('.opt > div:nth-child(2)').textContent = $('capText').value;
     if($('aiWithImg').checked) aiImageForPost();
@@ -2151,7 +2267,7 @@ async function pickSources(topic){
 }
 async function writeAround(src, topic){
   const prompt = 'Write a Bengali Facebook post about "' + (topic || 'this source') + '" built around the VERIFIED SOURCE below, in the page owner\'s style.' + styleBlock() +
-    'Structure: "intro" = a short lead-in that introduces who is speaking (for Quran: e.g. "আল্লাহ বলেছেন," / "আল্লাহ কুরআনে বলেছেন,"; for hadith use the speaker shown in the source text, e.g. "রাসূলুল্লাহ ﷺ বলেছেন,"; for a hadith qudsi "আল্লাহ বলেছেন,"). "quote" = the most touching contiguous part of the SOURCE TEXT, copied EXACTLY word-for-word (you may only add line breaks \\n between its parts; never change, add or drop words; do not include the chain of narrators). "reflection" = 1–3 short, emotional lines in the owner\'s voice (e.g. starting with "সুবহানাল্লাহ…", "আহ্…"), your own words, not attributed to Allah or the Prophet ﷺ. "heading" = a 1–3 word label. "hashtags" = 3–5 hashtags without #. If the source does not really fit the topic set "relevant": false. Return ONLY JSON {"relevant":true,"heading":"","intro":"","quote":"","reflection":"","hashtags":[]}.\n\nSOURCE TYPE: ' + (src.kind === 'quran' ? 'Quran (Bengali translation)' : 'Hadith (Bengali translation)') + '\nREFERENCE: ' + src.ref + '\nSOURCE TEXT:\n' + src.text.slice(0, 4000);
+    'Structure: "intro" = a short lead-in that introduces who is speaking (for Quran: e.g. "আল্লাহ বলেছেন," / "আল্লাহ কুরআনে বলেছেন,"; for hadith use the speaker shown in the source text, e.g. "রাসূলুল্লাহ ﷺ বলেছেন,"; for a hadith qudsi "আল্লাহ বলেছেন,"). "quote" = the most touching contiguous part of the SOURCE TEXT, copied EXACTLY word-for-word (you may only add line breaks \\n between its parts; never change, add or drop words; do not include the chain of narrators). "reflection" = 1–3 short, emotional lines in the owner\'s voice (e.g. starting with "সুবহানাল্লাহ…", "আহ্…"), your own words, not attributed to Allah or the Prophet ﷺ. "heading" = a 1–3 word label. "hashtags" = 3–4 hashtags without #.' + MONO_GUARD + ' If the source does not really fit the topic set "relevant": false. Return ONLY JSON {"relevant":true,"heading":"","intro":"","quote":"","reflection":"","hashtags":[]}.\n\nSOURCE TYPE: ' + (src.kind === 'quran' ? 'Quran (Bengali translation)' : 'Hadith (Bengali translation)') + '\nREFERENCE: ' + src.ref + '\nSOURCE TEXT:\n' + src.text.slice(0, 4000);
   const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.8, responseMimeType: 'application/json' } }, 70000);
   const o = parseJson(r.text);
   if(o.relevant === false) return null;
@@ -2180,7 +2296,7 @@ async function verifiedPosts(topic, want){
 }
 function postCaption(p){
   const b = B(), brandTags = norm(b.tags).split(/\s+/).filter(Boolean), tags = (p.tags || []).map(h => '#' + String(h).replace(/^#+/, '').replace(/\s+/g, '_')).filter(h => h.length > 1);
-  const all = $('capTags').checked ? Array.from(new Set(brandTags.concat(tags))).slice(0, 10).join(' ') : '';
+  const all = $('capTags').checked ? Array.from(new Set(brandTags.concat(tags))).slice(0, 5).join(' ') : '';
   return p.text.replace(/\*/g, '') + (p.ref ? '\n\nসূত্র: ' + p.ref : '') + (p.caption ? '\n\n' + p.caption : '') + (all ? '\n\n' + all : '');
 }
 function applyPost(p){
@@ -2269,6 +2385,93 @@ async function hlAuto(){
   finally{ btn.disabled = false; }
 }
 
+/* ================= monetization check (Meta content-monetization + engagement-bait rules) ================= */
+const BAIT_RX = [
+  /শেয়ার\s*(করুন|করবেন|করো|কর|করে\s*(দিন|দাও|দিবেন|রাখুন|অন্যদের|সবাইকে|জানিয়ে)|না\s*করে|করতে\s*ভুলবেন)/,
+  /লাইক\s*(দিন|দাও|দিবেন|করুন|করে|দিয়ে|না\s*দিয়ে)/,
+  /(আমিন|আমীন|আমেন|amen|ameen|yes|ইয়েস|হ্যাঁ|সুবহানাল্লাহ|আলহামদুলিল্লাহ|মাশাআল্লাহ|ইনশাআল্লাহ|আল্লাহু\s*আকবার)['"”’]?\s*(লিখ|বলে\s*যা|কমেন্ট|comment|type)/i,
+  /(কমেন্টে?|মন্তব্যে?|comment)\s*[^\n।!?]{0,18}(লিখুন|লিখবেন|লিখে\s*যান|লিখে\s*দিন|লিখো|type|লিখে\s*জানান)/i,
+  /না\s*(লিখে|বলে|পড়ে|শেয়ার\s*করে|লাইক\s*দিয়ে)\s*(যাবেন|যেও|যেয়ো|যাবে)\s*না/,
+  /ট্যাগ\s*(করুন|দিন|করে|করো)|মেনশন\s*(করুন|দিন)|tag\s+(a\s+|your\s+)?(friend|someone|\d)/i,
+  /ফলো\s*(করুন|দিন|করে\s*রাখুন|করে\s*নিন)|পেজটি\s*ফলো|follow\s+(us|me|the\s+page|our)/i,
+  /(রিঅ্যাক্ট|react|লাভ\s*(রিঅ্যাক্ট|দিন)|❤️\s*দিন|👍\s*দিন|হাহা\s*দিন)/i,
+  /\b(share|like)\s+(if|this|and|to|with|it)\b/i,
+  /(\d+|এক|দুই|পাঁচ|দশ|১০|৫)\s*জন(কে)?\s*(শেয়ার|পাঠান|ট্যাগ)/,
+  /(বিস্তারিত|লিংক|লিঙ্ক)\s*(কমেন্টে|কমেন্ট\s*বক্সে|প্রথম\s*কমেন্টে)/
+];
+const CLICK_RX = /(ভাইরাল|না\s*দেখলে|দেখলে\s*অবাক|অবাক\s*হবেন|চমকে\s*যাবেন|শেষ\s*পর্যন্ত\s*(দেখুন|পড়ুন)|শকিং|বিশ্বাস\s*করতে\s*পারবেন\s*না|১০০%|100%|গোপন\s*রহস্য|you\s*won'?t\s*believe|shocking|viral)/gi;
+const sentences = s => String(s || '').replace(/([।!?])[ \t]+/g, '$1\n').split('\n');
+function baitHits(s){ const out = []; sentences(s).forEach(seg => { if(BAIT_RX.some(r => r.test(seg))) out.push(norm(seg).slice(0, 60)); }); return out; }
+function clickHits(s){ return Array.from(new Set((String(s || '').match(CLICK_RX) || []).map(x => x.trim()))); }
+const tagList = s => (String(s || '').match(/(^|\s)#[^\s#]+/g) || []).map(x => x.trim());
+const emojiN = s => (String(s || '').match(/\p{Extended_Pictographic}/gu) || []).length;
+function ownWordsLen(cap){
+  const f = F(), p = cardPlain(), card = keyNorm([p.heading, p.text, f.note, f.arabic, f.full && f.full.text, f.full && f.full.arabic].join(' ')), ref = keyNorm(f.ref || (f.full && f.full.ref) || '');
+  let n = 0;
+  String(cap || '').replace(/(^|\s)#[^\s#]+/g, ' ').split('\n').forEach(l => { const k = keyNorm(l.replace(/^(সূত্র|রেফারেন্স|source)\s*[:：]/i, '')); if(k.length < 6) return; if(card.includes(k) || (ref && (k === ref || ref.includes(k) || k.includes(ref)))) return; n += k.length; });
+  return n;
+}
+function monoCheck(){
+  const items = [], f = F(), cap = $('capText').value || '', p = cardPlain();
+  const add = (lvl, title, fix) => items.push({ lvl, title, fix });
+  const fill = (s, o) => String(s).replace(/\{(\w)\}/g, (m, k) => o[k] != null ? o[k] : m);
+  if(brandText() || C.logos[MODE]) add('ok', t('c_brandOk')); else add('bad', t('c_brandBad'), t('c_brandFix'));
+  const bait = baitHits(cap).concat(isSacred() ? [] : baitHits([p.heading, p.text, f.note].join('\n')));
+  if(bait.length) add('bad', fill(t('c_baitBad'), { x: '“' + bait.slice(0, 2).join('”, “') + '”' }), t('c_baitFix')); else add('ok', t('c_baitOk'));
+  const click = clickHits(cap + '\n' + p.heading + '\n' + p.text);
+  if(click.length) add('warn', fill(t('c_click'), { x: click.slice(0, 3).join(', ') }), t('c_clickFix'));
+  if(!norm(cap)) add('warn', t('c_capEmpty'), t('c_capEmptyFix'));
+  else if(ownWordsLen(cap) >= 25) add('ok', t('c_ownOk')); else add('warn', t('c_ownBad'), t('c_ownFix'));
+  const nt = tagList(cap).length;
+  if(nt > 5) add('warn', fill(t('c_tagsBad'), { n: LANG === 'bn' ? bnNum(nt) : nt }), t('c_tagsFix')); else if(nt) add('ok', fill(t('c_tagsOk'), { n: LANG === 'bn' ? bnNum(nt) : nt }));
+  if(isSacred() || SACRED_PAT.test(p.text)){ if(norm(f.ref) || (f.full && norm(f.full.ref))) add('ok', t('c_srcOk')); else add('bad', t('c_srcBad'), t('c_srcFix')); }
+  if(hasImg()){
+    if(C.isrc === 'link') add('bad', t('c_imgLink'), t('c_imgLinkFix'));
+    else if(C.isrc === 'upload') { if(norm(f.credit)) add('ok', t('c_imgUpOk')); else add('warn', t('c_imgUp'), t('c_imgUpFix')); }
+    else if(C.isrc === 'ai') add('info', t('c_imgAi'), t('c_imgAiFix'));
+  }
+  if(C.textFs < 34) add('warn', t('c_small'), t('c_smallFix'));
+  const r = D().ratio, rb = LANG === 'bn' ? r.replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]) : r;
+  if(r === '4:5' || r === '1:1') add('ok', fill(t('c_ratioOk'), { r: rb })); else add('warn', fill(t('c_ratioBad'), { r: rb }), t('c_ratioFix'));
+  const ne = emojiN(cap); if(ne > 8) add('warn', fill(t('c_emoji'), { n: LANG === 'bn' ? bnNum(ne) : ne }), t('c_emojiFix'));
+  const bad = items.filter(i => i.lvl === 'bad').length, warn = items.filter(i => i.lvl === 'warn').length;
+  return { items, bad, warn, pass: items.length - bad - warn, total: items.length };
+}
+let monoT = 0;
+function renderMono(){
+  const r = monoCheck(), box = $('monoList'); if(!box) return r;
+  box.innerHTML = '';
+  r.items.slice().sort((a, b) => ({ bad: 0, warn: 1, info: 2, ok: 3 }[a.lvl] - { bad: 0, warn: 1, info: 2, ok: 3 }[b.lvl])).forEach(it => {
+    const d = document.createElement('div'); d.className = 'mi ' + it.lvl;
+    const ic = document.createElement('span'); ic.className = 'ic'; ic.textContent = { ok: '✓', warn: '!', bad: '✕', info: 'i' }[it.lvl];
+    const tx = document.createElement('div'); const b = document.createElement('b'); b.textContent = it.title; tx.appendChild(b);
+    if(it.fix && it.lvl !== 'ok'){ const s = document.createElement('small'); s.textContent = it.fix; tx.appendChild(s); }
+    d.append(ic, tx); box.appendChild(d);
+  });
+  const sc = t('monoScore').replace('{a}', LANG === 'bn' ? bnNum(r.pass) : r.pass).replace('{b}', LANG === 'bn' ? bnNum(r.total) : r.total);
+  $('monoScore').textContent = r.bad || r.warn ? sc : '✓ ' + t('monoAll');
+  const mb = $('monoBtn'); mb.classList.remove('ok', 'warn', 'bad'); mb.classList.add(r.bad ? 'bad' : r.warn ? 'warn' : 'ok');
+  $('monoBadge').textContent = '🛡️ ' + (LANG === 'bn' ? bnNum(r.pass) + '/' + bnNum(r.total) : r.pass + '/' + r.total);
+  $('brandNudge').classList.toggle('hidden', !!(brandText() || C.logos[MODE]));
+  return r;
+}
+function monoSoon(){ clearTimeout(monoT); monoT = setTimeout(renderMono, 250); }
+function stripBait(s){
+  return String(s || '').split('\n').map(line => sentences(line).filter(seg => !BAIT_RX.some(r => r.test(seg))).join(' ')).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+function monoFix(){
+  let changed = false;
+  const cap = $('capText').value, f = F();
+  let nc = stripBait(cap);
+  const tags = tagList(nc);
+  if(tags.length > 5){ const keep = Array.from(new Set(tags)).slice(0, 5); nc = nc.replace(/(^|\s)#[^\s#]+/g, '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim() + '\n\n' + keep.join(' '); }
+  if(nc !== cap.trim()){ setCaption(nc); changed = true; }
+  if(!isSacred()){ ['heading', 'text', 'note'].forEach(k => { const v = f[k] || '', nv = stripBait(v); if(norm(nv) && nv !== v.trim() && baitHits(v).length){ if(!changed) pushUndo(); f[k] = nv; changed = true; } }); if(changed){ syncFields(); saveSoon(); render(); } }
+  if(D().ratio === '9:16' || D().ratio === '16:9'){ D().ratio = '4:5'; syncDesign(); saveSoon(); render(); changed = true; }
+  renderMono(); toast(changed ? t('tMonoFixed') : t('tMonoNothing'));
+}
+function monoWarn(){ const r = monoCheck(); return r.bad ? t('tMonoIssues').replace('{n}', LANG === 'bn' ? bnNum(r.bad) : r.bad) : ''; }
+
 /* ================= PWA: install + offline ================= */
 let DEFER_INSTALL = null;
 const isStandalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
@@ -2355,6 +2558,13 @@ function init(){
   // brand
   document.querySelectorAll('[data-b]').forEach(el => el.addEventListener('input', () => { B()[el.dataset.b] = el.value; saveSoon(); render(); }));
   $('b-show').addEventListener('change', () => { B().show = $('b-show').checked; saveSoon(); render(); });
+  $('b-style').addEventListener('change', () => { B().bStyle = $('b-style').value; saveSoon(); render(); });
+  $('b-wm').addEventListener('change', () => { B().wm = $('b-wm').checked; saveSoon(); render(); });
+  $('nudgeSave').addEventListener('click', () => { const v = norm($('nudgeName').value); if(!v){ $('nudgeName').focus(); return; } const b = B(); b.name = v; b.show = true; syncBrand(); saveSoon(); render(); toast(t('tSaved')); });
+  $('nudgeName').addEventListener('keydown', e => { if(e.key === 'Enter') $('nudgeSave').click(); });
+  $('monoBtn').addEventListener('click', () => { showTab('caption'); renderMono(); setTimeout(() => { const s = $('monoSect'); s.scrollIntoView({ block: 'start', behavior: 'smooth' }); flash(s); }, 80); });
+  $('monoFixBtn').addEventListener('click', monoFix);
+  $('monoRecheck').addEventListener('click', () => { const r = renderMono(); toast(r.bad || r.warn ? t('monoScore').replace('{a}', LANG === 'bn' ? bnNum(r.pass) : r.pass).replace('{b}', LANG === 'bn' ? bnNum(r.total) : r.total) : '✓ ' + t('monoAll')); });
   $('logoUpBtn').addEventListener('click', () => $('logoFile').click());
   $('logoFile').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if(f) onLogo(f); });
   $('logoRmBtn').addEventListener('click', () => { store.set('logo_' + MODE, ''); syncBrand(); loadLogo(); });
@@ -2363,7 +2573,7 @@ function init(){
   // caption
   $('capGenBtn').addEventListener('click', aiCaption);
   $('capQuickBtn').addEventListener('click', quickCaption);
-  $('capText').addEventListener('input', () => store.set('cap_' + MODE, $('capText').value));
+  $('capText').addEventListener('input', () => { store.set('cap_' + MODE, $('capText').value); monoSoon(); });
   $('capCopyBtn').addEventListener('click', async () => { const s = $('capText').value.trim(); if(!s){ toast(t('tEmpty')); return; } toast(await copyText(s) ? t('tCopied') : t('tCopyFail')); });
   $('capBothBtn').addEventListener('click', async () => { if(!$('capText').value.trim()) quickCaption(); await copyText($('capText').value); await downloadCard('png'); toast(t('tDl') + ' + ' + t('tCopied')); });
   // library

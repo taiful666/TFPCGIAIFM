@@ -1,5 +1,5 @@
 /* TF Post Card Studio — service worker (offline + fast start) */
-const VERSION = 'tfpc-v1';
+const VERSION = 'tfpc-v2';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 const RUNTIME = 'tfpc-runtime';
 
