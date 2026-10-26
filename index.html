@@ -360,9 +360,9 @@ html.reel-open,html.reel-open body{overflow:hidden}
       <div class="sect qgen" id="qgen">
         <h4><span data-i18n="qgTitle"></span><small><span class="writerTag"></span> <span id="qgCount"></span></small></h4>
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
-        <div class="fld"><span data-i18n="qgTopicLbl"></span><div class="qchips" id="qgTopics"></div></div>
+        <label class="fld"><span data-i18n="qgTopicLbl"></span><select id="qgTopics"></select></label>
         <label class="fld"><input type="text" id="qgCustom" data-i18n-ph="qgCustomPh"></label>
-        <div class="fld"><span data-i18n="qgToneLbl"></span><div class="seg full" id="qgTone"><button type="button" data-tone="motivation" data-i18n="qgT1"></button><button type="button" data-tone="heart" data-i18n="qgT2"></button><button type="button" data-tone="lesson" data-i18n="qgT3"></button><button type="button" data-tone="mix" data-i18n="qgT4"></button></div></div>
+        <label class="fld"><span data-i18n="qgToneLbl"></span><select id="qgTone"></select></label>
         <label class="chk" style="margin-bottom:10px"><input type="checkbox" id="qgCap" checked> <span data-i18n="qgCapLbl"></span></label>
         <div class="row qgbtns"><button type="button" class="btn sm" id="qgPrev" data-i18n="qgPrev" disabled></button><button type="button" class="btn primary big" id="qgNext" data-i18n="qgNext"></button><button type="button" class="btn" id="qgRand" data-i18n="qgRand"></button></div>
         <span class="status hidden" id="qgStatus" style="margin-top:8px"><span class="spin"></span><span id="qgStatusTxt" data-i18n="qgWorking"></span></span>
@@ -476,7 +476,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
         <div class="fld isl-only"><span data-i18n="stKindLbl"></span><div class="seg full" id="stKind"><button type="button" data-kind="life" data-i18n="stK1"></button><button type="button" data-kind="quran" data-i18n="stK2"></button><button type="button" data-kind="hadith" data-i18n="stK3"></button></div></div>
         <div id="stLifeBox">
-          <div class="fld"><span data-i18n="qgTopicLbl"></span><div class="qchips" id="stTopics"></div></div>
+          <label class="fld"><span data-i18n="qgTopicLbl"></span><select id="stTopics"></select></label>
           <label class="fld"><input type="text" id="stCustom" data-i18n-ph="stCustomPh"></label>
         </div>
         <div class="okbox hidden" id="stSacredNote" data-i18n="stSacredNote"></div>
@@ -851,7 +851,7 @@ const T = {
   setAi:'AI (Google Gemini)',setTextModel:'Text model (empty = default)',setImgModel:'Image model (empty = auto)',save:'Save',test:'Test',remove:'Remove',
   keySec:'🔒 The key is kept in this browser’s localStorage and sent directly to Google from the browser. It is not inside the file, but it is not fully secure — other users of this computer or a browser extension could read it. Don’t keep it on shared computers, and set a spending limit in Google AI Studio.',
   setData:'Data',setDataNote:'Your texts, designs, logos and library are saved only in this browser. Use Library → Backup to keep a copy.',resetAll:'Reset designs to default',
-  needKey:'This needs a Gemini API key.',openSettings:'⚙️ Settings',
+  needKey:'Writing needs your Claude API key.',openSettings:'⚙️ Settings',
   tCopied:'Copied',tCopyFail:'Copy failed — select and press Ctrl+C',tSaved:'Saved',tDl:'Downloaded',tNoKey:'Add a Gemini API key in ⚙️ Settings',tKeyOk:'✅ Key works',tKeyBad:'❌ Key not working',tRemoved:'Removed',
   tBadFile:'Use a JPG, PNG, WEBP or GIF (photo ≤ 15 MB, logo ≤ 5 MB)',tImgFail:'Could not load that image — try uploading it instead',tTaint:'This image is protected by its website and cannot be exported. Save it to your computer and use Upload.',
   tSmallText:'Text is long, so it is small on the card. Shorten it, or use 4:5 / 9:16.',tEmpty:'Write or collect some text first',tSacredBlocked:'Not allowed on hadith/Quran text — it must stay unchanged',tNotVerbatim:'AI changed the wording, so the result was rejected. Original kept.',
@@ -961,7 +961,7 @@ const T = {
   setAi:'AI (Google Gemini)',setTextModel:'লেখার মডেল (খালি = ডিফল্ট)',setImgModel:'ছবির মডেল (খালি = স্বয়ংক্রিয়)',save:'সংরক্ষণ',test:'পরীক্ষা',remove:'সরান',
   keySec:'🔒 কী এই ব্রাউজারের localStorage-এ থাকে এবং ব্রাউজার থেকে সরাসরি Google-এ যায়। এটি ফাইলের ভেতরে নেই, তবে পুরোপুরি সুরক্ষিতও নয় — এই কম্পিউটারের অন্য ব্যবহারকারী বা ব্রাউজার এক্সটেনশন দেখতে পারে। শেয়ার করা কম্পিউটারে কী রাখবেন না, এবং Google AI Studio-তে খরচের সীমা ঠিক করে দিন।',
   setData:'ডেটা',setDataNote:'আপনার লেখা, ডিজাইন, লোগো ও লাইব্রেরি শুধু এই ব্রাউজারে সংরক্ষিত থাকে। কপি রাখতে লাইব্রেরি → ব্যাকআপ ব্যবহার করুন।',resetAll:'ডিজাইন ডিফল্টে ফেরান',
-  needKey:'এর জন্য Gemini API কী লাগবে।',openSettings:'⚙️ সেটিংস',
+  needKey:'লেখার জন্য Claude API কী লাগবে।',openSettings:'⚙️ সেটিংস',
   tCopied:'কপি হয়েছে',tCopyFail:'কপি হয়নি — সিলেক্ট করে Ctrl+C চাপুন',tSaved:'সংরক্ষিত',tDl:'ডাউনলোড হয়েছে',tNoKey:'⚙️ সেটিংসে Gemini API কী দিন',tKeyOk:'✅ কী কাজ করছে',tKeyBad:'❌ কী কাজ করছে না',tRemoved:'সরানো হয়েছে',
   tBadFile:'JPG, PNG, WEBP বা GIF দিন (ছবি ≤ ১৫ MB, লোগো ≤ ৫ MB)',tImgFail:'ছবিটি লোড করা যায়নি — আপলোড করে দেখুন',tTaint:'এই ছবিটি তার ওয়েবসাইটের সুরক্ষার কারণে এক্সপোর্ট করা যাচ্ছে না। কম্পিউটারে সেভ করে "আপলোড" দিন।',
   tSmallText:'লেখা বড়, তাই কার্ডে ছোট দেখাচ্ছে। লেখা ছোট করুন অথবা ৪:৫ / ৯:১৬ আকার নিন।',tEmpty:'আগে কিছু লিখুন বা সংগ্রহ করুন',tSacredBlocked:'হাদিস/কুরআনের লেখায় এটি করা যাবে না — লেখা অপরিবর্তিত থাকতে হবে',tNotVerbatim:'AI শব্দ বদলে ফেলেছে, তাই ফলাফল বাতিল করা হয়েছে। মূল লেখা রাখা হলো।',
@@ -1901,7 +1901,7 @@ async function claude(body, ms){
   /* 5.5 models think adaptively by default; thinking is billed and counts toward max_tokens,
      so: generous max_tokens + medium effort for long writing, low effort for short jobs */
   const effort = body.effort || (prompt.length > 2500 ? 'medium' : 'low');
-  const req = { model: S.cmodel || 'claude-sonnet-5-5', max_tokens: 16000, output_config: { effort }, system: 'You are a gifted Bengali writer for Facebook pages. Write natural, warm, human Bengali. Follow every instruction exactly.', messages: [{ role: 'user', content: prompt }] };
+  const req = { model: S.cmodel || 'claude-sonnet-5-5', max_tokens: 16000, output_config: { effort }, system: 'You are a gifted Bengali writer for Facebook pages. Write natural, warm, human Bengali — the way a respected, caring person really talks, never robotic or bookish. ADDRESS: whenever you speak to the reader, always use respectful “আপনি” (আপনার, আপনাকে, করুন, ভাবুন, পারবেন) — never “তুমি” or “তুই”, even if examples or style samples use তুমি; the writer is not above the reader, write as an equal who cares. Inside a story, characters may talk to each other naturally. Never change the wording of quoted Quran/hadith text. Write so the reader stops scrolling and thinks: “this is me — this happens to me, I do this, I need this” (on Islamic posts also: “what is Allah reminding me of? what am I doing, and what was I supposed to do?”). Follow every instruction exactly.', messages: [{ role: 'user', content: prompt }] };
   const send = b => fetch(CAPI, { method: 'POST', signal: to.signal, headers: { 'content-type': 'application/json', 'x-api-key': S.ckey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }, body: JSON.stringify(b) });
   try{
     let r, j;
@@ -2827,19 +2827,23 @@ const stUsed = k => stHist().some(h => h.k === k);
 let ST_KIND = store.get('st_kind', 'life'), ST_IMG = store.get('st_img', 'paint');
 const ST_BACK = [], ST_SKIP = {};
 function stKind(){ return MODE === 'islamic' ? ST_KIND : 'life'; }
+function fillTopicSelect(sel, cur, onPick){
+  sel.innerHTML = '';
+  QG_TOPICS[MODE].forEach(([id, bn, en]) => { const o = document.createElement('option'); o.value = id; o.textContent = id === 'any' ? t('qgAny') : (LANG === 'bn' ? bn : en.charAt(0).toUpperCase() + en.slice(1)); sel.appendChild(o); });
+  sel.value = QG_TOPICS[MODE].some(x => x[0] === cur) ? cur : 'any';
+  sel.onchange = () => onPick(sel.value);
+}
 function stBuildUi(){
   const k = stKind();
   document.querySelectorAll('#stKind [data-kind]').forEach(b => b.classList.toggle('on', b.dataset.kind === k));
   document.querySelectorAll('#stImg [data-img]').forEach(b => b.classList.toggle('on', b.dataset.img === ST_IMG));
   $('stLifeBox').classList.toggle('hidden', k !== 'life'); $('stSacredNote').classList.toggle('hidden', k === 'life');
-  const tp = store.get('st_topic_' + MODE, 'any'), box = $('stTopics'); box.innerHTML = '';
-  QG_TOPICS[MODE].forEach(([id, bn, en]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (id === tp ? ' on' : ''); b.textContent = id === 'any' ? t('qgAny') : (LANG === 'bn' ? bn : en.charAt(0).toUpperCase() + en.slice(1));
-    b.addEventListener('click', () => { store.set('st_topic_' + MODE, id); box.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b)); }); box.appendChild(b); });
+  fillTopicSelect($('stTopics'), store.get('st_topic_' + MODE, 'any'), id => store.set('st_topic_' + MODE, id));
   const n = stHist().filter(h => h.sum !== 'skip').length; $('stCount').textContent = n ? t('stCount').replace('{n}', LANG === 'bn' ? bnNum(n) : n) : '';
   $('stPrev').disabled = !ST_BACK.some(x => x.mode === MODE);
 }
 const pick = a => a[Math.floor(Math.random() * a.length)];
-const HUMAN_RULES = 'WRITE LIKE A REAL BENGALI STORYTELLER, NOT A ROBOT: concrete sensory details (the smell of rain on dust, the hiss of a pressure cooker, a cracked phone screen); ordinary Bangladeshi names (vary them); short natural dialogue in quotes; mix short and long sentences; show feelings through small actions instead of naming them; warm, simple, everyday standard Bengali. Never use stock phrases like "এই গল্প থেকে আমরা শিখি", "পরিশেষে", "সুতরাং", "আসুন আমরা", and no lists or headings. No melodrama, no preaching.';
+const HUMAN_RULES = 'WRITE LIKE A REAL BENGALI STORYTELLER, NOT A ROBOT: concrete sensory details (the smell of rain on dust, the hiss of a pressure cooker, a cracked phone screen); ordinary Bangladeshi names (vary them); short natural dialogue in quotes; mix short and long sentences; show feelings through small actions instead of naming them; warm, simple, everyday standard Bengali; when addressing the reader always use respectful “আপনি”, never “তুমি”. Never use stock phrases like "এই গল্প থেকে আমরা শিখি", "পরিশেষে", "সুতরাং", "আসুন আমরা", and no lists or headings. No melodrama, no preaching.';
 async function stLife(){
   const tp = store.get('st_topic_' + MODE, 'any'), custom = $('stCustom').value.trim();
   let topic = QG_TOPICS[MODE].find(x => x[0] === tp) || QG_TOPICS[MODE][0]; if(topic[0] === 'any') topic = pick(QG_TOPICS[MODE].slice(1));
@@ -3052,38 +3056,46 @@ const QG_ANGLES = [
   'a promise you make to yourself', 'someone waiting at the door', 'a small act of kindness that changed a day',
   'a memory from childhood', 'loneliness in a crowded city', 'the hands of a hard-working person', 'the first salary / first success',
   'old parents and their silent waiting', 'hope arriving like dawn after a long night', 'the difference between what people see and what you carry inside',
-  'an honest confession', 'a lesson learned the hard way', 'speak directly to the reader as “তুমি” like a caring elder',
+  'an honest confession', 'a lesson learned the hard way', 'speak directly to the reader as “আপনি” like a caring, respectful elder',
   'a dialogue of two short lines', 'a turning point in one sentence', 'the weight of unsaid words', 'a reminder that this hard season will pass',
   'what really stays with us at the end', 'gratitude hidden inside a hardship', 'a soft but strong wake-up call', 'courage to start again from zero'
 ];
-const QG_TONES = { motivation: 'strongly motivational and uplifting, giving courage and energy to act', heart: 'deeply heart-touching and emotional, the kind of line that brings a lump to the throat', lesson: 'a clear life lesson that can change how someone lives', mix: 'emotional, heart-touching and motivating at the same time, with a clear lesson' };
+const QG_TONE_LIST = [
+  ['mix','🔀 মিশ্র (সব মিলিয়ে)','🔀 Mix'],['motivation','💪 মোটিভেশন','💪 Motivation'],['story','📖 অনুপ্রেরণার গল্প','📖 Inspiring story'],
+  ['heart','💗 হৃদয় ছোঁয়া','💗 Heart-touching'],['lesson','🌱 জীবনের শিক্ষা','🌱 Life lesson'],['advice','🤲 উপদেশ ও নসিহত','🤲 Advice'],
+  ['mirror','🪞 আত্মজিজ্ঞাসা — আমি কী করছি?','🪞 Self-reflection'],['hope','🌅 আশা ও সান্ত্বনা','🌅 Hope & comfort']
+];
+const QG_TONES = { story: 'an inspiring mini story of struggle and rising again — the card is the most powerful moment or line of that story', advice: 'sincere, gentle advice from a caring elder — practical, specific and respectful, never preachy or judging', mirror: 'a mirror for the reader: makes them stop and honestly ask “am I doing this too? what was I supposed to do?”' + " (on the Islamic page: “what is Allah reminding me of, and what am I doing?”)", hope: 'deep comfort and hope for someone who is tired and hurting, gentle and warm', motivation: 'strongly motivational and uplifting, giving courage and energy to act', heart: 'deeply heart-touching and emotional, the kind of line that brings a lump to the throat', lesson: 'a clear life lesson that can change how someone lives', mix: 'emotional, heart-touching and motivating at the same time, with a clear lesson' };
 /* quality bar for every short card post (Claude) */
 const QG_GOOD = {
   general: [
-    'যে রাতে ভেবেছিলে সব শেষ,\nসেই রাতটাও তো তুমি *পার করে* এসেছ।\nনিজেকে এত ছোট ভেবো না।',
-    'মানুষ তোমার পতন দেখবে,\nতোমার *ঘাম* দেখবে না।\nতাই ব্যাখ্যা দিও না — কাজটা চালিয়ে যাও।',
+    'যে রাতে ভেবেছিলেন সব শেষ,\nসেই রাতটাও তো আপনি *পার করে* এসেছেন।\nনিজেকে এত ছোট ভাববেন না।',
+    'মানুষ আপনার পতন দেখবে,\nআপনার *ঘাম* দেখবে না।\nতাই ব্যাখ্যা দেবেন না — কাজটা চালিয়ে যান।',
     'দেরিতে শুরু করা মানে হেরে যাওয়া না।\nহেরে যাওয়া মানে *শুরুই না করা*।',
-    'বাবার জুতার তলা ক্ষয়ে যায়,\nযাতে তোমার পায়ে *কাঁটা* না ফোটে।',
-    'যে চেয়ারে আজ অবহেলায় বসে আছো,\nএকদিন সেটার জন্যই তুমি *স্বপ্ন* দেখতে।',
-    'সবাই চলে গেলেও যে মানুষটা থেকে যায়,\nতাকে কখনো *অপশন* বানিও না।'
+    'বাবার জুতার তলা ক্ষয়ে যায়,\nযাতে আপনার পায়ে *কাঁটা* না ফোটে।',
+    'যে চেয়ারে আজ অবহেলায় বসে আছেন,\nএকদিন সেটার জন্যই আপনি *স্বপ্ন* দেখতেন।',
+    'সবাই চলে গেলেও যে মানুষটা থেকে যায়,\nতাকে কখনো *অপশন* বানাবেন না।'
   ],
   islamic: [
     'সবাই যখন দরজা বন্ধ করে দেয়,\nজায়নামাজটা তখনও *খোলা* থাকে।',
+    'নামাজে দাঁড়িয়ে মন পড়ে থাকে ফোনে,\nঅথচ ফোনে থাকলে *নামাজের* কথা মনেই পড়ে না।',
     'দোয়া কবুল হতে দেরি মানে *না* নয়।\nহয়তো আল্লাহ এর চেয়েও ভালোটা সাজাচ্ছেন।',
     'গুনাহ যত বড়ই হোক,\nফিরে আসার রাস্তাটা তার চেয়েও *বড়*।',
-    'যে সিজদায় কাঁদতে কাঁদতে কিছুই বলতে পারোনি,\nআল্লাহ সেই *নীরবতাও* বোঝেন।',
+    'যে সিজদায় কাঁদতে কাঁদতে কিছুই বলতে পারেননি,\nআল্লাহ সেই *নীরবতাও* বোঝেন।',
     'হালাল রুটির টুকরো ছোট হতে পারে,\nকিন্তু তাতে ঘুমটা *শান্তির*।',
-    'মানুষকে খুশি করতে গিয়ে ক্লান্ত?\nএকবার শুধু *আল্লাহর* জন্য বাঁচো, দেখবে বোঝা হালকা।'
+    'মানুষকে খুশি করতে গিয়ে ক্লান্ত?\nএকবার শুধু *আল্লাহর* জন্য বাঁচুন, দেখবেন বোঝা হালকা।'
   ]
 };
 const QG_BAD = [
-  'আজ যদি সব এলোমেলোও লাগে, তবু তুমি কি একটা পা বাড়াতে পারবে? আল্লাহ ভরসা রাখা মনকে খালি হাতে ফেরান না।',
+  'আজ যদি সব এলোমেলোও লাগে, তবু তুমি কি একটা পা বাড়াতে পারবে? আল্লাহ ভরসা রাখা মনকে খালি হাতে ফেরান না। (also wrong: “তুমি” — always use আপনি)',
   'জীবনে কঠিন সময় আসবেই, কিন্তু ধৈর্য ধরলে সফলতা আসবে।',
   'বাবা আজও দরজার দিকে তাকিয়ে থাকেন, মুখে কিছু বলেন না। (topic was “being a good person for Allah’s sake” — off-topic)'
 ];
 const QG_QUALITY = () => '\n\nQUALITY BAR — this is the most important part. The card must be the kind of line people screenshot, save and share because it hits them in the chest and makes them want to get up and try again.\n' +
   '• ONE sharp insight with a TURN: a contrast, a reversal or a surprising truth in the second half (what people see vs. what you carry; late vs. never; small vs. big). Not a soft wish, not advice in general terms.\n' +
   '• Concrete and visual: one real object or moment (a worn shoe, a prayer mat, a cold cup of tea, a cracked phone screen, a bus window) instead of abstract words like “জীবন”, “সফলতা”, “কঠিন সময়”.\n' +
+  '• MIRROR: the reader must stop for a minute and feel “this is exactly me / I do this too / I needed to hear this”' + (MODE === 'islamic' ? ' — and quietly ask “what is Allah telling me, what am I doing?”' : '') + '.\n' +
+  '• Speak to the reader with respectful “আপনি” (never তুমি) — as an equal who cares, not someone above them.\n' +
   '• Natural spoken Bengali that a Bangladeshi would actually say — never sounds translated from English, no bookish words, no rhetorical “তুমি কি পারবে?” filler.\n' +
   '• It must clearly be about the TOPIC. The angle is only a starting idea — drop it if it pulls away from the topic.\n' +
   (MODE === 'islamic' ? '• Islamic page: the line must carry a clear faith element (Allah, sujood, dua, tawakkul, akhirah, halal…) tied to the topic, warm and hopeful, never harsh.\n' : '• Motivational page: leave the reader with courage, self-respect or the urge to act — never hopeless or self-pitying.\n') +
@@ -3099,10 +3111,11 @@ let QG_TOPIC = store.get('qg_topic_' + MODE, 'any'), QG_TONE = store.get('qg_ton
 const QG_BACK = [];
 function qgBuildUi(){
   QG_TOPIC = store.get('qg_topic_' + MODE, 'any'); if(!QG_TOPICS[MODE].some(x => x[0] === QG_TOPIC)) QG_TOPIC = 'any';
-  const box = $('qgTopics'); box.innerHTML = '';
-  QG_TOPICS[MODE].forEach(([id, bn, en]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (id === QG_TOPIC ? ' on' : ''); b.textContent = id === 'any' ? t('qgAny') : (LANG === 'bn' ? bn : en.charAt(0).toUpperCase() + en.slice(1)); b.title = en;
-    b.addEventListener('click', () => { QG_TOPIC = id; store.set('qg_topic_' + MODE, id); box.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b)); }); box.appendChild(b); });
-  document.querySelectorAll('#qgTone [data-tone]').forEach(b => b.classList.toggle('on', b.dataset.tone === QG_TONE));
+  fillTopicSelect($('qgTopics'), QG_TOPIC, id => { QG_TOPIC = id; store.set('qg_topic_' + MODE, id); });
+  if(!QG_TONES[QG_TONE]) QG_TONE = 'mix';
+  const ts = $('qgTone'); ts.innerHTML = '';
+  QG_TONE_LIST.forEach(([id, bn, en]) => { const o = document.createElement('option'); o.value = id; o.textContent = LANG === 'bn' ? bn : en; ts.appendChild(o); });
+  ts.value = QG_TONE; ts.onchange = () => { QG_TONE = ts.value; store.set('qg_tone', QG_TONE); };
   qgCountUi(); $('qgOut').innerHTML = ''; $('qgPrev').disabled = !QG_BACK.some(x => x.mode === MODE);
 }
 function qgCountUi(){ const n = qgHist().length; $('qgCount').textContent = n ? t('qgCount').replace('{n}', LANG === 'bn' ? bnNum(n) : n) : ''; }
@@ -3415,7 +3428,6 @@ function init(){
   $('qgRand').addEventListener('click', () => qgGenerate(true));
   $('qgPrev').addEventListener('click', qgBack);
   $('qgClear').addEventListener('click', () => { if(!confirm(t('qgConfirmClear'))) return; store.set('qg_hist_' + MODE, []); store.set('qg_angles_' + MODE, []); qgCountUi(); toast(t('qgCleared')); });
-  document.querySelectorAll('#qgTone [data-tone]').forEach(b => b.addEventListener('click', () => { QG_TONE = b.dataset.tone; store.set('qg_tone', QG_TONE); document.querySelectorAll('#qgTone [data-tone]').forEach(x => x.classList.toggle('on', x === b)); }));
   $('qgCap').checked = store.get('chk_qgCap', true); $('qgCap').addEventListener('change', () => store.set('chk_qgCap', $('qgCap').checked));
   initPwa(); applyPv(); syncThemeColor();
   $('pvBtn').addEventListener('click', () => { store.set('pv', (store.get('pv', 0) + 1) % PV_SIZES.length); applyPv(); });
