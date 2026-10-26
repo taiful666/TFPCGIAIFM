@@ -134,6 +134,18 @@ textarea.ar{font-family:'Amiri','Noto Naskh Arabic','Traditional Arabic',serif;f
 .erow{display:grid;grid-template-columns:92px minmax(0,1fr) 40px 44px 30px;gap:8px;align-items:center;margin-bottom:8px;font-size:12.5px;color:var(--muted)}
 .erow b{font-weight:500;color:var(--text)}.erow .pct{font-size:11.5px;text-align:right}.erow .auto{font-size:10.5px;color:var(--faint);text-align:center;display:block}
 .erow .btn{padding:4px 6px}
+details.dd{padding:0}
+details.dd>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 12px;font-weight:600;font-size:13.5px;user-select:none}
+details.dd>summary::-webkit-details-marker{display:none}
+details.dd>summary::after{content:'▾';font-size:14px;color:var(--muted);transition:transform .15s}
+details.dd[open]>summary::after{transform:rotate(180deg)}
+details.dd>summary small{font-weight:400;color:var(--muted);font-size:12px;margin-left:auto}
+details.dd[open]>summary small{display:none}
+details.dd>.ddb{padding:0 12px 12px}
+.posbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.posbar small{color:var(--muted);font-size:12px;flex:1 1 180px}
+#rvCv{touch-action:none;cursor:grab}
+.rpos{margin:0;padding:8px 12px;background:#0d0d0f}.rpos small{color:#c9c9cf}.rpos .btn{flex:none}
 .prev img.logo{object-fit:contain;background:repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 0 0/12px 12px}
 .lib{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow:auto;margin-top:8px}
 .libi{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:var(--surface)}
@@ -491,8 +503,8 @@ html.reel-open,html.reel-open body{overflow:hidden}
 
     <!-- DESIGN -->
     <div class="pane hidden" id="p-design">
-      <div class="row" style="justify-content:flex-end;margin-bottom:10px"><button type="button" class="btn sm" id="resetDesignBtn" data-i18n="resetDesign"></button></div>
-      <div class="sect"><h4><span data-i18n="elemTitle"></span><small data-i18n="elemHint"></small></h4><div id="elemRows"></div></div>
+      <div class="posbar"><small data-i18n="posHint"></small><span class="row" style="gap:6px;flex:none"><button type="button" class="btn sm" id="posResetBtn" data-i18n="posReset"></button><button type="button" class="btn sm" id="resetDesignBtn" data-i18n="resetDesign"></button></span></div>
+      <details class="sect dd" id="elemBox"><summary><span data-i18n="elemTitle"></span><small data-i18n="ddOpen"></small></summary><div class="ddb"><p class="note" data-i18n="elemHint" style="margin:0 0 8px"></p><div id="elemRows"></div></div></details>
       <div class="sect"><h4><span data-i18n="templates"></span><small data-i18n="tplHint"></small></h4><div class="gallery" id="gallery"></div></div>
       <div class="sect"><h4><span data-i18n="palettes"></span></h4><div class="pals" id="pals"></div>
         <div class="colors" style="margin-top:10px">
@@ -503,7 +515,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
         </div>
       </div>
       <div class="sect"><h4><span data-i18n="fontPairs"></span><small data-i18n="fontPairsHint"></small></h4><div class="subtabs" id="pairChips" style="margin:0"></div></div>
-      <div class="sect"><h4><span data-i18n="typo"></span></h4>
+      <details class="sect dd" id="typoBox"><summary><span data-i18n="typo"></span><small data-i18n="ddOpen"></small></summary><div class="ddb">
         <div class="grid2">
           <label class="fld"><span data-i18n="bFont"></span><select id="bFont"></select></label>
           <label class="fld isl-only"><span data-i18n="aFont"></span><select id="aFont"></select></label>
@@ -514,7 +526,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
         <div class="fld"><span data-i18n="align"></span><div class="seg full" id="alignSeg"><button type="button" data-align="left" data-i18n="aL"></button><button type="button" data-align="center" data-i18n="aC"></button><button type="button" data-align="right" data-i18n="aR"></button></div></div>
         <label class="fld"><span data-i18n="textY"></span><input type="range" id="textY" min="-400" max="400"></label>
         <label class="fld"><span data-i18n="overlay"></span><input type="range" id="overlay" min="0" max="100"></label>
-      </div>
+      </div></details>
       <div class="sect"><h4><span data-i18n="presets"></span><small data-i18n="presetsHint"></small></h4>
         <div class="row"><label class="fld"><input type="text" id="presetName" data-i18n-ph="presetPh"></label><button type="button" class="btn primary" id="presetSaveBtn" data-i18n="presetSave"></button></div>
         <div class="lib" id="presetList" style="max-height:240px"></div>
@@ -705,6 +717,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
     <div class="rleft">
       <div class="rstage" id="rvStage"><canvas id="rvCv" width="360" height="640"></canvas><span class="rplay hidden" id="rvPlayBig">▶</span></div>
       <div class="rbar"><i id="rvBar"></i></div>
+      <div class="posbar rpos"><small data-i18n="rPosHint"></small><button type="button" class="btn sm" id="rvPosReset" data-i18n="posReset"></button></div>
     </div>
     <div class="rctl">
       <div class="sect rstyle">
@@ -1279,7 +1292,26 @@ function drawItem0(ctx, it, bx, y, RA, align){
   });
   if(it.k) C.regions.push({ k: it.k, x: bx, y, w: it.w, h: it.h });
 }
-function drawStack(ctx, st, x, y, w, align){ let cy = y; st.items.forEach(it => { cy += it.gapB; drawItem(ctx, it, x, cy, w, it.align || align); cy += it.h; }); return cy; }
+/* free positions: d.pos[ratio][key] = { x, y } — centre of the part as a fraction of the card.
+   A reel made in another size falls back to the card's own positions, so what you set on the card stays in the reel. */
+function posOf(k){
+  const d = DZ; if(!d || d.thumb || !d.pos || !C.rk) return null;
+  const a = d.pos[C.rk], b = d.pos[d.ratio];
+  return (a && a[k]) || (b && b[k]) || null;
+}
+function posSet(ratio, k, x, y){ const d = D(); if(!d.pos || typeof d.pos !== 'object') d.pos = {}; if(!d.pos[ratio]) d.pos[ratio] = {}; d.pos[ratio][k] = { x: clamp(x, 0.02, 0.98), y: clamp(y, 0.02, 0.98) }; }
+function posClear(ratio){ const d = D(); if(!d.pos) return; if(ratio) delete d.pos[ratio]; else d.pos = {}; }
+const isFree = it => it.k && it.k !== 'text' && !!posOf(it.k);
+function drawStack(ctx, st, x, y, w, align){
+  let cy = y;
+  st.items.forEach(it => {
+    if(isFree(it)){ const p = posOf(it.k), W = C.W, H = C.H;
+      const bx = clamp(p.x * W - it.w / 2, -it.w * 0.3, W - it.w * 0.7), by = clamp(p.y * H - it.h / 2, -it.h * 0.3, H - it.h * 0.7);
+      drawItem(ctx, it, bx, by, it.w, it.align || align); return; }
+    cy += it.gapB; drawItem(ctx, it, x, cy, w, it.align || align); cy += it.h;
+  });
+  return cy;
+}
 /* standard content (heading, arabic, ornament, text, reference, note) */
 function contentStack(ctx, u, maxW, maxH, o){
   const d = DZ, f = F(), bf = BFONTS[d.bfont] || BFONTS.hind, af = AFONTS[d.afont] || AFONTS.amiri;
@@ -1305,11 +1337,20 @@ function contentStack(ctx, u, maxW, maxH, o){
 }
 function place(ctx, st, box, align, valign){
   const rsv = C.logoReserve || 0; if(rsv && box.y < rsv && valign !== 'bottom'){ box = Object.assign({}, box, { h: box.h - (rsv - box.y), y: rsv }); }
-  const free = box.h - st.total;
-  let y = valign === 'top' ? box.y : valign === 'bottom' ? box.y + free : box.y + free / 2;
-  y += (DZ.textY || 0) * (box.u || 1);
-  y = clamp(y, box.y - (free < 0 ? 0 : box.h * 0.25), box.y + Math.max(0, free) + box.h * 0.25);
-  return drawStack(ctx, st, box.x, y, box.w, align);
+  let tot = 0, first = true;
+  st.items.forEach(it => { if(isFree(it)) return; tot += (first ? 0 : it.gapB) + it.h; first = false; });
+  const lead = (st.items.find(it => !isFree(it)) || {}).gapB || 0;
+  const free = box.h - tot;
+  let y;
+  const bp = posOf('block');
+  if(bp){ y = clamp(bp.y * C.H - tot / 2, -tot * 0.3, C.H - tot * 0.7); }
+  else {
+    y = valign === 'top' ? box.y : valign === 'bottom' ? box.y + free : box.y + free / 2;
+    y += (DZ.textY || 0) * (box.u || 1);
+    y = clamp(y, box.y - (free < 0 ? 0 : box.h * 0.25), box.y + Math.max(0, free) + box.h * 0.25);
+  }
+  if(!DZ.thumb) C.blockCy = y + tot / 2;
+  return drawStack(ctx, st, box.x, y - lead, box.w, align);
 }
 function brandText(){ const b = B(); if(!b.show) return ''; return [b.name, b.handle].map(norm).filter(Boolean).join('  •  '); }
 function drawBrand(ctx, x, y, w, h, color, size, align){
@@ -1319,7 +1360,8 @@ function drawBrand(ctx, x, y, w, h, color, size, align){
   const pill = B().bStyle === 'pill', px = pill ? size * 0.85 : 0;
   ctx.font = fontStr(size, 600, BODY); ctx.textBaseline = 'middle'; ctx.direction = 'ltr'; ctx.textAlign = 'left';
   const tx = fitOne(ctx, s, w - 2 * px), tw = ctx.measureText(tx).width, bw = tw + 2 * px;
-  const lx = align === 'left' ? x : align === 'right' ? x + w - bw : x + (w - bw) / 2;
+  let lx = align === 'left' ? x : align === 'right' ? x + w - bw : x + (w - bw) / 2;
+  const bpz = posOf('brand'); if(bpz){ lx = clamp(bpz.x * C.W - bw / 2, -bw * 0.3, C.W - bw * 0.7); y = clamp(bpz.y * C.H - h / 2, -h * 0.3, C.H - h * 0.7); }
   if(pill){
     const m = String(color).match(/rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/), rgb = m ? [+m[1], +m[2], +m[3]] : hexRgb(color);
     const ph = Math.min(h, size * 1.9), py = y + (h - ph) / 2, light = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255 > 0.55;
@@ -1762,6 +1804,7 @@ function renderTo(cv, opts){
   opts = opts || {};
   const d = opts.tpl ? Object.assign({}, D(), TPLS[opts.tpl].def, { template: opts.tpl, textY: 0, thumb: true, headFont: TPLS[opts.tpl].def.headFont || '', hlStyle: TPLS[opts.tpl].def.hlStyle || '', hlFont: '' }) : D();
   const [W, H] = RATIOS[opts.ratio || d.ratio] || RATIOS['1:1'];
+  C.W = W; C.H = H; C.rk = RATIOS[opts.ratio || d.ratio] ? (opts.ratio || d.ratio) : '1:1';
   const sc = opts.size ? opts.size / Math.max(W, H) : 1;
   const cw = Math.round(W * sc), ch = Math.round(H * sc);
   if(cv.width !== cw) cv.width = cw; if(cv.height !== ch) cv.height = ch;
@@ -2003,7 +2046,7 @@ function buildGallery(){
 }
 function renderGallery(){ ensureFonts(galleryFonts()).then(() => { if(S.tab === 'design') setTimeout(renderGalleryNow, 0); }); }
 function renderGalleryNow(){ document.querySelectorAll('#gallery .tpl').forEach(b => renderTo(b.querySelector('canvas'), { tpl: b.dataset.tpl, ratio: '1:1', size: 220 })); }
-function applyTemplate(k){ const d = D(), def = TPLS[k].def; Object.assign(d, def, { template: k, textY: 0, hcol:'', acol:'', rcol:'', ncol:'', bcol:'', headFont: def.headFont || '', hlStyle: def.hlStyle || '', hlFont: def.hlFont || '' }); if(!def.afont) d.afont = d.afont || 'amiri'; syncDesign(); saveSoon(); render(); }
+function applyTemplate(k){ const d = D(), def = TPLS[k].def; Object.assign(d, def, { template: k, textY: 0, pos: {}, hcol:'', acol:'', rcol:'', ncol:'', bcol:'', headFont: def.headFont || '', hlStyle: def.hlStyle || '', hlFont: def.hlFont || '' }); if(!def.afont) d.afont = d.afont || 'amiri'; syncDesign(); saveSoon(); render(); }
 function shuffle(){
   const d = D(), list = tplsFor(MODE), pals = PALS[MODE];
   const k = list[(list.indexOf(d.template) + 1) % list.length]; applyTemplate(k);
@@ -2454,6 +2497,16 @@ function renderLib(){
 }
 
 /* ================= canvas interaction ================= */
+/* drag one part of the card: main text moves the whole text block, every other part (heading, Arabic, reference, extra line / date, page name) moves on its own */
+function dragPart(drag, ratio, W, H, dx, dy){
+  const g = drag.hit; if(!g) return;
+  if(!drag.base){
+    if(g.k === 'text'){ drag.key = 'block'; drag.base = { x: 0.5, y: (drag.blockCy != null ? drag.blockCy : g.y + g.h / 2) / H }; }
+    else { drag.key = g.k; drag.base = { x: (g.x + g.w / 2) / W, y: (g.y + g.h / 2) / H }; }
+  }
+  drag.base.x = clamp(drag.base.x + dx / W, 0.02, 0.98); drag.base.y = clamp(drag.base.y + dy / H, 0.02, 0.98);
+  posSet(ratio, drag.key, drag.base.x, drag.base.y);
+}
 function wireCanvas(){
   const cv = $('cv'); let drag = null; const PTS = new Map(); let pinch = null;
   const pdist = () => { const a = Array.from(PTS.values()); return Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y) || 1; };
@@ -2462,19 +2515,19 @@ function wireCanvas(){
   cv.addEventListener('pointerdown', e => {
     const p = pt(e); PTS.set(e.pointerId, { x: e.clientX, y: e.clientY }); try{ cv.setPointerCapture(e.pointerId); }catch(er){}
     if(PTS.size === 2){ pinch = { d: pdist(), z: C.zoom }; drag = null; return; }
-    drag = { last: p, start: p, hit: hit(p), moved: false }; cv.classList.add('dragging');
+    drag = { last: p, start: p, hit: hit(p), moved: false, blockCy: C.blockCy }; cv.classList.add('dragging');
   });
   cv.addEventListener('pointermove', e => {
     if(PTS.has(e.pointerId)) PTS.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if(pinch && PTS.size >= 2){ if(hasImg()){ C.zoom = clamp(Math.round(pinch.z * pdist() / pinch.d), 100, 300); $('zoom').value = C.zoom; render(); } return; }
     const p = pt(e);
-    if(!drag){ const h = hit(p); cv.style.cursor = h && h.k !== 'photo' && h.k !== 'logo' ? 'text' : 'grab'; return; }
+    if(!drag){ const h = hit(p); cv.style.cursor = h && h.k !== 'photo' ? 'move' : 'grab'; return; }
     const dx = p.x - drag.last.x, dy = p.y - drag.last.y; drag.last = p;
     if(!drag.moved && Math.hypot(p.x - drag.start.x, p.y - drag.start.y) < 6) return;
     drag.moved = true;
     const k = drag.hit ? drag.hit.k : null, [W, H] = RATIOS[D().ratio], u = Math.min(W, H) / 1080;
     if(k === 'logo'){ const b = B(); b.logoDX += dx / W; b.logoDY += dy / H; }
-    else if(k && k !== 'photo'){ const d = D(); d.textY = clamp(d.textY + dy / u, -400, 400); $('textY').value = Math.round(d.textY); }
+    else if(k && k !== 'photo'){ dragPart(drag, D().ratio, W, H, dx, dy); }
     else { if(C.pmax.x > 0) C.panX = clamp(C.panX + dx / C.pmax.x, -1, 1); if(C.pmax.y > 0) C.panY = clamp(C.panY + dy / C.pmax.y, -1, 1); }
     render();
   });
@@ -3350,7 +3403,9 @@ function init(){
   $('undoTextBtn').addEventListener('click', undoText);
   // design
   [['bFont', 'bfont'], ['aFont', 'afont'], ['headFont', 'headFont'], ['hlFont', 'hlFont'], ['hlStyle', 'hlStyle']].forEach(([id, k]) => $(id).addEventListener('change', () => { D()[k] = $(id).value; saveSoon(); ensureFonts().then(render); render(); }));
-  [['textY', 'textY'], ['overlay', 'overlay'], ['blur', 'blur']].forEach(([id, k]) => $(id).addEventListener('input', () => { D()[k] = +$(id).value; saveSoon(); render(); }));
+  [['textY', 'textY'], ['overlay', 'overlay'], ['blur', 'blur']].forEach(([id, k]) => $(id).addEventListener('input', () => { const d = D(); d[k] = +$(id).value;
+    if(k === 'textY' && d.pos) Object.keys(d.pos).forEach(r => { if(d.pos[r]) delete d.pos[r].block; }); saveSoon(); render(); }));
+  $('posResetBtn').addEventListener('click', () => { posClear(); D().textY = 0; syncDesign(); saveSoon(); render(); toast(t('posDone')); });
   [['cTc', 'tc'], ['cAc', 'accent'], ['cAc2', 'accent2'], ['cHl', 'hl']].forEach(([id, k]) => $(id).addEventListener('input', () => { D()[k] = $(id).value; saveSoon(); render(); }));
   document.querySelectorAll('#alignSeg [data-align]').forEach(b => b.addEventListener('click', () => { D().align = b.dataset.align; syncDesign(); saveSoon(); render(); }));
   document.querySelectorAll('#ratioSeg [data-ratio]').forEach(b => b.addEventListener('click', () => { D().ratio = b.dataset.ratio; syncDesign(); saveSoon(); render(); }));
@@ -3544,6 +3599,12 @@ function bnN(n){ return LANG === 'bn' ? bnNum(n) : String(n); }
 /* ================= 🧹 New post: clears ONLY the current post (text, caption, photo, suggestions).
    Keeps API keys, logo, page name, design, library and the "never repeat" story/quote memory. ================= */
 Object.assign(T.en, { newPost:'Reset', newPost2:'🧹 Clear the card — start a new post', newPostHint:'Clears only the text, caption and photo. Logo, page name, design and API key stay.', newDone:'🧹 Fresh card ready — your logo, page name, design and API key are kept.', newUndo:'↩ Undo' });
+Object.assign(T.en, { stageHint:'Click any text to edit it. Drag the main text to move the whole block; drag the heading, reference, extra line / date or page name to put each one anywhere. Drag the photo or logo too.',
+  posHint:'✋ Drag any part on the card to place it anywhere — it stays the same in the reel.', posReset:'📍 Reset positions', posDone:'📍 Positions back to default',
+  ddOpen:'tap to open', rPosHint:'✋ Drag text, heading, date or page name on the video to move it (saved for this reel size).' });
+Object.assign(T.bn, { stageHint:'যেকোনো লেখায় ক্লিক করলে সম্পাদনা করা যাবে। মূল লেখা টানলে পুরো লেখার অংশ সরবে; শিরোনাম, রেফারেন্স, অতিরিক্ত লাইন/তারিখ বা পেজের নাম আলাদা আলাদা টেনে যেকোনো জায়গায় বসাতে পারবেন। ছবি ও লোগোও টেনে সরান।',
+  posHint:'✋ কার্ডের যেকোনো অংশ টেনে যেখানে খুশি বসান — রিলেও একই জায়গায় থাকবে।', posReset:'📍 অবস্থান রিসেট', posDone:'📍 সব অবস্থান আগের মতো করা হলো',
+  ddOpen:'চাপলে খুলবে', rPosHint:'✋ ভিডিওর উপর লেখা, শিরোনাম, তারিখ বা পেজের নাম টেনে সরান (এই রিল সাইজের জন্য সেভ থাকবে)।' });
 Object.assign(T.bn, { newPost:'রিসেট', newPost2:'🧹 লেখা মুছে নতুন পোস্ট শুরু করুন', newPostHint:'শুধু লেখা, ক্যাপশন ও ছবি মুছবে। লোগো, পেজের নাম, ডিজাইন ও API কী থাকবে।', newDone:'🧹 নতুন খালি কার্ড তৈরি — লোগো, পেজের নাম, ডিজাইন ও API কী সব আছে।', newUndo:'↩ ফিরিয়ে আনুন' });
 let NEW_BACK = null, newBarT = 0;
 function newPost(){
@@ -3584,7 +3645,7 @@ Object.assign(T.en, {
   rShareTip:'In Facebook choose “Reel”. If the caption was copied, long-press the text box → Paste.',
   rNoAudio:'This browser could not add sound — the video was made without sound. Add music inside Facebook.',
   rSlow:'Real-time recording (this browser has no fast video maker) — please wait…', rFail:'Could not make the video: ', rNoRec:'This browser cannot make video. Please use Chrome.',
-  rOwnFail:'Could not read this audio file', rBack:'← Back to Reel Studio', rTip:'Tip: tap the video to play / pause'
+  rOwnFail:'Could not read this audio file', rBack:'← Back to Reel Studio', rTip:'Tip: tap the video to play / pause · drag the text to move it'
 });
 Object.assign(T.bn, {
   reelBtn:'🎬 রিল', rTitle:'🎬 রিল স্টুডিও', rStyle:'এই রিলের স্টাইল', rRoll:'🎲 নতুন স্টাইল', rNew:'✓ নতুন — আগে ব্যবহার হয়নি', rUsed:'আগে ব্যবহৃত',
@@ -3601,7 +3662,7 @@ Object.assign(T.bn, {
   rShareTip:'Facebook-এ “Reel” বেছে নিন। ক্যাপশন কপি হয়ে থাকলে লেখার ঘরে চেপে ধরে Paste করুন।',
   rNoAudio:'এই ব্রাউজারে শব্দ যোগ করা গেল না — ভিডিওটি শব্দ ছাড়া তৈরি হয়েছে। Facebook-এ মিউজিক যোগ করুন।',
   rSlow:'রিয়েল-টাইম রেকর্ডিং চলছে (এই ব্রাউজারে দ্রুত ভিডিও মেকার নেই) — একটু অপেক্ষা করুন…', rFail:'ভিডিও তৈরি করা গেল না: ', rNoRec:'এই ব্রাউজারে ভিডিও বানানো যায় না। Chrome ব্যবহার করুন।',
-  rOwnFail:'এই অডিও ফাইলটি পড়া গেল না', rBack:'← রিল স্টুডিওতে ফিরুন', rTip:'টিপস: ভিডিওর উপর চাপলে প্লে / থামবে'
+  rOwnFail:'এই অডিও ফাইলটি পড়া গেল না', rBack:'← রিল স্টুডিওতে ফিরুন', rTip:'টিপস: ভিডিওর উপর চাপলে প্লে / থামবে · লেখা টেনে সরানো যাবে'
 });
 
 const REEL = { on:false, k:0, wk:0, W:1080, H:1080, u:1, sc:1, pre:null, fxDone:false, cam:null,
@@ -3808,12 +3869,13 @@ function reelFx(ctx, x, y, w, h, u, amt){
 
 /* ---- one frame of the card (photo camera + text entrance + scene effect) ---- */
 function reelCard(cv, ratio, size){
-  const keep = { regions:C.regions, pmax:C.pmax, textFs:C.textFs, lr:C.logoReserve };
+  const keep = { regions:C.regions, pmax:C.pmax, textFs:C.textFs, lr:C.logoReserve, bcy:C.blockCy };
   const [W, H] = RATIOS[ratio], r = RS.recipe;
   Object.assign(REEL, { on:true, k:0, wk:0, fxDone:false, W, H, u:Math.min(W, H) / 1080, sc:size / Math.max(W, H), pre:null });
   REEL.cam = r ? RX.cam[r.cam].f(ease(RS.t / RS.dur), RS.t * r.spd, r.dir) : null;
   try{ renderTo(cv, { ratio, size }); } finally {
-    REEL.on = false; C.regions = keep.regions; C.pmax = keep.pmax; C.textFs = keep.textFs; C.logoReserve = keep.lr; }
+    REEL.hit = { regions:C.regions, blockCy:C.blockCy, W, H, ratio };
+    REEL.on = false; C.regions = keep.regions; C.pmax = keep.pmax; C.textFs = keep.textFs; C.logoReserve = keep.lr; C.blockCy = keep.bcy; }
 }
 function reelCount(){ const c = document.createElement('canvas'), t = RS.t; RS.t = 1e4; reelCard(c, reelCardRatio(), 160); RS.nLines = Math.max(1, REEL.k); RS.nWords = Math.max(1, REEL.wk); RS.t = t; }
 function reelCardRatio(){ return RS.layout === 'fill' ? RS.ratio : D().ratio; }
@@ -3850,6 +3912,7 @@ function reelCompose(ctx, OW, OH){
   let fxBox = { x:0, y:0, w:OW, h:OH };
   if(!reelFramed()){
     reelCard(RS.cardCv, RS.ratio, Math.max(OW, OH));
+    RS.map = { x:0, y:0, s:OW / REEL.hit.W, hit:REEL.hit };
     if(!hasImg() && r){ const c = RX.cam[r.cam].f(ease(t / d), t * r.spd, r.dir), s = 1 + (c.s - 1) * 0.5 + 0.012;
       ctx.save(); ctx.translate(OW / 2 + c.x * OW * 0.4, OH / 2 + c.y * OH * 0.4); if(c.r) ctx.rotate(c.r * 0.5); ctx.scale(s, s); ctx.drawImage(RS.cardCv, -OW / 2, -OH / 2, OW, OH); ctx.restore(); }
     else ctx.drawImage(RS.cardCv, 0, 0, OW, OH);
@@ -3860,6 +3923,7 @@ function reelCompose(ctx, OW, OH){
     ctx.save(); ctx.translate(OW / 2, b.y + b.h / 2 + bob); ctx.scale(fl, fl); ctx.translate(-OW / 2, -(b.y + b.h / 2));
     const m = RS.shadow.m * (b.w / (RS.shadow.cv.width - RS.shadow.m * 2)); ctx.drawImage(RS.shadow.cv, b.x - m, b.y - m, b.w + m * 2, b.h + m * 2);
     reelCard(RS.cardCv, D().ratio, Math.round(Math.max(b.w, b.h)));
+    RS.map = { x:b.x, y:b.y, s:b.w / REEL.hit.W, hit:REEL.hit };
     rr(ctx, b.x, b.y, b.w, b.h, b.rad); ctx.clip(); ctx.drawImage(RS.cardCv, b.x, b.y, b.w, b.h); ctx.restore();
     fxBox = b;
   }
@@ -4133,6 +4197,28 @@ async function reelShare(){
   if(can){ try{ await navigator.share({ files:[file] }); }catch(e){ if(e && e.name !== 'AbortError') download(RS.blob, RS.name); } }
   else download(RS.blob, RS.name);
 }
+/* drag text parts right on the reel preview — positions are saved for this reel size */
+function reelWireDrag(){
+  const cv = $('rvCv'); let drag = null;
+  const pt = e => { const m = RS.map; if(!m) return null; const r = cv.getBoundingClientRect(); if(!r.width) return null;
+    const ox = (e.clientX - r.left) * cv.width / r.width, oy = (e.clientY - r.top) * cv.height / r.height; return { x:(ox - m.x) / m.s, y:(oy - m.y) / m.s }; };
+  const hitAt = p => { const R = RS.map && RS.map.hit; if(!R || !p) return null;
+    for(let i = R.regions.length - 1; i >= 0; i--){ const g = R.regions[i]; if(g.k === 'photo' || g.k === 'logo') continue; if(p.x >= g.x && p.x <= g.x + g.w && p.y >= g.y && p.y <= g.y + g.h) return g; } return null; };
+  cv.addEventListener('pointerdown', e => {
+    if(RS.exporting) return; const p = pt(e), g = hitAt(p); if(!g) return;
+    drag = { last:p, start:p, hit:g, moved:false, blockCy:RS.map.hit.blockCy, ratio:RS.map.hit.ratio, W:RS.map.hit.W, H:RS.map.hit.H };
+    try{ cv.setPointerCapture(e.pointerId); }catch(er){}
+  });
+  cv.addEventListener('pointermove', e => {
+    const p = pt(e); if(!p) return;
+    if(!drag){ cv.style.cursor = hitAt(p) ? 'move' : 'pointer'; return; }
+    if(!drag.moved){ if(Math.hypot(p.x - drag.start.x, p.y - drag.start.y) * RS.map.s < 6) return; drag.moved = true; if(RS.playing) reelPlay(false); }
+    const dx = p.x - drag.last.x, dy = p.y - drag.last.y; drag.last = p;
+    dragPart(drag, drag.ratio, drag.W, drag.H, dx, dy); reelDraw();
+  });
+  const end = () => { if(!drag) return; if(drag.moved){ RS.noClick = true; RS.bg = null; saveSoon(); reelDraw(); setTimeout(() => { RS.noClick = false; }, 400); } drag = null; };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+}
 function reelWire(){
   $('reelBtn').addEventListener('click', reelOpen);
   $('rvClose').addEventListener('click', () => reelClose(false));
@@ -4140,7 +4226,9 @@ function reelWire(){
   document.addEventListener('visibilitychange', () => { if(document.hidden && RS.open && RS.playing) reelPlay(false); });
   $('rvRoll').addEventListener('click', () => { reelRoll(); reelPlay(true); });
   $('rvPlay').addEventListener('click', () => reelPlay(!RS.playing));
-  $('rvStage').addEventListener('click', () => reelPlay(!RS.playing));
+  $('rvStage').addEventListener('click', () => { if(RS.noClick){ RS.noClick = false; return; } reelPlay(!RS.playing); });
+  reelWireDrag();
+  $('rvPosReset').addEventListener('click', () => { posClear(reelCardRatio()); RS.bg = null; saveSoon(); if(!RS.playing) reelDraw(); toast(t('posDone')); });
   $('rvMake').addEventListener('click', reelExport);
   $('rvCancel').addEventListener('click', () => { RS.cancel = true; });
   $('rvRatio').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if(!b) return; RS.ratio = b.dataset.r; reelSavePrefs(); reelUi(); reelRefresh(true); });
