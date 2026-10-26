@@ -238,6 +238,9 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
 .qcard .qc b{color:var(--accent)}
 #brandNudge input{border:1px solid var(--warn-line);border-radius:8px;padding:8px 10px;background:var(--surface);font-size:15px;min-width:0}
 /* ===== new post (clear only the current post) ===== */
+.newrow{display:flex;flex-direction:column;gap:4px;margin:0 0 12px}
+.newrow .btn{width:100%;padding:11px 12px;font-size:14.5px;font-weight:600;border:1.5px dashed color-mix(in srgb,var(--accent) 55%,var(--line));color:var(--accent);background:var(--surface);border-radius:12px}
+.newrow small{font-size:11.5px;color:var(--muted);text-align:center}
 .btn.newbtn{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));color:var(--accent);font-weight:600;white-space:nowrap}
 @media (max-width:560px){.btn.newbtn{padding:7px 9px;font-size:12.5px}}
 #newBar{position:fixed;left:8px;right:8px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:86;background:var(--text);color:var(--bg);border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:13.5px;line-height:1.45}
@@ -351,6 +354,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
 
     <!-- TEXT -->
     <div class="pane" id="p-text">
+      <div class="newrow"><button type="button" class="btn" id="newPostBtn2" data-i18n="newPost2"></button><small data-i18n="newPostHint"></small></div>
       <div class="banner hidden install-ui" id="installBanner"><b data-i18n="installBannerText"></b><button type="button" class="btn primary sm" id="installBtn2" data-i18n="install"></button><button type="button" class="btn sm" id="installX" aria-label="close">✕</button></div>
       <div class="warn hidden" id="brandNudge"><b data-i18n="nudgeTitle"></b><span class="row" style="margin-top:6px;gap:6px"><input type="text" id="nudgeName" data-i18n-ph="nudgePh" style="flex:1 1 160px"><button type="button" class="btn primary sm" id="nudgeSave" data-i18n="save"></button></span></div>
       <div class="sect qgen" id="qgen">
@@ -3424,7 +3428,7 @@ function init(){
   $('memSaveBtn').addEventListener('click', () => memSave(false)); $('memDriveBtn').addEventListener('click', () => memSave(true));
   $('memLoadBtn').addEventListener('click', () => $('memFile').click()); $('memFile').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if(f) memLoadFile(f); });
   memUi();
-  $('newPostBtn').addEventListener('click', newPost); $('newUndo').addEventListener('click', newPostUndo);
+  $('newPostBtn').addEventListener('click', newPost); $('newPostBtn2').addEventListener('click', newPost); $('newUndo').addEventListener('click', newPostUndo);
   if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { render(); });
   setMode(MODE); updateImgUi(); renderAiThumbs(); refreshKeyHints(); writerBadge();
   ensureFonts().then(() => { render(); renderGallery(); });
@@ -3492,8 +3496,8 @@ function bnN(n){ return LANG === 'bn' ? bnNum(n) : String(n); }
 
 /* ================= 🧹 New post: clears ONLY the current post (text, caption, photo, suggestions).
    Keeps API keys, logo, page name, design, library and the "never repeat" story/quote memory. ================= */
-Object.assign(T.en, { newPost:'New post', newDone:'🧹 Fresh card ready — your logo, page name, design and API key are kept.', newUndo:'↩ Undo' });
-Object.assign(T.bn, { newPost:'নতুন পোস্ট', newDone:'🧹 নতুন খালি কার্ড তৈরি — লোগো, পেজের নাম, ডিজাইন ও API কী সব আছে।', newUndo:'↩ ফিরিয়ে আনুন' });
+Object.assign(T.en, { newPost:'Reset', newPost2:'🧹 Clear the card — start a new post', newPostHint:'Clears only the text, caption and photo. Logo, page name, design and API key stay.', newDone:'🧹 Fresh card ready — your logo, page name, design and API key are kept.', newUndo:'↩ Undo' });
+Object.assign(T.bn, { newPost:'রিসেট', newPost2:'🧹 লেখা মুছে নতুন পোস্ট শুরু করুন', newPostHint:'শুধু লেখা, ক্যাপশন ও ছবি মুছবে। লোগো, পেজের নাম, ডিজাইন ও API কী থাকবে।', newDone:'🧹 নতুন খালি কার্ড তৈরি — লোগো, পেজের নাম, ডিজাইন ও API কী সব আছে।', newUndo:'↩ ফিরিয়ে আনুন' });
 let NEW_BACK = null, newBarT = 0;
 function newPost(){
   NEW_BACK = { mode: MODE, f: JSON.stringify(F()), cap: $('capText').value, isrc: C.isrc, upUrl: C.upUrl, aiUrl: C.aiUrl, linkUrl: C.linkUrl, panX: C.panX, panY: C.panY, zoom: C.zoom };
