@@ -650,7 +650,14 @@ html.reel-open,html.reel-open body{overflow:hidden}
         <div class="row" style="margin-top:8px"><button type="button" class="btn primary" id="fullBackupBtn" data-i18n="fullBackup"></button><button type="button" class="btn" id="fullRestoreBtn" data-i18n="fullRestore"></button><input type="file" id="fullFile" class="hidden" accept="application/json,.json"></div>
         <p class="note" data-i18n="fullNote"></p>
       </div>
+      <div class="sect" style="border:2px solid var(--accent)"><h4><span data-i18n="memTitle"></span></h4>
+        <p class="note" style="margin-top:0" data-i18n="memNote"></p>
+        <div class="okbox" id="memCount"></div>
+        <div class="row"><button type="button" class="btn primary" id="memSaveBtn" data-i18n="memSave"></button><button type="button" class="btn" id="memDriveBtn" data-i18n="memDrive"></button><button type="button" class="btn" id="memLoadBtn" data-i18n="memLoad"></button><input type="file" id="memFile" class="hidden" accept="application/json,.json"></div>
+        <p class="note" data-i18n="memTip"></p>
+      </div>
       <div class="sect" style="border-color:var(--warn-line)"><h4><span data-i18n="resetTitle"></span></h4>
+        <p class="okbox" style="margin-top:0" data-i18n="memReset"></p>
         <div class="row"><button type="button" class="btn sm" id="hdrResetBtn" style="color:var(--danger);border-color:var(--danger)">⟲ <span data-i18n="allReset"></span></button><button type="button" class="btn sm" id="resetAllBtn" data-i18n="resetAll"></button><button type="button" class="btn sm" id="masterResetBtn" data-i18n="masterReset" style="color:var(--danger);border-color:var(--danger)"></button></div>
         <label class="chk" style="margin-top:8px"><input type="checkbox" id="keepLib" checked> <span data-i18n="keepLib"></span></label>
         <p class="note" data-i18n="resetNote"></p>
@@ -746,8 +753,36 @@ html.reel-open,html.reel-open body{overflow:hidden}
 /* ================= helpers ================= */
 const $ = id => document.getElementById(id);
 const store = {
-  get(k, d){ try{ const v = localStorage.getItem('tfpc_' + k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
-  set(k, v){ try{ localStorage.setItem('tfpc_' + k, JSON.stringify(v)); return true; }catch(e){ return false; } }
+  get(k, d){ if(MEMK(k)) return MEM.get(k, d); try{ const v = localStorage.getItem('tfpc_' + k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ if(MEMK(k)) return MEM.set(k, v); try{ localStorage.setItem('tfpc_' + k, JSON.stringify(v)); return true; }catch(e){ return false; } }
+};
+/* ===== 🧠 REPEAT-MEMORY: everything that must never repeat (stories, emotional lines, published cards, reels,
+   hadith/ayah used) lives in IndexedDB — large, kept by the browser, untouched by any reset button.
+   It is merged (never overwritten) when a memory backup is restored. ===== */
+const MEMK = k => /^(st_hist_|qg_hist_|qg_angles_|reel_hist_|pub_hist_)/.test(k);
+function memId(x){ return typeof x === 'string' ? x : (x && (x.k || x.text)) || JSON.stringify(x); }
+function memMerge(a, b){
+  if(!Array.isArray(a)) return Array.isArray(b) ? b : a; if(!Array.isArray(b)) return a;
+  const seen = new Map(), out = [];
+  a.concat(b).forEach(x => { const i = memId(x); if(seen.has(i)){ const o = seen.get(i); if(o && typeof o === 'object' && x && x.kinds) o.kinds = Array.from(new Set((o.kinds || []).concat(x.kinds))); return; } seen.set(i, x); out.push(x); });
+  if(out.length && out[0] && typeof out[0] === 'object' && out[0].t) out.sort((x, y) => (x.t || 0) - (y.t || 0));
+  return out;
+}
+const MEM = { db:null, data:{}, ok:false,
+  open(){ return new Promise(res => { try{ const r = indexedDB.open('tfpc-memory', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => res(null); r.onblocked = () => res(null); }catch(e){ res(null); } }); },
+  async load(){
+    this.db = await Promise.race([this.open(), new Promise(r => setTimeout(() => r(null), 4000))]);
+    if(this.db) await new Promise(res => { try{ const rq = this.db.transaction('kv', 'readonly').objectStore('kv').openCursor();
+      rq.onsuccess = () => { const c = rq.result; if(c){ this.data[c.key] = c.value; c.continue(); } else { this.ok = true; res(); } }; rq.onerror = () => res(); }catch(e){ res(); } });
+    try{ Object.keys(localStorage).forEach(full => { if(full.indexOf('tfpc_') !== 0) return; const k = full.slice(5); if(!MEMK(k)) return;
+      const v = JSON.parse(localStorage.getItem(full)); this.data[k] = memMerge(this.data[k], v); if(this.ok){ this.put(k); localStorage.removeItem(full); } }); }catch(e){}
+    try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+  },
+  get(k, d){ return Object.prototype.hasOwnProperty.call(this.data, k) ? this.data[k] : d; },
+  set(k, v){ this.data[k] = v; if(this.ok) this.put(k); else { try{ localStorage.setItem('tfpc_' + k, JSON.stringify(v)); }catch(e){ return false; } } return true; },
+  put(k){ try{ this.db.transaction('kv', 'readwrite').objectStore('kv').put(this.data[k], k); }catch(e){} },
+  merge(k, v){ this.set(k, memMerge(this.get(k, []), v)); },
+  keys(){ return Object.keys(this.data).filter(MEMK); }
 };
 const BN = '০১২৩৪৫৬৭৮৯';
 const bnNum = s => String(s).replace(/\d/g, d => BN[d]);
@@ -997,6 +1032,7 @@ function applyI18n(){
   $('langBtn').textContent = LANG === 'en' ? 'বাংলা' : 'English';
   if($('langBtn2')) $('langBtn2').textContent = t('langNow');
   if($('themeBtn2')) $('themeBtn2').textContent = document.documentElement.dataset.theme === 'dark' ? t('themeLight') : t('themeDark');
+  if($('memCount')) memUi();
 }
 
 /* ================= fonts & templates registry ================= */
@@ -1907,7 +1943,7 @@ function syncFields(){
   $('sacredWarn').classList.toggle('hidden', !isSacred());
   document.querySelectorAll('[data-tool]').forEach(b => { b.disabled = isSacred() && b.dataset.tool !== 'heading'; });
 }
-function setFields(o, origin){ const f = F(); pushUndo(); Object.assign(f, { heading: '', arabic: '', text: '', ref: '', note: '' }, o); f.origin = origin || 'manual'; if(!o.full) f.full = null; syncFields(); saveSoon(); render(); }
+function setFields(o, origin){ const f = F(); pushUndo(); Object.assign(f, { heading: '', arabic: '', text: '', ref: '', note: '', srcId: '' }, o); f.origin = origin || 'manual'; if(!o.full) f.full = null; syncFields(); saveSoon(); render(); }
 function pushUndo(){ C.undo.push(JSON.stringify(F())); if(C.undo.length > 20) C.undo.shift(); }
 function syncDesign(){
   const d = D();
@@ -1986,6 +2022,7 @@ function showTab(k){
   if(k === 'design') renderGallery();
   if(k === 'library') renderLib();
   if(k === 'caption') renderMono();
+  if(k === 'settings') memUi();
   refreshKeyHints();
   if(matchMedia('(max-width:900px)').matches && window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -2040,8 +2077,11 @@ async function getHadith(kind){
   const step = kind === 'prev' ? -1 : 1, sahih = $('hSahih').checked;
   H_BUSY = true; busy('hStatus', true); let skipped = 0, got = null;
   try{
-    for(let i = 0; i < 12 && !got; i++){
+    const usedH = (kind === 'today' || kind === 'random' || kind === 'next') ? usedSrcSet() : null;
+    for(let i = 0, f = 0; f < 12 && i < 400 && !got; i++){
       if(n > bk.max) n = 1; if(n < 1) n = bk.max;
+      if(usedH && usedH.has('h:' + bk.id + ':' + n)){ n = kind === 'random' ? 1 + Math.floor(Math.random() * bk.max) : n + step; continue; }
+      f++;
       try{ const h = await fetchHadith(bk.id, n, 'ben'); if(h.text.length > 15 && (!sahih || gradeOk(h.grades))) got = h; else skipped++; }
       catch(e){ if(e.status !== 404 && e.message !== 'empty') throw e; skipped++; }
       if(!got) n = kind === 'random' ? 1 + Math.floor(Math.random() * bk.max) : n + step;
@@ -2052,7 +2092,7 @@ async function getHadith(kind){
     const g = mainGrade(got.grades);
     const ref = bk.bn + ', হাদিস: ' + bnNum(got.n) + ($('hGrade').checked && g ? ' (' + gradeBn(g) + ')' : '');
     H_LAST = { book: bk.id, n: got.n }; store.set('hlast', H_LAST); $('hNum').value = got.n;
-    setFields({ heading: kind === 'today' ? 'আজকের হাদিস' : 'হাদিসের বাণী', arabic, text: got.text, ref, full: { text: got.text, arabic, ref } }, 'hadith');
+    setFields({ heading: kind === 'today' ? 'আজকের হাদিস' : 'হাদিসের বাণী', arabic, text: got.text, ref, full: { text: got.text, arabic, ref }, srcId: 'h:' + bk.id + ':' + got.n }, 'hadith');
     const meta = $('hMeta'); meta.innerHTML = ''; meta.classList.remove('hidden');
     const add = (lbl, val) => { const b = document.createElement('b'); b.textContent = lbl + ': '; meta.append(b, document.createTextNode(val), document.createElement('br')); };
     add(t('hBook'), (LANG === 'bn' ? bk.bn : bk.en) + ' #' + got.n);
@@ -2087,6 +2127,8 @@ async function getAyah(kind){
   if(kind === 'today') ref = String((dayIndex() * 37) % 6236 + 1);
   else if(kind === 'random') ref = String(1 + Math.floor(Math.random() * 6236));
   else if(kind === 'next') ref = String(A_LAST ? (A_LAST.num % 6236) + 1 : 1);
+  if(kind === 'today' || kind === 'random' || kind === 'next'){ const used = usedSrcSet(); let num = +ref;
+    for(let i = 0; i < 6236 && used.has('a:' + num); i++) num = kind === 'random' ? 1 + Math.floor(Math.random() * 6236) : (num % 6236) + 1; ref = String(num); }
   else { ref = String($('aRefIn').value || '').replace(/[০-৯]/g, d => BN.indexOf(d)).replace(/\s+/g, '').replace(/[।.,-]/, ':'); if(!/^\d{1,3}:\d{1,3}$|^\d{1,4}$/.test(ref)){ toast(t('tAyahFail')); return; } }
   A_BUSY = true; busy('aStatus', true);
   try{
@@ -2100,7 +2142,7 @@ async function getAyah(kind){
     const refTxt = 'সূরা ' + (SURAH[s - 1] || ar.surah.englishName) + ', আয়াত ' + bnNum(a) + ' (' + bnNum(s) + ':' + bnNum(a) + ')';
     A_LAST = { num: ar.number, s, a }; store.set('alast', A_LAST); $('aRefIn').value = s + ':' + a;
     const useAr = $('aArabic').checked ? arabic : '';
-    setFields({ heading: kind === 'today' ? 'আজকের আয়াত' : 'কুরআনের বাণী', arabic: useAr, text, ref: refTxt, full: { text, arabic, ref: refTxt } }, 'ayah');
+    setFields({ heading: kind === 'today' ? 'আজকের আয়াত' : 'কুরআনের বাণী', arabic: useAr, text, ref: refTxt, full: { text, arabic, ref: refTxt }, srcId: 'a:' + ar.number }, 'ayah');
     const meta = $('aMeta'); meta.innerHTML = ''; meta.classList.remove('hidden');
     const b = document.createElement('b'); b.textContent = (SURAH[s - 1] || '') + ' — ' + ar.surah.englishName + ' ' + s + ':' + a; meta.append(b, document.createElement('br'), document.createTextNode((bn.edition && bn.edition.englishName) || tr));
   }catch(e){ toast(t('tAyahFail')); }
@@ -2139,7 +2181,7 @@ async function aiWrite(){
   try{
     if(MODE === 'islamic' && $('aiSource').value !== 'none'){ renderPostOptions(await verifiedPosts(topic || L(type.n), 3)); return; }
     const what = type.id === 'custom' ? 'Follow this instruction: ' + topic : 'Write ' + type.p + (topic ? ' on the topic: "' + topic + '"' : '') + '.';
-    const prompt = 'You write social-media photo-card text for a Bengali Facebook page. ' + what + ' Write 3 different options in Bengali. Each "text" must be ' + LEN_TXT[$('aiLen').value] + '; use line breaks (\\n) for rhythm where natural; wrap the 1–2 most important words in *asterisks* for highlighting. "heading" is an optional 1–3 word label (e.g. "জীবনের কথা"). Leave "ref" empty. ' + (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + styleBlock() + ' Return ONLY JSON: {"options":[{"heading":"","text":"","ref":""}]}';
+    const prompt = 'You write social-media photo-card text for a Bengali Facebook page. ' + what + ' Write 3 different options in Bengali. Each "text" must be ' + LEN_TXT[$('aiLen').value] + '; use line breaks (\\n) for rhythm where natural; wrap the 1–2 most important words in *asterisks* for highlighting. "heading" is an optional 1–3 word label (e.g. "জীবনের কথা"). Leave "ref" empty. ' + (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + avoidBlock() + styleBlock() + ' Return ONLY JSON: {"options":[{"heading":"","text":"","ref":""}]}';
     const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.95, responseMimeType: 'application/json' } }, 60000);
     let opts = (parseJson(r.text).options || []).map(o => ({ heading: norm(o.heading || ''), text: clean(o.text || '').replace(/\\n/g, '\n'), ref: '' })).filter(o => o.text);
     let dropped = 0;
@@ -2350,7 +2392,7 @@ async function exportCard(type){
   await ensureFonts(); renderTo($('cv'));
   return new Promise(res => { try{ $('cv').toBlob(b => { if(!b){ toast(t('tTaint')); res(null); return; } res(b); }, type === 'jpg' ? 'image/jpeg' : 'image/png', 0.93); }catch(e){ toast(t('tTaint')); res(null); } });
 }
-async function downloadCard(type){ const b = await exportCard(type); if(b){ download(b, fileName(type)); toast(monoWarn() || t('tDl')); } }
+async function downloadCard(type){ if(!pubOk()) return; const b = await exportCard(type); if(b){ download(b, fileName(type)); pubRecord(type); toast(monoWarn() || t('tDl')); } }
 /* share window: "caption + card" or "card only". Facebook never accepts a pre-filled caption from apps,
    so the caption is copied at the moment of the tap and a paste reminder stays on screen. */
 let SHARE_BLOB = null;
@@ -2359,7 +2401,7 @@ function shareModalSync(){
   $('shCap').classList.toggle('on', mode === 'cap'); $('shCard').classList.toggle('on', mode === 'card');
   $('shEmpty').classList.toggle('hidden', !!cap); $('shPrevBox').classList.toggle('hidden', !cap); $('shPrevTxt').textContent = cap;
 }
-function shareCard(){ SHARE_BLOB = exportCard('png'); shareModalSync(); $('shareModal').classList.remove('hidden'); }
+function shareCard(){ if(!pubOk()) return; SHARE_BLOB = exportCard('png'); shareModalSync(); $('shareModal').classList.remove('hidden'); }
 function showPasteBar(ok){ $('pasteTxt').textContent = ok ? t('shCopied') : t('shCopyFail'); $('pasteBar').classList.remove('hidden'); clearTimeout(showPasteBar.tm); showPasteBar.tm = setTimeout(() => $('pasteBar').classList.add('hidden'), 120000); }
 async function doShare(withCap){
   store.set('share_mode', withCap ? 'cap' : 'card');
@@ -2369,6 +2411,7 @@ async function doShare(withCap){
   const b = await (SHARE_BLOB || exportCard('png')); SHARE_BLOB = null;
   $('shareModal').classList.add('hidden');
   if(!b) return;
+  pubRecord('share');
   const copied = await copying;
   const file = new File([b], fileName('png'), { type: 'image/png' });
   let canFiles = false; try{ canFiles = !!(navigator.canShare && navigator.canShare({ files: [file] })); }catch(e){}
@@ -2508,7 +2551,7 @@ function fullBackup(){
   const data = { app: 'tf-post-card-studio', version: 2, saved: new Date().toISOString(), mode: MODE, lang: LANG,
     design: DESIGN, fields: FIELDS, brand: BRAND, logos: { general: getLogo('general'), islamic: getLogo('islamic') }, styles: { general: getStyle('general'), islamic: getStyle('islamic') },
     captions: { general: store.get('cap_general', ''), islamic: store.get('cap_islamic', '') }, presets: PRESETS, library: LIB,
-    settings: { gmodel: S.gmodel, imodel: S.imodel } };
+    settings: { gmodel: S.gmodel, imodel: S.imodel }, memory: memData() };
   const d = new Date(), stamp = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   download(new Blob([JSON.stringify(data)], { type: 'application/json' }), 'TF Post Card Studio backup ' + stamp + '.json'); toast(t('tBackupOk'));
 }
@@ -2524,6 +2567,7 @@ async function fullRestore(file){
       if(j.captions && typeof j.captions[m] === 'string') store.set('cap_' + m, j.captions[m]);
       if(j.styles && typeof j.styles[m] === 'string') store.set('style_' + m, j.styles[m]);
     });
+    if(j.memory) memImport(j);
     if(Array.isArray(j.presets)) store.set('presets', j.presets);
     if(Array.isArray(j.library)) store.set('library', j.library);
     if(j.mode) store.set('mode', j.mode);
@@ -2555,7 +2599,7 @@ async function aiFullPost(){
     const emo = $('capEmoji').checked;
     const prompt = 'You are the writer for a Bengali Facebook page. The page owner describes today’s post: "' + (desc || type.p) + '". ' + (type.id !== 'custom' && desc ? 'Style: ' + type.p + '. ' : '') +
       'Create one complete post in Bengali: "heading" (1–3 word label for the photo card), "text" (the photo-card text, ' + LEN_TXT[$('aiLen').value] + ', use \\n line breaks for rhythm, wrap the 1–2 most important words in *asterisks*), "caption" (a Facebook caption of 3–6 short lines that expands on the card' + (emo ? ', with 1–3 fitting emoji' : ', no emoji') + ', adding the owner\'s own perspective instead of repeating the card' + ($('capCta').checked ? ', ending with one sincere open question about the topic (not asking to like/share/tag or type a word)' : '') + ', no hashtags), and "hashtags" (3–4 relevant Bengali or English hashtags without #). ' +
-      (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + MONO_GUARD + styleBlock() + ' Return ONLY JSON: {"heading":"","text":"","caption":"","hashtags":[]}';
+      (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + MONO_GUARD + avoidBlock() + styleBlock() + ' Return ONLY JSON: {"heading":"","text":"","caption":"","hashtags":[]}';
     const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, responseMimeType: 'application/json' } }, 70000);
     const o = parseJson(r.text);
     const text = clean(o.text || '').replace(/\\n/g, '\n'), cap = clean(o.caption || '').replace(/\\n/g, '\n').replace(/(^|\s)#\S+/g, '').trim();
@@ -2607,7 +2651,7 @@ async function fetchSource(src){
   throw new Error('kind');
 }
 async function pickSources(topic){
-  const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: 'A Bengali Islamic Facebook page wants a post about: "' + topic + '". Suggest up to 4 REAL sources that fit this topic best, most relevant first: Quran ayah ranges (at most 4 consecutive ayahs) or hadith from Sahih al-Bukhari or Sahih Muslim (standard numbering as on sunnah.com). Only suggest sources you are sure exist and match the topic. Return ONLY JSON: {"sources":[{"kind":"quran","surah":89,"from":27,"to":30},{"kind":"hadith","book":"bukhari","number":3244}]}' }] }], generationConfig: { temperature: 0.3, responseMimeType: 'application/json' } }, 60000);
+  const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: usedRefsNote() + 'A Bengali Islamic Facebook page wants a post about: "' + topic + '". Suggest up to 4 REAL sources that fit this topic best, most relevant first: Quran ayah ranges (at most 4 consecutive ayahs) or hadith from Sahih al-Bukhari or Sahih Muslim (standard numbering as on sunnah.com). Only suggest sources you are sure exist and match the topic. Return ONLY JSON: {"sources":[{"kind":"quran","surah":89,"from":27,"to":30},{"kind":"hadith","book":"bukhari","number":3244}]}' }] }], generationConfig: { temperature: 0.3, responseMimeType: 'application/json' } }, 60000);
   return (parseJson(r.text).sources || []).slice(0, 5);
 }
 async function writeAround(src, topic){
@@ -2631,7 +2675,7 @@ async function verifiedPosts(topic, want){
     const p = await writeAround({ kind: f.origin === 'hadith' ? 'hadith' : 'quran', text: full.text, arabic: full.arabic || '', ref: full.ref || f.ref }, topic);
     if(p) out.push(p); return out;
   }
-  const cands = await pickSources(topic);
+  const cands = (await pickSources(topic)).map((c, i) => ({ c, i })).sort((a, b) => (srcPosted(a.c) - srcPosted(b.c)) || (a.i - b.i)).map(x => x.c);
   for(const c of cands){
     if(out.length >= want) break;
     try{ const src = await fetchSource(c); if(out.some(x => x.ref === src.ref)) continue; const p = await writeAround(src, topic); if(p) out.push(p); }catch(e){ if(authErr(e) || e.status === 429) throw e; }
@@ -2826,7 +2870,7 @@ function stQuranWindows(){
 function stUsedQuranRanges(){
   return stHist().map(h => h.k).filter(k => k && k[0] === 'q').map(k => { const p = k.split(':').map(Number), c = ST_QURAN.find(x => x.s === p[1] && x.f === p[2]); return [p[1], p[2], p[3] || (c ? c.t : p[2] + 4)]; });
 }
-const stHistAdd = (k, sum) => store.set('st_hist_' + MODE, stHist().concat({ k, sum, t: Date.now() }).slice(-4000));
+const stHistAdd = (k, sum) => store.set('st_hist_' + MODE, stHist().concat({ k, sum, t: Date.now() }).slice(-20000));
 async function stSacredSource(kind){
   const list = kind === 'quran' ? ST_QURAN.map(x => Object.assign({ key: 'q:' + x.s + ':' + x.f }, x)) : ST_HADITH.map(x => Object.assign({ key: 'h:bukhari:' + x.n }, x));
   const free = list.filter(x => !stUsed(x.key) && !ST_SKIP[x.key]);
@@ -2939,7 +2983,7 @@ async function stGenerate(){
     const want = MODE === 'islamic' ? 'storyi' : 'storyg';
     if(D().template !== want) applyTemplate(want);
     const cap = stCaption(p); setCaption(cap);
-    store.set('st_hist_' + MODE, stHist().concat({ k: p.k, sum: p.sum, card: p.kind === 'life' ? p.card : '', t: Date.now() }).slice(-4000));
+    store.set('st_hist_' + MODE, stHist().concat({ k: p.k, sum: p.sum, card: p.kind === 'life' ? p.card : '', t: Date.now() }).slice(-20000));
     stShow(p, cap); stBuildUi();
     if(ST_IMG !== 'none' && p.img && !S.gkey) toast(t('tNoImgKey'));
     else if(ST_IMG !== 'none' && p.img){
@@ -3011,7 +3055,7 @@ const QG_TONES = { motivation: 'strongly motivational and uplifting, giving cour
 const qgHist = () => store.get('qg_hist_' + MODE, []);
 const qgWords = s => new Set(norm(String(s || '').replace(/\*/g, '')).split(/[\s,।!?;:"“”'‘’()\-—…]+/).filter(w => w.length > 1));
 function qgSim(a, b){ const A = qgWords(a), B = qgWords(b); if(!A.size || !B.size) return 0; let n = 0; A.forEach(w => { if(B.has(w)) n++; }); return n / Math.min(A.size, B.size); }
-function qgIsRepeat(text){ const k = keyNorm(text); return qgHist().some(h => keyNorm(h.text) === k || qgSim(h.text, text) >= 0.6); }
+function qgIsRepeat(text){ const k = keyNorm(text); return qgHist().concat(pubHist()).some(h => keyNorm(h.text) === k || qgSim(h.text, text) >= 0.6); }
 function qgPickAngle(){ const used = store.get('qg_angles_' + MODE, []); const free = QG_ANGLES.filter(a => !used.includes(a)); const a = (free.length ? free : QG_ANGLES)[Math.floor(Math.random() * (free.length || QG_ANGLES.length))]; store.set('qg_angles_' + MODE, used.concat(a).slice(-14)); return a; }
 let QG_TOPIC = store.get('qg_topic_' + MODE, 'any'), QG_TONE = store.get('qg_tone', 'mix');
 const QG_BACK = [];
@@ -3037,7 +3081,7 @@ async function qgGenerate(randomTopic){
     let post = null, extra = '';
     for(let attempt = 0; attempt < 3 && !post; attempt++){
       const angle = qgPickAngle(), seed = Math.floor(Math.random() * 1e6);
-      const avoid = hist.slice(-30).map(h => '- ' + h.text.replace(/\*/g, '').replace(/\n/g, ' / ') + (h.hook ? '  [caption opened with: ' + h.hook + ']' : '')).join('\n');
+      const avoid = hist.slice(-30).map(h => '- ' + h.text.replace(/\*/g, '').replace(/\n/g, ' / ') + (h.hook ? '  [caption opened with: ' + h.hook + ']' : '')).concat(pubHist().slice(-15).map(h => '- ' + h.text.replace(/\n/g, ' / '))).join('\n');
       const prompt = 'You are the writer of a Bengali Facebook page' + (MODE === 'islamic' ? ' that shares Islamic reminders (“' + (norm(B().name) || 'প্রশান্তির বার্তা') + '”): faith mixed with real, personal everyday feelings' : ' that shares emotional, motivational life posts') + '. Write ONE completely fresh post.\n' +
         'TOPIC: ' + topicTxt + '\nANGLE / STARTING IDEA: ' + angle + '\nTONE: ' + QG_TONES[QG_TONE] + '\nUNIQUENESS SEED: ' + seed + '\n' +
         'CARD ("heading", "text"): "text" is what goes on the photo — SHORT: 10 to 22 words in 2–4 short lines (use \\n). Simple, warm, everyday Bengali that touches the heart; personal and specific, not a cliché or a famous saying. Wrap the 1–2 strongest words in *asterisks*. "heading" = a 1–3 word label.\n' +
@@ -3072,7 +3116,7 @@ async function qgGenerate(randomTopic){
       if(all) cap += '\n\n' + all;
       setCaption(cap);
     }
-    store.set('qg_hist_' + MODE, hist.concat({ text: post.text, hook: post.hook, t: Date.now() }).slice(-400));
+    store.set('qg_hist_' + MODE, hist.concat({ text: post.text, hook: post.hook, t: Date.now() }).slice(-20000));
     qgShow(post, cap); qgCountUi(); $('qgPrev').disabled = false;
     if($('aiWithImg').checked) aiImageForPost();
   }catch(e){ toast(aiErr(e)); }
@@ -3377,11 +3421,75 @@ function init(){
   $('modal').addEventListener('click', e => { if(e.target === $('modal')) $('modal').classList.add('hidden'); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape'){ $('shareModal').classList.add('hidden'); $('modal').classList.add('hidden'); $('resetModal').classList.add('hidden'); $('installModal').classList.add('hidden'); } });
   wireCanvas(); reelWire();
+  $('memSaveBtn').addEventListener('click', () => memSave(false)); $('memDriveBtn').addEventListener('click', () => memSave(true));
+  $('memLoadBtn').addEventListener('click', () => $('memFile').click()); $('memFile').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if(f) memLoadFile(f); });
+  memUi();
   $('newPostBtn').addEventListener('click', newPost); $('newUndo').addEventListener('click', newPostUndo);
   if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { render(); });
   setMode(MODE); updateImgUi(); renderAiThumbs(); refreshKeyHints(); writerBadge();
   ensureFonts().then(() => { render(); renderGallery(); });
 }
+/* ================= 🧠 never-repeat memory: published cards, sources, backup ================= */
+Object.assign(T.en, { memTitle:'🧠 Never-repeat memory', memNote:'The app remembers every story, emotional line, hadith/ayah, card and reel you made or posted, so the same thing never comes again. It is kept safely in this browser and is NOT erased by any reset button.',
+  memCount:'Remembered: {p} posted cards · {q} lines · {s} stories · {r} reels', memSave:'💾 Save memory backup', memLoad:'📂 Add memory from a backup', memDrive:'☁️ Send to Drive / WhatsApp',
+  memTip:'Save a memory backup now and then (e.g. to Google Drive). If you use another phone/PC, or the browser data is ever cleared, open the backup here — nothing will repeat.',
+  memLoaded:'✅ Memory added — {n} items now remembered', memBad:'This is not a backup file of this app', memNudge:'🧠 {n} new posts since your last memory backup — Settings → 💾 Save memory backup',
+  pubDup:'⚠️ This card (or almost the same text) was already posted on {d}:\n\n“{x}”\n\nPosting it again may look like repeated content. Continue anyway?', memReset:'🧠 Your never-repeat memory is not erased by any reset.' });
+Object.assign(T.bn, { memTitle:'🧠 রিপিট-রোধ মেমোরি', memNote:'আপনার বানানো বা পোস্ট করা প্রতিটা গল্প, ইমোশনাল বাক্য, হাদিস/আয়াত, কার্ড ও রিল অ্যাপ মনে রাখে — যাতে একই জিনিস আর কখনো না আসে। এটা এই ব্রাউজারে নিরাপদে থাকে এবং কোনো রিসেট বাটনে মোছে না।',
+  memCount:'মনে রাখা আছে: {p}টি পোস্ট করা কার্ড · {q}টি বাক্য · {s}টি গল্প · {r}টি রিল', memSave:'💾 মেমোরি ব্যাকআপ সেভ', memLoad:'📂 ব্যাকআপ থেকে মেমোরি যোগ করুন', memDrive:'☁️ Drive / WhatsApp-এ পাঠান',
+  memTip:'মাঝে মাঝে মেমোরি ব্যাকআপ সেভ করে রাখুন (যেমন Google Drive-এ)। অন্য ফোন/কম্পিউটারে চালালে, বা কখনো ব্রাউজারের ডেটা মুছে গেলে, এখানে ব্যাকআপটা খুলুন — কিছুই রিপিট হবে না।',
+  memLoaded:'✅ মেমোরি যোগ হয়েছে — এখন {n}টি জিনিস মনে রাখা আছে', memBad:'এটা এই অ্যাপের ব্যাকআপ ফাইল নয়', memNudge:'🧠 শেষ মেমোরি ব্যাকআপের পর {n}টি নতুন পোস্ট — সেটিংস → 💾 মেমোরি ব্যাকআপ সেভ',
+  pubDup:'⚠️ এই কার্ডটা (বা প্রায় একই লেখা) আগে {d} তারিখে পোস্ট করা হয়েছে:\n\n“{x}”\n\nআবার দিলে রিপিট কনটেন্ট মনে হতে পারে। তবুও এগিয়ে যাবেন?', memReset:'🧠 রিপিট-রোধ মেমোরি কোনো রিসেটেই মোছে না।' });
+const pubHist = (m) => store.get('pub_hist_' + (m || MODE), []);
+const cardText = () => norm(String(F().text || '').replace(/\*/g, ''));
+function usedSrcSet(){ const s = new Set(); ['general', 'islamic'].forEach(m => pubHist(m).forEach(x => { if(x.src) s.add(x.src); })); return s; }
+function srcPosted(c){ const used = new Set(); pubHist('islamic').forEach(x => { if(x.ref) used.add(keyNorm(x.ref)); if(x.src) used.add(x.src); });
+  if(c.kind === 'hadith'){ const b = String(c.book || '').toLowerCase().replace(/[^a-z]/g, ''); return used.has('h:' + b + ':' + parseInt(c.number, 10)) ? 1 : 0; }
+  return 0; }
+function usedRefsNote(){ const refs = Array.from(new Set(pubHist('islamic').map(x => x.ref).filter(Boolean))).slice(-60); return refs.length ? 'These sources were ALREADY POSTED on the page — suggest DIFFERENT ones: ' + refs.join('; ') + '.\n\n' : ''; }
+function avoidBlock(){ const h = pubHist().slice(-25).map(x => '- ' + x.text.replace(/\n/g, ' / ')).concat(qgHist().slice(-15).map(x => '- ' + String(x.text).replace(/\*/g, '').replace(/\n/g, ' / ')));
+  return h.length ? '\n\nNEVER REPEAT: these texts were already posted on the page. Do not reuse their wording, core idea, metaphors or opening words:\n' + h.join('\n') + '\n' : ''; }
+/* has the current card (same text, near-same text, or same hadith/ayah) been posted before? Same text again within 2 days = the same post (e.g. PNG + reel) */
+function pubClash(){
+  const text = cardText(); if(text.length < 8) return null;
+  const k = keyNorm(text), now = Date.now(), H = 36e5, f = F();
+  for(const x of pubHist()){
+    if(x.k === k){ if(now - x.t < 48 * H) continue; return x; }
+    if(f.srcId && x.src === f.srcId && now - x.t >= 48 * H) return x;
+    if(now - x.t >= 6 * H && qgSim(x.text, text) >= 0.7) return x;
+  }
+  return null;
+}
+function pubOk(){
+  const x = pubClash(); if(!x) return true;
+  const d = new Date(x.t).toLocaleDateString(LANG === 'bn' ? 'bn-BD' : 'en-GB', { day:'numeric', month:'long', year:'numeric' });
+  return confirm(t('pubDup').replace('{d}', d).replace('{x}', x.text.slice(0, 120) + (x.text.length > 120 ? '…' : '')));
+}
+function pubRecord(kind){
+  const text = cardText(); if(text.length < 4) return;
+  const f = F(), k = keyNorm(text), h = pubHist(), e = h.find(x => x.k === k);
+  if(e){ e.kinds = Array.from(new Set((e.kinds || []).concat(kind))); if(f.srcId && !e.src) e.src = f.srcId; }
+  else h.push({ k, text: text.slice(0, 400), ref: norm(f.ref || '').slice(0, 140), src: f.srcId || '', kinds: [kind], t: Date.now() });
+  store.set('pub_hist_' + MODE, h);
+  const n = store.get('mem_since', 0) + (e ? 0 : 1); store.set('mem_since', n);
+  if(!e && n > 0 && n % 25 === 0) setTimeout(() => toast(t('memNudge').replace('{n}', bnN(n))), 3200);
+  memUi();
+}
+function memData(){ const o = {}; MEM.keys().forEach(k => { o[k] = MEM.get(k); }); return o; }
+function memFile(){ const d = new Date(), st = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  return new File([JSON.stringify({ app:'tf-post-card-studio', kind:'memory', version:1, saved:d.toISOString(), memory:memData() })], 'TF Post Card memory ' + st + '.json', { type:'application/json' }); }
+async function memSave(share){
+  const f = memFile();
+  if(share){ let can = false; try{ can = !!(navigator.canShare && navigator.canShare({ files:[f] })); }catch(e){} if(can){ try{ await navigator.share({ files:[f] }); store.set('mem_since', 0); memUi(); return; }catch(e){ if(e && e.name === 'AbortError') return; } } }
+  download(f, f.name); store.set('mem_since', 0); toast(t('tBackupOk')); memUi();
+}
+function memImport(j){ const m = j && (j.memory || (j.app === 'tf-post-card-studio' && j.kind === 'memory' ? {} : null)); if(!m || typeof m !== 'object') return -1;
+  let n = 0; Object.keys(m).forEach(k => { if(MEMK(k) && Array.isArray(m[k])) MEM.merge(k, m[k]); }); MEM.keys().forEach(k => { const v = MEM.get(k); if(Array.isArray(v)) n += v.length; }); return n; }
+async function memLoadFile(file){ try{ const n = memImport(JSON.parse(await file.text())); if(n < 0) throw 0; toast(t('memLoaded').replace('{n}', bnN(n))); memUi(); qgCountUi(); }catch(e){ toast(t('memBad')); } }
+function memUi(){ const el = $('memCount'); if(!el) return; const c = k => store.get(k + '_general', []).length + store.get(k + '_islamic', []).length;
+  el.textContent = t('memCount').replace('{p}', bnN(c('pub_hist'))).replace('{q}', bnN(c('qg_hist'))).replace('{s}', bnN(c('st_hist'))).replace('{r}', bnN(c('reel_hist'))); }
+function bnN(n){ return LANG === 'bn' ? bnNum(n) : String(n); }
+
 /* ================= 🧹 New post: clears ONLY the current post (text, caption, photo, suggestions).
    Keeps API keys, logo, page name, design, library and the "never repeat" story/quote memory. ================= */
 Object.assign(T.en, { newPost:'New post', newDone:'🧹 Fresh card ready — your logo, page name, design and API key are kept.', newUndo:'↩ Undo' });
@@ -3389,7 +3497,7 @@ Object.assign(T.bn, { newPost:'নতুন পোস্ট', newDone:'🧹 ন�
 let NEW_BACK = null, newBarT = 0;
 function newPost(){
   NEW_BACK = { mode: MODE, f: JSON.stringify(F()), cap: $('capText').value, isrc: C.isrc, upUrl: C.upUrl, aiUrl: C.aiUrl, linkUrl: C.linkUrl, panX: C.panX, panY: C.panY, zoom: C.zoom };
-  Object.assign(F(), { heading:'', arabic:'', text:'', ref:'', note:'', credit:'', origin:'manual', full:null });
+  Object.assign(F(), { heading:'', arabic:'', text:'', ref:'', note:'', credit:'', origin:'manual', full:null, srcId:'' });
   syncFields(); setCaption('');
   ['stOut', 'qgOut', 'aiOpts'].forEach(id => { const e = $(id); if(e) e.innerHTML = ''; });
   if(C.isrc !== 'none') setImgSrc('none');
@@ -3534,7 +3642,7 @@ function reelRoll(){
   RS.recipe = best; RS.parts = null;
   reelUi(); reelRefresh(true);
 }
-function reelMarkUsed(){ if(!RS.recipe) return; const h = reelHist().filter(k => k !== reelKey(RS.recipe)); h.unshift(reelKey(RS.recipe)); store.set('reel_hist_' + MODE, h.slice(0, 60)); }
+function reelMarkUsed(){ if(!RS.recipe) return; const h = reelHist().filter(k => k !== reelKey(RS.recipe)); h.unshift(reelKey(RS.recipe)); store.set('reel_hist_' + MODE, h.slice(0, 20000)); }
 
 /* ---- text entrance timing ---- */
 function reelTimes(){
@@ -3881,6 +3989,7 @@ function reelName(ext){ return 'reel - ' + fileName(ext).replace(/ - [\dx]+\.\w+
 async function reelExport(){
   if(RS.exporting) return;
   if(C.tainted){ toast(t('tTaint')); return; }
+  if(!pubOk()) return;
   reelPlay(false); RS.exporting = true; RS.cancel = false; reelBusy(true, t('rWorking')); reelProgress(0, t('rKeep'));
   let lock = null; try{ if(navigator.wakeLock) lock = await navigator.wakeLock.request('screen'); }catch(e){}
   let res = null, note = '';
@@ -3896,7 +4005,7 @@ async function reelExport(){
   if(!res || !res.blob) return;
   if(RS.url) URL.revokeObjectURL(RS.url);
   RS.blob = res.blob; RS.url = URL.createObjectURL(res.blob); RS.name = reelName(res.ext);
-  reelMarkUsed(); reelUi();
+  reelMarkUsed(); pubRecord('reel'); reelUi();
   $('rvVideo').src = RS.url; $('rvDoneInfo').textContent = (res.blob.size / 1048576).toFixed(1) + ' MB · ' + res.info;
   $('rvDoneNote').textContent = note; $('rvDoneNote').classList.toggle('hidden', !note);
   $('rvDone').classList.remove('hidden');
@@ -3942,7 +4051,6 @@ async function reelExportFast(){
   await ve.flush(); ve.close(); if(err) throw err; muxer.finalize(); RS.bg = null;
   return { blob:new Blob([muxer.target.buffer], { type:'video/mp4' }), ext:'mp4', info:W + '×' + H + ' · ' + fps + 'fps · MP4' + (ac ? ' + ' + (ac.mux === 'aac' ? 'AAC' : 'Opus') : ''), noAudio };
 }
-function bnN(n){ return LANG === 'bn' ? bnNum(n) : String(n); }
 async function reelExportRec(){
   const [EW, EH] = EXDIM[RS.ratio], k = Math.min(1, 1280 / Math.max(EW, EH)), W = Math.round(EW * k / 2) * 2, H = Math.round(EH * k / 2) * 2;
   const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
@@ -4006,8 +4114,9 @@ function reelWire(){
   $('rvDoneX').addEventListener('click', () => { $('rvDone').classList.add('hidden'); try{ $('rvVideo').pause(); }catch(e){} });
 }
 
-window.TFPC = { reel: { RS, RX, compose: reelCompose, count: reelCount, synth: reelSynth }, state: C, F: () => F(), D: () => D(), B: () => B(), renderTo, setMode, showTab };
-if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+window.TFPC = { mem: MEM, reel: { RS, RX, compose: reelCompose, count: reelCount, synth: reelSynth }, state: C, F: () => F(), D: () => D(), B: () => B(), renderTo, setMode, showTab };
+const startApp = () => { if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init(); };
+MEM.load().then(startApp, startApp);
 })();
 </script>
 </body>
