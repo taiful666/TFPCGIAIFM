@@ -208,6 +208,15 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
   .ctrls{gap:5px}
 }
 @media (display-mode: standalone){ .install-ui{display:none!important} }
+/* share window */
+.shopt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 14px;font-size:15px;color:var(--text)}
+.shopt small{color:var(--muted);font-size:12.5px;line-height:1.45}
+.shopt.on{border-color:var(--accent);background:var(--accent-soft)}
+.shopt:active{transform:scale(.99)}
+.shprev{white-space:pre-line;font-size:13px;line-height:1.6;max-height:180px;overflow:auto;border:1px dashed var(--line);border-radius:8px;padding:8px;margin-top:6px;font-family:'Hind Siliguri','Nirmala UI',sans-serif}
+#pasteBar{position:fixed;left:8px;right:8px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:85;background:var(--accent);color:#fff;border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:13.5px;line-height:1.45}
+#pasteBar .btn{background:#fff;color:var(--accent);border:0}
+@media (min-width:901px){#pasteBar{left:50%;right:auto;transform:translateX(-50%);bottom:20px;max-width:640px}}
 /* monetization check */
 .monolist{display:flex;flex-direction:column;gap:6px}
 .mi{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface);font-size:13px;line-height:1.5}
@@ -266,7 +275,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <button type="button" class="btn" id="redoBtn" title="Ctrl+Y" data-i18n="redo"></button>
         <button type="button" class="btn" id="shuffleBtn" data-i18n="shuffle"></button>
         <button type="button" class="btn" id="previewBtn" data-i18n="preview"></button>
-        <button type="button" class="btn hidden" id="shareBtn" data-i18n="share"></button>
+        <button type="button" class="btn primary hidden" id="shareBtn" data-i18n="share"></button>
         <button type="button" class="btn" id="jpgBtn">JPG</button>
         <button type="button" class="btn primary" id="pngBtn" data-i18n="dlPng"></button>
       </div>
@@ -527,7 +536,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         </div>
         <div class="row"><button type="button" class="btn primary" id="capGenBtn" data-i18n="capGen"></button><button type="button" class="btn" id="capQuickBtn" data-i18n="capQuick"></button><span class="status hidden" id="capStatus"><span class="spin"></span><span data-i18n="aiWorking"></span></span></div>
         <label class="fld" style="margin-top:10px"><textarea id="capText" class="cap" data-i18n-ph="capPh"></textarea></label>
-        <div class="row"><button type="button" class="btn primary" id="capCopyBtn" data-i18n="capCopy"></button><button type="button" class="btn" id="capBothBtn" data-i18n="capBoth"></button></div>
+        <div class="row"><button type="button" class="btn primary" data-share data-i18n="share"></button><button type="button" class="btn" id="capCopyBtn" data-i18n="capCopy"></button><button type="button" class="btn" id="capBothBtn" data-i18n="capBoth"></button></div>
         <p class="note" data-i18n="capNote"></p>
       </div>
       <div class="sect" id="monoSect">
@@ -613,6 +622,17 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
   <p class="note" id="instFileNote" data-i18n="instFile"></p>
   <div class="row" style="justify-content:flex-end"><button type="button" class="btn primary" id="installModalOk">OK</button></div>
 </div></div>
+<div id="shareModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-box" style="max-width:480px;padding:18px;overflow:auto">
+  <h3 style="margin:0" data-i18n="shTitle"></h3>
+  <button type="button" class="shopt" id="shCap"><b data-i18n="shCapT"></b><small data-i18n="shCapS"></small></button>
+  <button type="button" class="shopt" id="shCard"><b data-i18n="shCardT"></b><small data-i18n="shCardS"></small></button>
+  <div class="warn hidden" id="shEmpty"><span data-i18n="shNoCap"></span><span class="row" style="margin-top:6px;gap:6px"><button type="button" class="btn sm primary" id="shMakeAi" data-i18n="capGen"></button><button type="button" class="btn sm" id="shMakeQuick" data-i18n="capQuick"></button></span></div>
+  <details id="shPrevBox"><summary style="cursor:pointer;font-size:13px;font-weight:600" data-i18n="shPrev"></summary><div id="shPrevTxt" class="shprev"></div></details>
+  <div class="okbox" style="margin:0"><b data-i18n="shHowT"></b><ol class="steps" style="font-size:13px;margin:4px 0 0"><li data-i18n="shH1"></li><li data-i18n="shH2"></li><li data-i18n="shH3"></li></ol></div>
+  <p class="note" style="margin:0" data-i18n="shWhy"></p>
+  <div class="row" style="justify-content:flex-end"><button type="button" class="btn" id="shCancel" data-i18n="cancel"></button></div>
+</div></div>
+<div id="pasteBar" class="hidden"><span id="pasteTxt"></span><span class="row" style="gap:6px;flex:none"><button type="button" class="btn sm" id="pasteAgain" data-i18n="shCopyAgain"></button><button type="button" class="btn sm" id="pasteX" aria-label="close">✕</button></span></div>
 <div id="updateBar" class="hidden"><span data-i18n="updateText"></span><button type="button" class="btn sm" id="updateBtn" data-i18n="reload"></button></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
@@ -664,7 +684,7 @@ const T = {
   confirmMaster:'Reset EVERYTHING to the original state? Texts, designs, styles, page names, logos and captions will be erased.',confirmDesign:'Reset this mode’s design to default?',confirmBrand:'Reset page name, hashtags and logo for this mode?',
   tReset:'Reset done',tBackupOk:'Backup saved',tRestoreOk:'Restored — reloading…',tPresetSaved:'Style saved',tPostReady:'Card text and caption are ready — see the 💬 Caption tab',tNeedTopic:'Describe what you want to post about first',tNothingUndo:'Nothing to undo',
   tagline:'Photo cards & captions for your pages',mGeneral:'General',mIslamic:'Islamic',stageHint:'Click any text on the card to edit it. Drag the photo, logo or text to move it. Scroll on the photo to zoom.',
-  shuffle:'🎲 New look',preview:'🔍 Preview',share:'📤 Share / Facebook',dlPng:'⬇ Download PNG',backEdit:'← Back to editor',
+  shuffle:'🎲 New look',preview:'🔍 Preview',share:'📤 Share to Facebook',dlPng:'⬇ Download PNG',backEdit:'← Back to editor',
   tText:'Text',tDesign:'Design',tImage:'Image',tBrand:'Logo',tCaption:'Caption',tLibrary:'Library',tSettings:'Settings',
   cardText:'Card text',smartPaste:'📋 Smart paste',clear:'Clear',saveLib:'⭐ Save',fHeading:'Heading (small top line)',fArabic:'Arabic text (optional)',fText:'Main text',hlHint:'Highlight: select words and press ⭐ below, or put * around them (e.g. *patience*). Enter = new line.',fRef:'Reference / author',fNote:'Extra line (optional)',
   sacredWarn:'This text came from a hadith/Quran source. Edit only to fix layout — do not change its meaning. The full text and reference are kept for the caption.',
@@ -737,7 +757,12 @@ const T = {
   cSec:'🔒 The key stays only in this browser and goes directly to Anthropic. Do not use it on shared computers. Prepaid credit keeps your spending safe.',
   cKeyOk:'✅ Claude works',cKeyBad:'❌ Claude key not working',cCredit:'Claude: credit balance is too low — add credit in Claude Console → Billing',cOverload:'Claude is busy right now — try again in a minute',
   tNoImgKey:'Pictures need a Gemini key (⚙️ Settings) — the story was written without a picture',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
-  cCut:'Claude stopped before finishing — press again',cSpentTxt:'Claude spending so far (estimate): {s} for {n} jobs. Check the exact balance in Claude Console → Billing.',cSpentReset:'↺ Reset counter',cThis:'Claude cost for this story ≈ {s}',
+  cCut:'Claude stopped before finishing — press again',
+  shTitle:'📤 Share to Facebook',shCapT:'📝 Caption (full story) + photo card',shCapS:'The whole caption is copied now. In Facebook, press and hold in the text box → Paste.',
+  shCardT:'🖼️ Photo card only',shCardS:'Only the picture goes — no caption.',shNoCap:'The caption is empty — make one first:',shPrev:'👀 See the caption that will be copied',
+  shHowT:'How to post with the caption:',shH1:'Choose Facebook (or Meta Business Suite for your page) in the list that opens.',shH2:'In Facebook, press and hold in the “Write something…” box → tap Paste. The full story appears.',shH3:'Check it once and press Post.',
+  shWhy:'Why paste by hand? Facebook does not allow any app to fill in the caption automatically — this is Facebook’s rule for all apps. The app copies it for you, so one Paste is enough.',
+  shCopied:'📋 Full caption copied. In Facebook, press and hold in the text box → Paste.',shCopyFail:'⚠️ The caption could not be copied — tap “Copy again” before pasting.',shCopyAgain:'📋 Copy again',shDesk:'Card downloaded and caption copied — upload the picture on Facebook and paste the caption.',cSpentTxt:'Claude spending so far (estimate): {s} for {n} jobs. Check the exact balance in Claude Console → Billing.',cSpentReset:'↺ Reset counter',cThis:'Claude cost for this story ≈ {s}',
   tStory:'Story',stTitle:'📖 Story post — the start on the card, the full story in the caption',stIntro:'One tap: a short story is written, a matching picture is made, the opening lines go on the card and the whole story goes into the caption.',
   stKindLbl:'Kind of story',stK1:'🌿 Life story',stK2:'🕋 From the Quran',stK3:'📖 From hadith',stCustomPh:'Or your own idea (optional), e.g. a son working abroad on Eid night',
   stSacredNote:'✅ Authentic only: the app downloads the real text (Quran: alquran.cloud — Bengali translation; hadith: Sahih al-Bukhari) and puts it in the caption word for word with the reference. The AI only writes the opening line and the “in our life” reflection — never the sacred text.',
@@ -769,7 +794,7 @@ const T = {
   confirmMaster:'সবকিছু শুরুর অবস্থায় ফেরাতে চান? লেখা, ডিজাইন, স্টাইল, পেজের নাম, লোগো ও ক্যাপশন মুছে যাবে।',confirmDesign:'এই মোডের ডিজাইন ডিফল্টে ফেরাতে চান?',confirmBrand:'এই মোডের পেজের নাম, হ্যাশট্যাগ ও লোগো রিসেট করতে চান?',
   tReset:'রিসেট হয়েছে',tBackupOk:'ব্যাকআপ সেভ হয়েছে',tRestoreOk:'ফিরিয়ে আনা হয়েছে — রিলোড হচ্ছে…',tPresetSaved:'স্টাইল সেভ হয়েছে',tPostReady:'কার্ডের লেখা ও ক্যাপশন প্রস্তুত — 💬 ক্যাপশন ট্যাবে দেখুন',tNeedTopic:'আগে লিখুন কী নিয়ে পোস্ট চান',tNothingUndo:'আগের কোনো অবস্থা নেই',
   tagline:'পেজের জন্য ফটো কার্ড ও ক্যাপশন',mGeneral:'সাধারণ',mIslamic:'ইসলামিক',stageHint:'কার্ডের যেকোনো লেখায় ক্লিক করলে সেটি সম্পাদনা করা যাবে। ছবি, লোগো বা লেখা টেনে সরান। ছবির ওপর স্ক্রল করলে জুম হবে।',
-  shuffle:'🎲 নতুন লুক',preview:'🔍 বড় করে দেখুন',share:'📤 শেয়ার / ফেসবুক',dlPng:'⬇ PNG ডাউনলোড',backEdit:'← এডিটরে ফিরুন',
+  shuffle:'🎲 নতুন লুক',preview:'🔍 বড় করে দেখুন',share:'📤 ফেসবুকে শেয়ার',dlPng:'⬇ PNG ডাউনলোড',backEdit:'← এডিটরে ফিরুন',
   tText:'লেখা',tDesign:'ডিজাইন',tImage:'ছবি',tBrand:'লোগো',tCaption:'ক্যাপশন',tLibrary:'লাইব্রেরি',tSettings:'সেটিংস',
   cardText:'কার্ডের লেখা',smartPaste:'📋 স্মার্ট পেস্ট',clear:'মুছুন',saveLib:'⭐ সংরক্ষণ',fHeading:'শিরোনাম (উপরের ছোট লাইন)',fArabic:'আরবি লেখা (ঐচ্ছিক)',fText:'মূল লেখা',hlHint:'হাইলাইট: শব্দ সিলেক্ট করে নিচের ⭐ চাপুন, অথবা দুই পাশে * দিন (যেমন *ধৈর্য*)। নতুন লাইন = Enter।',fRef:'রেফারেন্স / লেখক',fNote:'অতিরিক্ত লাইন (ঐচ্ছিক)',
   sacredWarn:'এই লেখাটি হাদিস/কুরআনের উৎস থেকে এসেছে। শুধু সাজানোর প্রয়োজনে সম্পাদনা করুন — অর্থ পরিবর্তন করবেন না। পূর্ণ লেখা ও রেফারেন্স ক্যাপশনের জন্য সংরক্ষিত আছে।',
@@ -842,7 +867,12 @@ const T = {
   cSec:'🔒 কী শুধু এই ব্রাউজারেই থাকে এবং সরাসরি Anthropic-এ যায়। শেয়ার করা কম্পিউটারে ব্যবহার করবেন না। প্রিপেইড ক্রেডিট থাকায় খরচ নিরাপদ থাকে।',
   cKeyOk:'✅ Claude কাজ করছে',cKeyBad:'❌ Claude কী কাজ করছে না',cCredit:'Claude: ক্রেডিট শেষ — Claude Console → Billing-এ ক্রেডিট যোগ করুন',cOverload:'Claude এখন ব্যস্ত — এক মিনিট পর আবার চেষ্টা করুন',
   tNoImgKey:'ছবির জন্য Gemini কী লাগবে (⚙️ সেটিংস) — গল্পটি ছবি ছাড়া লেখা হয়েছে',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
-  cCut:'Claude লেখা শেষ করার আগেই থেমে গেছে — আবার চাপুন',cSpentTxt:'এ পর্যন্ত Claude-এর আনুমানিক খরচ: {s} ({n}টি কাজে)। আসল ব্যালেন্স দেখুন Claude Console → Billing-এ।',cSpentReset:'↺ হিসাব শূন্য করুন',cThis:'এই গল্পে Claude-এর খরচ ≈ {s}',
+  cCut:'Claude লেখা শেষ করার আগেই থেমে গেছে — আবার চাপুন',
+  shTitle:'📤 ফেসবুকে শেয়ার',shCapT:'📝 ক্যাপশন (পুরো গল্প) + ফটো কার্ড',shCapS:'পুরো ক্যাপশন এখনই কপি হয়ে যাবে। ফেসবুকে লেখার ঘরে আঙুল চেপে ধরে “Paste” চাপুন।',
+  shCardT:'🖼️ শুধু ফটো কার্ড',shCardS:'শুধু ছবিটি যাবে — কোনো ক্যাপশন নয়।',shNoCap:'ক্যাপশন খালি — আগে ক্যাপশন তৈরি করুন:',shPrev:'👀 যে ক্যাপশন কপি হবে সেটা দেখুন',
+  shHowT:'ক্যাপশনসহ পোস্ট করার নিয়ম:',shH1:'যে তালিকা খুলবে সেখান থেকে Facebook (পেজের জন্য Meta Business Suite) বেছে নিন।',shH2:'ফেসবুকে “কিছু লিখুন…” ঘরে আঙুল চেপে ধরে রাখুন → Paste / পেস্ট চাপুন। পুরো গল্প চলে আসবে।',shH3:'একবার দেখে নিয়ে Post চাপুন।',
+  shWhy:'কেন নিজে পেস্ট করতে হয়? ফেসবুক কোনো অ্যাপকে নিজে থেকে ক্যাপশন বসাতে দেয় না — এটা সব অ্যাপের জন্য ফেসবুকের নিয়ম। অ্যাপ আগেই কপি করে রাখে, তাই শুধু একবার Paste করলেই হবে।',
+  shCopied:'📋 পুরো ক্যাপশন কপি হয়েছে। ফেসবুকে লেখার ঘরে আঙুল চেপে ধরে “Paste” চাপুন।',shCopyFail:'⚠️ ক্যাপশন কপি হয়নি — পেস্ট করার আগে “আবার কপি” চাপুন।',shCopyAgain:'📋 আবার কপি',shDesk:'কার্ড ডাউনলোড হয়েছে আর ক্যাপশন কপি হয়েছে — ফেসবুকে ছবি আপলোড করে ক্যাপশন পেস্ট করুন।',cSpentTxt:'এ পর্যন্ত Claude-এর আনুমানিক খরচ: {s} ({n}টি কাজে)। আসল ব্যালেন্স দেখুন Claude Console → Billing-এ।',cSpentReset:'↺ হিসাব শূন্য করুন',cThis:'এই গল্পে Claude-এর খরচ ≈ {s}',
   tStory:'গল্প',stTitle:'📖 গল্পের পোস্ট — কার্ডে শুরু, ক্যাপশনে পুরো গল্প',stIntro:'এক চাপে: একটি ছোট গল্প লেখা হবে, মানানসই ছবি তৈরি হবে, গল্পের শুরুর আকর্ষণীয় লাইনগুলো কার্ডে বসবে আর পুরো গল্পটা ক্যাপশনে থাকবে।',
   stKindLbl:'গল্পের ধরন',stK1:'🌿 জীবনের গল্প',stK2:'🕋 কুরআনের গল্প',stK3:'📖 হাদিসের গল্প',stCustomPh:'অথবা নিজের ভাবনা লিখুন (ঐচ্ছিক), যেমন: ঈদের রাতে প্রবাসী ছেলে',
   stSacredNote:'✅ শুধু অথেন্টিক: অ্যাপ আসল লেখা ডাউনলোড করে (কুরআন: alquran.cloud — বাংলা অনুবাদ; হাদিস: সহিহ বুখারি) এবং ক্যাপশনে রেফারেন্সসহ হুবহু বসায়। AI শুধু শুরুর লাইন আর “আমাদের জীবনে” অংশটুকু লেখে — কুরআন/হাদিসের লেখা কখনো নয়।',
@@ -2199,15 +2229,31 @@ async function exportCard(type){
   return new Promise(res => { try{ $('cv').toBlob(b => { if(!b){ toast(t('tTaint')); res(null); return; } res(b); }, type === 'jpg' ? 'image/jpeg' : 'image/png', 0.93); }catch(e){ toast(t('tTaint')); res(null); } });
 }
 async function downloadCard(type){ const b = await exportCard(type); if(b){ download(b, fileName(type)); toast(monoWarn() || t('tDl')); } }
-async function shareCard(){
-  const b = await exportCard('png'); if(!b) return;
+/* share window: "caption + card" or "card only". Facebook never accepts a pre-filled caption from apps,
+   so the caption is copied at the moment of the tap and a paste reminder stays on screen. */
+let SHARE_BLOB = null;
+function shareModalSync(){
+  const cap = $('capText').value.trim(), mode = store.get('share_mode', 'cap');
+  $('shCap').classList.toggle('on', mode === 'cap'); $('shCard').classList.toggle('on', mode === 'card');
+  $('shEmpty').classList.toggle('hidden', !!cap); $('shPrevBox').classList.toggle('hidden', !cap); $('shPrevTxt').textContent = cap;
+}
+function shareCard(){ SHARE_BLOB = exportCard('png'); shareModalSync(); $('shareModal').classList.remove('hidden'); }
+function showPasteBar(ok){ $('pasteTxt').textContent = ok ? t('shCopied') : t('shCopyFail'); $('pasteBar').classList.remove('hidden'); clearTimeout(showPasteBar.tm); showPasteBar.tm = setTimeout(() => $('pasteBar').classList.add('hidden'), 120000); }
+async function doShare(withCap){
+  store.set('share_mode', withCap ? 'cap' : 'card');
+  const cap = $('capText').value.trim();
+  if(withCap && !cap){ shareModalSync(); toast(t('shNoCap')); return; }
+  const copying = withCap ? copyText(cap) : Promise.resolve(false); /* starts inside the tap, before anything else */
+  const b = await (SHARE_BLOB || exportCard('png')); SHARE_BLOB = null;
+  $('shareModal').classList.add('hidden');
+  if(!b) return;
+  const copied = await copying;
   const file = new File([b], fileName('png'), { type: 'image/png' });
-  if(!$('capText').value.trim()){
-    if(S.gkey){ showTab('caption'); if($('capStyle').querySelector('option[value=hook]')) $('capStyle').value = 'hook'; await aiCaption(); if($('capText').value.trim()){ toast(t('tCapMade')); return; } }
-    quickCaption();
-  }
-  const cap = $('capText').value.trim(); if(cap && await copyText(cap)) toast(monoWarn() || t('tShareCap'));
-  try{ await navigator.share({ files: [file], text: cap }); }catch(e){ if(e && e.name !== 'AbortError') download(b, fileName('png')); }
+  let canFiles = false; try{ canFiles = !!(navigator.canShare && navigator.canShare({ files: [file] })); }catch(e){}
+  if(withCap) showPasteBar(copied);
+  if(canFiles){ try{ await navigator.share(withCap ? { files: [file], text: cap } : { files: [file] }); }catch(e){ if(e && e.name !== 'AbortError') download(b, fileName('png')); } }
+  else { download(b, fileName('png')); if(withCap) toast(t('shDesk')); }
+  const w = monoWarn(); if(w) setTimeout(() => toast(w), 400);
 }
 async function preview(){ await ensureFonts(); renderTo($('cv')); try{ $('modalImg').src = $('cv').toDataURL('image/png'); $('modal').classList.remove('hidden'); }catch(e){ toast(t('tTaint')); } }
 
@@ -2795,7 +2841,8 @@ function stShow(p, cap){
   const row = document.createElement('div'); row.className = 'row'; row.style.marginTop = '10px';
   const cp = document.createElement('button'); cp.type = 'button'; cp.className = 'btn sm primary'; cp.textContent = t('capCopy'); cp.addEventListener('click', async () => toast(await copyText($('capText').value) ? t('tCopied') : t('tCopyFail')));
   const sh = document.createElement('button'); sh.type = 'button'; sh.className = 'btn sm'; sh.textContent = t('capBoth'); sh.addEventListener('click', () => $('capBothBtn').click());
-  row.append(cp, sh); d.appendChild(row);
+  const fb = document.createElement('button'); fb.type = 'button'; fb.className = 'btn sm primary'; fb.textContent = t('share'); fb.addEventListener('click', shareCard);
+  row.append(fb, cp, sh); d.appendChild(row);
   if(RUN_COST > 0){ const c = document.createElement('div'); c.className = 'note'; c.textContent = t('cThis').replace('{s}', usd(RUN_COST)); d.appendChild(c); }
   box.appendChild(d);
 }
@@ -2918,7 +2965,8 @@ function qgShow(p, cap){
   const row = document.createElement('div'); row.className = 'row'; row.style.marginTop = '10px';
   const cp = document.createElement('button'); cp.type = 'button'; cp.className = 'btn sm primary'; cp.textContent = t('capCopy'); cp.addEventListener('click', async () => toast(await copyText($('capText').value) ? t('tCopied') : t('tCopyFail')));
   const sh = document.createElement('button'); sh.type = 'button'; sh.className = 'btn sm'; sh.textContent = t('capBoth'); sh.addEventListener('click', () => $('capBothBtn').click());
-  row.append(cp, sh); if(cap) d.appendChild(row); box.appendChild(d);
+  const fb = document.createElement('button'); fb.type = 'button'; fb.className = 'btn sm primary'; fb.textContent = t('share'); fb.addEventListener('click', shareCard);
+  row.append(fb, cp, sh); d.appendChild(row); box.appendChild(d);
 }
 function qgBack(){
   for(let i = QG_BACK.length - 1; i >= 0; i--){ if(QG_BACK[i].mode !== MODE) continue; const s = QG_BACK.splice(i, 1)[0]; Object.assign(F(), JSON.parse(s.f)); syncFields(); saveSoon(); render(); setCaption(s.cap || ''); $('qgOut').innerHTML = ''; break; }
@@ -3194,11 +3242,18 @@ function init(){
   $('jpgBtn').addEventListener('click', () => downloadCard('jpg'));
   $('previewBtn').addEventListener('click', preview);
   $('shareBtn').addEventListener('click', shareCard);
-  try{ if(navigator.canShare && navigator.canShare({ files: [new File([''], 'x.png', { type: 'image/png' })] }) ) $('shareBtn').classList.remove('hidden'); }catch(e){}
+  $('shareBtn').classList.remove('hidden'); document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', shareCard));
+  $('shCap').addEventListener('click', () => doShare(true)); $('shCard').addEventListener('click', () => doShare(false));
+  $('shCancel').addEventListener('click', () => { $('shareModal').classList.add('hidden'); SHARE_BLOB = null; });
+  $('shareModal').addEventListener('click', e => { if(e.target === $('shareModal')){ $('shareModal').classList.add('hidden'); SHARE_BLOB = null; } });
+  $('shMakeAi').addEventListener('click', async () => { if(needKey()) return; if($('capStyle').querySelector('option[value=hook]')) $('capStyle').value = 'hook'; await aiCaption(); shareModalSync(); });
+  $('shMakeQuick').addEventListener('click', () => { quickCaption(); shareModalSync(); });
+  $('pasteAgain').addEventListener('click', async () => { const ok = await copyText($('capText').value.trim()); showPasteBar(ok); toast(ok ? t('tCopied') : t('tCopyFail')); });
+  $('pasteX').addEventListener('click', () => $('pasteBar').classList.add('hidden'));
   $('modalBack').addEventListener('click', () => $('modal').classList.add('hidden'));
   $('modalDl').addEventListener('click', () => { $('modal').classList.add('hidden'); downloadCard('png'); });
   $('modal').addEventListener('click', e => { if(e.target === $('modal')) $('modal').classList.add('hidden'); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape'){ $('modal').classList.add('hidden'); $('resetModal').classList.add('hidden'); $('installModal').classList.add('hidden'); } });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape'){ $('shareModal').classList.add('hidden'); $('modal').classList.add('hidden'); $('resetModal').classList.add('hidden'); $('installModal').classList.add('hidden'); } });
   wireCanvas();
   if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { render(); });
   setMode(MODE); updateImgUi(); renderAiThumbs(); refreshKeyHints(); writerBadge();
