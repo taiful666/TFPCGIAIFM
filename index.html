@@ -237,6 +237,12 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
 .qcard .qc{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;line-height:1.65;white-space:pre-line;color:var(--text)}
 .qcard .qc b{color:var(--accent)}
 #brandNudge input{border:1px solid var(--warn-line);border-radius:8px;padding:8px 10px;background:var(--surface);font-size:15px;min-width:0}
+/* ===== new post (clear only the current post) ===== */
+.btn.newbtn{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));color:var(--accent);font-weight:600;white-space:nowrap}
+@media (max-width:560px){.btn.newbtn{padding:7px 9px;font-size:12.5px}}
+#newBar{position:fixed;left:8px;right:8px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:86;background:var(--text);color:var(--bg);border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;box-shadow:0 8px 24px rgba(0,0,0,.25);font-size:13.5px;line-height:1.45}
+#newBar .btn{background:var(--accent);color:#fff;border:0;flex:none}
+@media (min-width:901px){#newBar{left:50%;right:auto;transform:translateX(-50%);bottom:20px;max-width:560px}}
 /* ===== reel studio ===== */
 .btn.reelbtn{background:linear-gradient(135deg,var(--gold),#d9a62e 45%,var(--accent));border-color:transparent;color:#fff;font-weight:700;box-shadow:0 2px 10px color-mix(in srgb,var(--gold) 45%,transparent)}
 .btn.reelbtn:hover{filter:brightness(1.07);background:linear-gradient(135deg,var(--gold),#d9a62e 45%,var(--accent))}
@@ -290,6 +296,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
   <div class="in">
     <div class="brand"><div class="logo">✦</div><div><b>TF Post Card Studio</b><small data-i18n="tagline"></small></div></div>
     <div class="ctrls">
+      <button type="button" class="btn newbtn" id="newPostBtn"><span>🧹</span> <span data-i18n="newPost"></span></button>
       <div class="seg mode" role="group" aria-label="mode">
         <button type="button" data-mode="general"><span>🌸</span> <span class="lbl" data-i18n="mGeneral"></span></button>
         <button type="button" data-mode="islamic"><span>🕌</span> <span class="lbl" data-i18n="mIslamic"></span></button>
@@ -731,6 +738,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
     <button type="button" class="btn sm" id="rvDoneX" style="width:auto" data-i18n="rBack"></button>
   </div>
 </div>
+<div id="newBar" class="hidden"><span data-i18n="newDone"></span><button type="button" class="btn sm" id="newUndo" data-i18n="newUndo"></button></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
 'use strict';
@@ -3369,10 +3377,34 @@ function init(){
   $('modal').addEventListener('click', e => { if(e.target === $('modal')) $('modal').classList.add('hidden'); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape'){ $('shareModal').classList.add('hidden'); $('modal').classList.add('hidden'); $('resetModal').classList.add('hidden'); $('installModal').classList.add('hidden'); } });
   wireCanvas(); reelWire();
+  $('newPostBtn').addEventListener('click', newPost); $('newUndo').addEventListener('click', newPostUndo);
   if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { render(); });
   setMode(MODE); updateImgUi(); renderAiThumbs(); refreshKeyHints(); writerBadge();
   ensureFonts().then(() => { render(); renderGallery(); });
 }
+/* ================= 🧹 New post: clears ONLY the current post (text, caption, photo, suggestions).
+   Keeps API keys, logo, page name, design, library and the "never repeat" story/quote memory. ================= */
+Object.assign(T.en, { newPost:'New post', newDone:'🧹 Fresh card ready — your logo, page name, design and API key are kept.', newUndo:'↩ Undo' });
+Object.assign(T.bn, { newPost:'নতুন পোস্ট', newDone:'🧹 নতুন খালি কার্ড তৈরি — লোগো, পেজের নাম, ডিজাইন ও API কী সব আছে।', newUndo:'↩ ফিরিয়ে আনুন' });
+let NEW_BACK = null, newBarT = 0;
+function newPost(){
+  NEW_BACK = { mode: MODE, f: JSON.stringify(F()), cap: $('capText').value, isrc: C.isrc, upUrl: C.upUrl, aiUrl: C.aiUrl, linkUrl: C.linkUrl, panX: C.panX, panY: C.panY, zoom: C.zoom };
+  Object.assign(F(), { heading:'', arabic:'', text:'', ref:'', note:'', credit:'', origin:'manual', full:null });
+  syncFields(); setCaption('');
+  ['stOut', 'qgOut', 'aiOpts'].forEach(id => { const e = $(id); if(e) e.innerHTML = ''; });
+  if(C.isrc !== 'none') setImgSrc('none');
+  saveSoon(); render(); showTab('text');
+  $('newBar').classList.remove('hidden'); clearTimeout(newBarT); newBarT = setTimeout(() => $('newBar').classList.add('hidden'), 10000);
+}
+function newPostUndo(){
+  const b = NEW_BACK; $('newBar').classList.add('hidden'); if(!b) return; NEW_BACK = null;
+  if(b.mode !== MODE) setMode(b.mode);
+  Object.assign(F(), JSON.parse(b.f)); syncFields(); setCaption(b.cap);
+  C.upUrl = b.upUrl; C.aiUrl = b.aiUrl; C.linkUrl = b.linkUrl;
+  if(b.isrc !== 'none') setImgSrc(b.isrc).then(() => { C.panX = b.panX; C.panY = b.panY; C.zoom = b.zoom; $('zoom').value = b.zoom; render(); });
+  saveSoon(); render();
+}
+
 /* ================= 🎬 REEL STUDIO — turn the card into a short video (MP4) =================
    The card is redrawn for every video frame: the photo gets a "camera" move, text lines / words
    make an entrance, light effects float inside the photo, then colour grade, vignette and grain.
