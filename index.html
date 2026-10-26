@@ -566,6 +566,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <label class="fld"><span data-i18n="cModel"></span><select id="cModelSel"><option value="claude-sonnet-5-5" data-i18n="cmSonnet"></option><option value="claude-opus-5-5" data-i18n="cmOpus"></option><option value="claude-haiku-5-5" data-i18n="cmHaiku"></option></select></label>
         <label class="chk" style="margin-bottom:8px"><input type="checkbox" id="cUse" checked> <span data-i18n="cUse"></span></label>
         <div class="row"><button type="button" class="btn primary" id="saveCKeyBtn" data-i18n="save"></button><button type="button" class="btn" id="testCKeyBtn" data-i18n="test"></button><button type="button" class="btn" id="rmCKeyBtn" data-i18n="remove"></button><span class="status" id="cKeyState"></span></div>
+        <div class="okbox" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="cSpent" style="flex:1 1 200px"></span><button type="button" class="btn sm" id="cSpentReset" data-i18n="cSpentReset"></button></div>
         <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:600;font-size:13px" data-i18n="cHowT"></summary>
           <ol class="steps" style="font-size:13px;margin-top:6px"><li data-i18n="cH1"></li><li data-i18n="cH2"></li><li data-i18n="cH3"></li><li data-i18n="cH4"></li><li data-i18n="cH5"></li></ol>
           <p class="note" data-i18n="cCost"></p>
@@ -736,6 +737,7 @@ const T = {
   cSec:'🔒 The key stays only in this browser and goes directly to Anthropic. Do not use it on shared computers. Prepaid credit keeps your spending safe.',
   cKeyOk:'✅ Claude works',cKeyBad:'❌ Claude key not working',cCredit:'Claude: credit balance is too low — add credit in Claude Console → Billing',cOverload:'Claude is busy right now — try again in a minute',
   tNoImgKey:'Pictures need a Gemini key (⚙️ Settings) — the story was written without a picture',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
+  cCut:'Claude stopped before finishing — press again',cSpentTxt:'Claude spending so far (estimate): {s} for {n} jobs. Check the exact balance in Claude Console → Billing.',cSpentReset:'↺ Reset counter',cThis:'Claude cost for this story ≈ {s}',
   tStory:'Story',stTitle:'📖 Story post — the start on the card, the full story in the caption',stIntro:'One tap: a short story is written, a matching picture is made, the opening lines go on the card and the whole story goes into the caption.',
   stKindLbl:'Kind of story',stK1:'🌿 Life story',stK2:'🕋 From the Quran',stK3:'📖 From hadith',stCustomPh:'Or your own idea (optional), e.g. a son working abroad on Eid night',
   stSacredNote:'✅ Authentic only: the app downloads the real text (Quran: alquran.cloud — Bengali translation; hadith: Sahih al-Bukhari) and puts it in the caption word for word with the reference. The AI only writes the opening line and the “in our life” reflection — never the sacred text.',
@@ -840,6 +842,7 @@ const T = {
   cSec:'🔒 কী শুধু এই ব্রাউজারেই থাকে এবং সরাসরি Anthropic-এ যায়। শেয়ার করা কম্পিউটারে ব্যবহার করবেন না। প্রিপেইড ক্রেডিট থাকায় খরচ নিরাপদ থাকে।',
   cKeyOk:'✅ Claude কাজ করছে',cKeyBad:'❌ Claude কী কাজ করছে না',cCredit:'Claude: ক্রেডিট শেষ — Claude Console → Billing-এ ক্রেডিট যোগ করুন',cOverload:'Claude এখন ব্যস্ত — এক মিনিট পর আবার চেষ্টা করুন',
   tNoImgKey:'ছবির জন্য Gemini কী লাগবে (⚙️ সেটিংস) — গল্পটি ছবি ছাড়া লেখা হয়েছে',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
+  cCut:'Claude লেখা শেষ করার আগেই থেমে গেছে — আবার চাপুন',cSpentTxt:'এ পর্যন্ত Claude-এর আনুমানিক খরচ: {s} ({n}টি কাজে)। আসল ব্যালেন্স দেখুন Claude Console → Billing-এ।',cSpentReset:'↺ হিসাব শূন্য করুন',cThis:'এই গল্পে Claude-এর খরচ ≈ {s}',
   tStory:'গল্প',stTitle:'📖 গল্পের পোস্ট — কার্ডে শুরু, ক্যাপশনে পুরো গল্প',stIntro:'এক চাপে: একটি ছোট গল্প লেখা হবে, মানানসই ছবি তৈরি হবে, গল্পের শুরুর আকর্ষণীয় লাইনগুলো কার্ডে বসবে আর পুরো গল্পটা ক্যাপশনে থাকবে।',
   stKindLbl:'গল্পের ধরন',stK1:'🌿 জীবনের গল্প',stK2:'🕋 কুরআনের গল্প',stK3:'📖 হাদিসের গল্প',stCustomPh:'অথবা নিজের ভাবনা লিখুন (ঐচ্ছিক), যেমন: ঈদের রাতে প্রবাসী ছেলে',
   stSacredNote:'✅ শুধু অথেন্টিক: অ্যাপ আসল লেখা ডাউনলোড করে (কুরআন: alquran.cloud — বাংলা অনুবাদ; হাদিস: সহিহ বুখারি) এবং ক্যাপশনে রেফারেন্সসহ হুবহু বসায়। AI শুধু শুরুর লাইন আর “আমাদের জীবনে” অংশটুকু লেখে — কুরআন/হাদিসের লেখা কখনো নয়।',
@@ -1701,13 +1704,18 @@ async function claude(body, ms){
   const parts = (body.contents || []).flatMap(c => c.parts || []).map(p => p.text || '').join('\n');
   const json = body.generationConfig && body.generationConfig.responseMimeType === 'application/json';
   const prompt = parts + (json ? '\n\nReply with the JSON object only — no code fences, no extra text.' : '');
-  const to = withTimeout(Math.max(ms || 60000, 90000));
+  const to = withTimeout(Math.max(ms || 60000, 120000));
+  /* 5.5 models think adaptively by default; thinking is billed and counts toward max_tokens,
+     so: generous max_tokens + medium effort for long writing, low effort for short jobs */
+  const effort = prompt.length > 2500 ? 'medium' : 'low';
+  const req = { model: S.cmodel || 'claude-sonnet-5-5', max_tokens: 16000, output_config: { effort }, system: 'You are a gifted Bengali writer for Facebook pages. Write natural, warm, human Bengali. Follow every instruction exactly.', messages: [{ role: 'user', content: prompt }] };
+  const send = b => fetch(CAPI, { method: 'POST', signal: to.signal, headers: { 'content-type': 'application/json', 'x-api-key': S.ckey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }, body: JSON.stringify(b) });
   try{
-    let r;
-    try{ r = await fetch(CAPI, { method: 'POST', signal: to.signal, headers: { 'content-type': 'application/json', 'x-api-key': S.ckey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-      body: JSON.stringify({ model: S.cmodel || 'claude-sonnet-5-5', max_tokens: 4096, system: 'You are a gifted Bengali writer for Facebook pages. Write natural, warm, human Bengali. Follow every instruction exactly.', messages: [{ role: 'user', content: prompt }] }) }); }
-    catch(e){ if(e.name === 'AbortError') throw e; throw friendly(t('eNet')); }
-    const j = await r.json().catch(() => ({}));
+    let r, j;
+    try{
+      r = await send(req); j = await r.json().catch(() => ({}));
+      if(r.status === 400 && /output_config|effort/i.test((j.error && j.error.message) || '')){ delete req.output_config; r = await send(req); j = await r.json().catch(() => ({})); }
+    }catch(e){ if(e.name === 'AbortError') throw e; throw friendly(t('eNet')); }
     if(!r.ok){
       const m = (j.error && j.error.message) || ('HTTP ' + r.status);
       if(r.status === 401 || /api.?key|authentication/i.test(m)) throw friendly(t('cKeyBad') + ' (401)');
@@ -1716,12 +1724,24 @@ async function claude(body, ms){
       if(r.status === 429) throw friendly(t('eQuota'));
       const er = new Error('Claude: ' + m); er.status = r.status; throw er;
     }
+    claudeCost(j.usage, req.model);
     const text = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    if(j.stop_reason === 'max_tokens' && !/\}\s*$/.test(text.trim())) throw friendly(t('cCut'));
     if(!text) throw new Error('EMPTY');
     return { text, model: j.model || S.cmodel };
   }finally{ to.done(); }
 }
 function writerBadge(){ document.querySelectorAll('.writerTag').forEach(x => { x.textContent = (S.gkey || S.ckey) ? (useClaude() ? t('usingClaude') : t('usingGemini')) : ''; }); }
+/* running cost estimate (USD per million tokens: input / output) */
+const CPRICE = { 'claude-sonnet-5-5': [2, 10], 'claude-opus-5-5': [4, 20], 'claude-haiku-5-5': [0.1, 0.5] };
+let RUN_COST = 0;
+function claudeCost(u, model){
+  if(!u) return; const p = CPRICE[model] || CPRICE['claude-sonnet-5-5'];
+  const c = ((u.input_tokens || 0) + (u.cache_creation_input_tokens || 0) * 1.25 + (u.cache_read_input_tokens || 0) * 0.1) * p[0] / 1e6 + (u.output_tokens || 0) * p[1] / 1e6;
+  RUN_COST += c; store.set('c_spent', (store.get('c_spent', 0) || 0) + c); store.set('c_jobs', (store.get('c_jobs', 0) || 0) + 1); costUi();
+}
+const usd = v => '$' + (v < 0.1 ? v.toFixed(3) : v.toFixed(2));
+function costUi(){ const el = $('cSpent'); if(!el) return; const s = store.get('c_spent', 0) || 0, n = store.get('c_jobs', 0) || 0; el.textContent = n ? t('cSpentTxt').replace('{s}', usd(s)).replace('{n}', LANG === 'bn' ? bnNum(n) : n) : ''; }
 function writeAI(body, ms){ return useClaude() ? claude(body, ms) : gemini(body, ms); }
 function needKey(){ if(S.gkey || S.ckey) return false; toast(t('tNoKey')); return true; }
 function needGKey(){ if(S.gkey) return false; toast(t('tNoImgKey')); return true; }
@@ -2741,7 +2761,7 @@ function stCaption(p){
 async function stGenerate(){
   if(needKey()) return;
   const kind = stKind();
-  $('stNext').disabled = true; $('stPrev').disabled = true; busy('stStatus', true); $('stStatusTxt').textContent = t('stWorkTxt');
+  $('stNext').disabled = true; $('stPrev').disabled = true; busy('stStatus', true); $('stStatusTxt').textContent = t('stWorkTxt'); RUN_COST = 0;
   try{
     const p = kind === 'life' ? await stLife() : await stSacred(kind);
     ST_BACK.push({ mode: MODE, f: JSON.stringify(F()), cap: $('capText').value, tpl: D().template, isrc: C.isrc, aiUrl: C.aiUrl }); if(ST_BACK.length > 15) ST_BACK.shift();
@@ -2775,7 +2795,9 @@ function stShow(p, cap){
   const row = document.createElement('div'); row.className = 'row'; row.style.marginTop = '10px';
   const cp = document.createElement('button'); cp.type = 'button'; cp.className = 'btn sm primary'; cp.textContent = t('capCopy'); cp.addEventListener('click', async () => toast(await copyText($('capText').value) ? t('tCopied') : t('tCopyFail')));
   const sh = document.createElement('button'); sh.type = 'button'; sh.className = 'btn sm'; sh.textContent = t('capBoth'); sh.addEventListener('click', () => $('capBothBtn').click());
-  row.append(cp, sh); d.appendChild(row); box.appendChild(d);
+  row.append(cp, sh); d.appendChild(row);
+  if(RUN_COST > 0){ const c = document.createElement('div'); c.className = 'note'; c.textContent = t('cThis').replace('{s}', usd(RUN_COST)); d.appendChild(c); }
+  box.appendChild(d);
 }
 function stBack(){
   for(let i = ST_BACK.length - 1; i >= 0; i--){ if(ST_BACK[i].mode !== MODE) continue; const s = ST_BACK.splice(i, 1)[0];
@@ -3111,6 +3133,7 @@ function init(){
   $('saveCKeyBtn').addEventListener('click', () => { saveC(); toast(t('tSaved')); });
   $('cModelSel').addEventListener('change', saveC); $('cUse').addEventListener('change', saveC);
   $('rmCKeyBtn').addEventListener('click', () => { $('cKey').value = ''; saveC(); $('cKeyState').textContent = ''; toast(t('tRemoved')); });
+  costUi(); $('cSpentReset').addEventListener('click', () => { store.set('c_spent', 0); store.set('c_jobs', 0); costUi(); toast(t('tReset')); });
   $('testCKeyBtn').addEventListener('click', async () => {
     saveC(); if(!S.ckey){ toast(t('tNoKey')); return; }
     $('cKeyState').textContent = '…';
