@@ -291,7 +291,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
       <div class="banner hidden install-ui" id="installBanner"><b data-i18n="installBannerText"></b><button type="button" class="btn primary sm" id="installBtn2" data-i18n="install"></button><button type="button" class="btn sm" id="installX" aria-label="close">✕</button></div>
       <div class="warn hidden" id="brandNudge"><b data-i18n="nudgeTitle"></b><span class="row" style="margin-top:6px;gap:6px"><input type="text" id="nudgeName" data-i18n-ph="nudgePh" style="flex:1 1 160px"><button type="button" class="btn primary sm" id="nudgeSave" data-i18n="save"></button></span></div>
       <div class="sect qgen" id="qgen">
-        <h4><span data-i18n="qgTitle"></span><small id="qgCount"></small></h4>
+        <h4><span data-i18n="qgTitle"></span><small><span class="writerTag"></span> <span id="qgCount"></span></small></h4>
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
         <div class="fld"><span data-i18n="qgTopicLbl"></span><div class="qchips" id="qgTopics"></div></div>
         <label class="fld"><input type="text" id="qgCustom" data-i18n-ph="qgCustomPh"></label>
@@ -404,7 +404,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
     <!-- STORY -->
     <div class="pane hidden" id="p-story">
       <div class="sect qgen">
-        <h4><span data-i18n="stTitle"></span><small id="stCount"></small></h4>
+        <h4><span data-i18n="stTitle"></span><small><span class="writerTag"></span> <span id="stCount"></span></small></h4>
         <p class="note" style="margin:0 0 10px" data-i18n="stIntro"></p>
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
         <div class="fld isl-only"><span data-i18n="stKindLbl"></span><div class="seg full" id="stKind"><button type="button" data-kind="life" data-i18n="stK1"></button><button type="button" data-kind="quran" data-i18n="stK2"></button><button type="button" data-kind="hadith" data-i18n="stK3"></button></div></div>
@@ -559,6 +559,18 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
     <div class="pane hidden" id="p-settings">
       <div class="sect"><h4><span data-i18n="appLook"></span></h4>
         <div class="row"><button type="button" class="btn" id="langBtn2"></button><button type="button" class="btn" id="themeBtn2"></button><button type="button" class="btn primary install-ui" id="installBtn3" data-i18n="installHow"></button></div>
+      </div>
+      <div class="sect" id="claudeSect" style="border:2px solid var(--accent)"><h4><span data-i18n="cTitle"></span></h4>
+        <p class="note" style="margin:0 0 8px" data-i18n="cIntro"></p>
+        <label class="fld"><span>Claude API key</span><span class="row" style="gap:6px"><input type="password" id="cKey" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" style="flex:1"><button type="button" class="btn" id="showCKeyBtn">👁️</button></span></label>
+        <label class="fld"><span data-i18n="cModel"></span><select id="cModelSel"><option value="claude-sonnet-5-5" data-i18n="cmSonnet"></option><option value="claude-opus-5-5" data-i18n="cmOpus"></option><option value="claude-haiku-5-5" data-i18n="cmHaiku"></option></select></label>
+        <label class="chk" style="margin-bottom:8px"><input type="checkbox" id="cUse" checked> <span data-i18n="cUse"></span></label>
+        <div class="row"><button type="button" class="btn primary" id="saveCKeyBtn" data-i18n="save"></button><button type="button" class="btn" id="testCKeyBtn" data-i18n="test"></button><button type="button" class="btn" id="rmCKeyBtn" data-i18n="remove"></button><span class="status" id="cKeyState"></span></div>
+        <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:600;font-size:13px" data-i18n="cHowT"></summary>
+          <ol class="steps" style="font-size:13px;margin-top:6px"><li data-i18n="cH1"></li><li data-i18n="cH2"></li><li data-i18n="cH3"></li><li data-i18n="cH4"></li><li data-i18n="cH5"></li></ol>
+          <p class="note" data-i18n="cCost"></p>
+        </details>
+        <div class="warn" data-i18n="cSec"></div>
       </div>
       <div class="sect"><h4><span data-i18n="setAi"></span></h4>
         <label class="fld"><span>Google Gemini API key</span><span class="row" style="gap:6px"><input type="password" id="gKey" placeholder="AIza..." autocomplete="off" spellcheck="false" style="flex:1"><button type="button" class="btn" id="showKeyBtn">👁️</button></span></label>
@@ -715,6 +727,15 @@ const T = {
   qgCount:'{n} new so far, none repeated',qgCardLbl:'On the card',qgCapLblShort:'Caption (people can read more here)',qgAny:'🎲 Any',
   qgCleared:'Memory cleared',qgConfirmClear:'Clear the memory of earlier posts? (After this, old ideas may come again.)',qgFail:'Could not get a fresh, different text — press again',
   advAi:'🤖 Detailed AI writer (the earlier options)',
+  cTitle:'✍️ Claude (Anthropic) — for writing stories, posts & captions',cIntro:'Claude writes with a more human, emotional feel. When a Claude key is added, all writing (stories, posts, captions, tools) uses Claude; pictures are still made with Gemini. You pay Anthropic only for what you use.',
+  cModel:'Claude model',cmSonnet:'Claude Sonnet 5.5 — best balance (recommended)',cmOpus:'Claude Opus 5.5 — finest writing, about 2× cost',cmHaiku:'Claude Haiku 5.5 — cheapest, simpler writing',
+  cUse:'Use Claude for all writing (uncheck to use Gemini again)',cHowT:'🔑 How to get a Claude API key (5 minutes)',
+  cH1:'Open platform.claude.com (Claude Console) in Chrome and sign up with your Gmail.',cH2:'Go to Settings → Billing and add credit with a Visa/Mastercard (e.g. $5). This is prepaid — it can never charge more than you add.',
+  cH3:'Go to API Keys → “Create Key”, name it “Post Card”, and copy the key (starts with sk-ant-). It is shown only once.',cH4:'Paste it in the box above → Save → Test.',cH5:'Optional: in Billing, turn off auto-reload so spending stays within your credit.',
+  cCost:'Rough cost with Sonnet 5.5: one full story ≈ $0.03–0.05 (about ৳4–6); a short post or caption ≈ $0.01. Prices: Sonnet 5.5 $2 / $10 per million input/output tokens.',
+  cSec:'🔒 The key stays only in this browser and goes directly to Anthropic. Do not use it on shared computers. Prepaid credit keeps your spending safe.',
+  cKeyOk:'✅ Claude works',cKeyBad:'❌ Claude key not working',cCredit:'Claude: credit balance is too low — add credit in Claude Console → Billing',cOverload:'Claude is busy right now — try again in a minute',
+  tNoImgKey:'Pictures need a Gemini key (⚙️ Settings) — the story was written without a picture',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
   tStory:'Story',stTitle:'📖 Story post — the start on the card, the full story in the caption',stIntro:'One tap: a short story is written, a matching picture is made, the opening lines go on the card and the whole story goes into the caption.',
   stKindLbl:'Kind of story',stK1:'🌿 Life story',stK2:'🕋 From the Quran',stK3:'📖 From hadith',stCustomPh:'Or your own idea (optional), e.g. a son working abroad on Eid night',
   stSacredNote:'✅ Authentic only: the app downloads the real text (Quran: alquran.cloud — Bengali translation; hadith: Sahih al-Bukhari) and puts it in the caption word for word with the reference. The AI only writes the opening line and the “in our life” reflection — never the sacred text.',
@@ -810,6 +831,15 @@ const T = {
   qgCount:'এ পর্যন্ত {n}টি নতুন লেখা, কোনোটি রিপিট হয়নি',qgCardLbl:'কার্ডে',qgCapLblShort:'ক্যাপশন (মানুষ চাইলে এখানে পড়বে)',qgAny:'🎲 যেকোনো',
   qgCleared:'স্মৃতি মুছে ফেলা হয়েছে',qgConfirmClear:'আগের লেখাগুলোর স্মৃতি মুছে ফেলবেন? (এরপর পুরোনো ভাবনা আবার আসতে পারে।)',qgFail:'আলাদা নতুন লেখা পাওয়া যায়নি — আবার চাপুন',
   advAi:'🤖 বিস্তারিত AI লেখক (আগের অপশনগুলো)',
+  cTitle:'✍️ Claude (Anthropic) — গল্প, পোস্ট ও ক্যাপশন লেখার জন্য',cIntro:'Claude আরও মানবিক, আবেগময় ভঙ্গিতে লেখে। Claude কী দিলে সব লেখার কাজ (গল্প, পোস্ট, ক্যাপশন, টুলস) Claude দিয়ে হবে; ছবি আগের মতো Gemini দিয়ে তৈরি হবে। যতটুকু ব্যবহার করবেন, শুধু ততটুকুর বিল Anthropic-কে দেবেন।',
+  cModel:'Claude মডেল',cmSonnet:'Claude Sonnet 5.5 — মান ও খরচের সেরা ভারসাম্য (প্রস্তাবিত)',cmOpus:'Claude Opus 5.5 — সবচেয়ে সুন্দর লেখা, খরচ প্রায় দ্বিগুণ',cmHaiku:'Claude Haiku 5.5 — সবচেয়ে কম খরচ, সাধারণ লেখা',
+  cUse:'সব লেখার কাজে Claude ব্যবহার করুন (টিক তুলে দিলে আবার Gemini)',cHowT:'🔑 Claude API কী কীভাবে নেবেন (৫ মিনিট)',
+  cH1:'Chrome-এ platform.claude.com (Claude Console) খুলুন এবং আপনার Gmail দিয়ে সাইন আপ করুন।',cH2:'Settings → Billing-এ গিয়ে Visa/Mastercard দিয়ে ক্রেডিট যোগ করুন (যেমন ৫ ডলার)। এটি প্রিপেইড — যতটুকু যোগ করবেন, তার বেশি কখনো কাটবে না।',
+  cH3:'API Keys → “Create Key” চাপুন, নাম দিন “Post Card”, তারপর কী-টি কপি করুন (sk-ant- দিয়ে শুরু)। এটি শুধু একবারই দেখায়।',cH4:'উপরের ঘরে পেস্ট করুন → সংরক্ষণ → পরীক্ষা।',cH5:'ঐচ্ছিক: Billing-এ auto-reload বন্ধ রাখুন, তাহলে খরচ ক্রেডিটের মধ্যেই থাকবে।',
+  cCost:'আনুমানিক খরচ (Sonnet 5.5): একটি পূর্ণ গল্প ≈ ০.০৩–০.০৫ ডলার (প্রায় ৪–৬ টাকা); ছোট পোস্ট বা ক্যাপশন ≈ ০.০১ ডলার। দাম: Sonnet 5.5 প্রতি ১০ লাখ টোকেনে ইনপুট ২ ডলার / আউটপুট ১০ ডলার।',
+  cSec:'🔒 কী শুধু এই ব্রাউজারেই থাকে এবং সরাসরি Anthropic-এ যায়। শেয়ার করা কম্পিউটারে ব্যবহার করবেন না। প্রিপেইড ক্রেডিট থাকায় খরচ নিরাপদ থাকে।',
+  cKeyOk:'✅ Claude কাজ করছে',cKeyBad:'❌ Claude কী কাজ করছে না',cCredit:'Claude: ক্রেডিট শেষ — Claude Console → Billing-এ ক্রেডিট যোগ করুন',cOverload:'Claude এখন ব্যস্ত — এক মিনিট পর আবার চেষ্টা করুন',
+  tNoImgKey:'ছবির জন্য Gemini কী লাগবে (⚙️ সেটিংস) — গল্পটি ছবি ছাড়া লেখা হয়েছে',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
   tStory:'গল্প',stTitle:'📖 গল্পের পোস্ট — কার্ডে শুরু, ক্যাপশনে পুরো গল্প',stIntro:'এক চাপে: একটি ছোট গল্প লেখা হবে, মানানসই ছবি তৈরি হবে, গল্পের শুরুর আকর্ষণীয় লাইনগুলো কার্ডে বসবে আর পুরো গল্পটা ক্যাপশনে থাকবে।',
   stKindLbl:'গল্পের ধরন',stK1:'🌿 জীবনের গল্প',stK2:'🕋 কুরআনের গল্প',stK3:'📖 হাদিসের গল্প',stCustomPh:'অথবা নিজের ভাবনা লিখুন (ঐচ্ছিক), যেমন: ঈদের রাতে প্রবাসী ছেলে',
   stSacredNote:'✅ শুধু অথেন্টিক: অ্যাপ আসল লেখা ডাউনলোড করে (কুরআন: alquran.cloud — বাংলা অনুবাদ; হাদিস: সহিহ বুখারি) এবং ক্যাপশনে রেফারেন্সসহ হুবহু বসায়। AI শুধু শুরুর লাইন আর “আমাদের জীবনে” অংশটুকু লেখে — কুরআন/হাদিসের লেখা কখনো নয়।',
@@ -911,7 +941,7 @@ const FIELDS = { general: Object.assign({}, DEF_FIELDS.general, store.get('field
 const BRAND = { general: Object.assign({}, DEF_BRAND.general, store.get('brand_general', {})), islamic: Object.assign({}, DEF_BRAND.islamic, store.get('brand_islamic', {})) };
 ['general', 'islamic'].forEach(m => { if(!TPLS[DESIGN[m].template] || TPLS[DESIGN[m].template].mode !== m) DESIGN[m] = defDesign(m); });
 const D = () => DESIGN[MODE], F = () => FIELDS[MODE], B = () => BRAND[MODE];
-const S = { gkey: store.get('gkey', ''), gmodel: store.get('gmodel', ''), imodel: store.get('imodel', ''), theme: store.get('theme', 'light'), tab: 'text', src: null };
+const S = { ckey: store.get('ckey', ''), cmodel: store.get('cmodel', 'claude-sonnet-5-5'), useClaude: store.get('useClaude', true), gkey: store.get('gkey', ''), gmodel: store.get('gmodel', ''), imodel: store.get('imodel', ''), theme: store.get('theme', 'light'), tab: 'text', src: null };
 const C = { isrc:'none', img:null, tainted:false, upUrl:'', aiUrl:'', linkUrl:'', panX:0, panY:0, zoom:100, pmax:{x:0,y:0}, regions:[], logos:{}, aiImages:[], aiIdx:-1, textFs:99, undo:[], loadTok:0 };
 let saveT;
 function saveSoon(){ clearTimeout(saveT); saveT = setTimeout(() => { persistNow(); histRecord(); }, 350); }
@@ -1664,8 +1694,38 @@ const GEN_GUARD = 'Write original lines. Do not attribute quotes to real or famo
 const MONO_GUARD = ' FACEBOOK MONETIZATION RULES (must follow): no engagement bait — never ask readers to like, react, share, tag or mention friends, follow the page, or comment specific words, numbers or emoji (for example "Amin", "আমিন লিখুন", "Yes"), and never write lines like "don\'t leave without…" / "না বলে যাবেন না". No clickbait, no exaggeration ("viral", "you will be shocked"), no false or unverifiable claims. Keep it sincere and original.';
 const CTA_RULE = ' End with ONE sincere, open question about the topic that invites real reflection (it must not ask people to like, share, tag, or type a specific word).';
 const SACRED_PAT = /(রাসূল|রাসুল|নবী|নবীজি|রসূল)[^।\n]{0,25}(বলেছেন|বলেন|ইরশাদ)|হাদিসে|হাদীসে|কুরআনে|কোরআনে|আল্লাহ\s*(তা[‘'আ]*লা\s*)?(বলেন|বলেছেন|ইরশাদ)|সূরা\s|আয়াত|ﷺ|\(সা[ঃ:.]?\)/;
-function needKey(){ if(S.gkey) return false; toast(t('tNoKey')); return true; }
-function refreshKeyHints(){ document.querySelectorAll('[data-keyhint]').forEach(e => e.classList.toggle('hidden', !!S.gkey)); }
+/* ---- Claude (Anthropic) for writing; Gemini stays for pictures ---- */
+const CAPI = 'https://api.anthropic.com/v1/messages';
+const useClaude = () => !!S.ckey && (S.useClaude || !S.gkey);
+async function claude(body, ms){
+  const parts = (body.contents || []).flatMap(c => c.parts || []).map(p => p.text || '').join('\n');
+  const json = body.generationConfig && body.generationConfig.responseMimeType === 'application/json';
+  const prompt = parts + (json ? '\n\nReply with the JSON object only — no code fences, no extra text.' : '');
+  const to = withTimeout(Math.max(ms || 60000, 90000));
+  try{
+    let r;
+    try{ r = await fetch(CAPI, { method: 'POST', signal: to.signal, headers: { 'content-type': 'application/json', 'x-api-key': S.ckey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: S.cmodel || 'claude-sonnet-5-5', max_tokens: 4096, system: 'You are a gifted Bengali writer for Facebook pages. Write natural, warm, human Bengali. Follow every instruction exactly.', messages: [{ role: 'user', content: prompt }] }) }); }
+    catch(e){ if(e.name === 'AbortError') throw e; throw friendly(t('eNet')); }
+    const j = await r.json().catch(() => ({}));
+    if(!r.ok){
+      const m = (j.error && j.error.message) || ('HTTP ' + r.status);
+      if(r.status === 401 || /api.?key|authentication/i.test(m)) throw friendly(t('cKeyBad') + ' (401)');
+      if(/credit balance/i.test(m)) throw friendly(t('cCredit'));
+      if(r.status === 529 || r.status === 503 || /overloaded/i.test(m)) throw friendly(t('cOverload'));
+      if(r.status === 429) throw friendly(t('eQuota'));
+      const er = new Error('Claude: ' + m); er.status = r.status; throw er;
+    }
+    const text = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    if(!text) throw new Error('EMPTY');
+    return { text, model: j.model || S.cmodel };
+  }finally{ to.done(); }
+}
+function writerBadge(){ document.querySelectorAll('.writerTag').forEach(x => { x.textContent = (S.gkey || S.ckey) ? (useClaude() ? t('usingClaude') : t('usingGemini')) : ''; }); }
+function writeAI(body, ms){ return useClaude() ? claude(body, ms) : gemini(body, ms); }
+function needKey(){ if(S.gkey || S.ckey) return false; toast(t('tNoKey')); return true; }
+function needGKey(){ if(S.gkey) return false; toast(t('tNoImgKey')); return true; }
+function refreshKeyHints(){ document.querySelectorAll('[data-keyhint]').forEach(e => e.classList.toggle('hidden', !!(S.gkey || S.ckey))); }
 
 /* ================= fields / UI sync ================= */
 const isSacred = () => ['hadith', 'ayah', 'sacred'].includes(F().origin);
@@ -1836,7 +1896,7 @@ async function extractMatn(){
   if(needKey()) return;
   busy('hStatus', true);
   try{
-    const r = await gemini({ contents: [{ role: 'user', parts: [{ text: 'Below is a Bengali hadith text including the chain of narrators. Return ONLY the main statement (the matn — the core narration or the words of the Prophet ﷺ), copied EXACTLY character-for-character from the text, without the chain of narrators. Do not add, remove, translate or change any word inside the copied part. No quotes, no explanation.\n\nTEXT:\n' + f.full.text }] }], generationConfig: { temperature: 0 } }, 60000);
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: 'Below is a Bengali hadith text including the chain of narrators. Return ONLY the main statement (the matn — the core narration or the words of the Prophet ﷺ), copied EXACTLY character-for-character from the text, without the chain of narrators. Do not add, remove, translate or change any word inside the copied part. No quotes, no explanation.\n\nTEXT:\n' + f.full.text }] }], generationConfig: { temperature: 0 } }, 60000);
     const out = norm(r.text.replace(/^["“'«]+|["”'»]+$/g, ''));
     const key = s => s.replace(/[\s‌‍"“”'‘’«»(),।.:;!?\-–—]/g, '');
     if(out.length < 15 || !key(f.full.text).includes(key(out))){ toast(t('tNotVerbatim')); return; }
@@ -1908,7 +1968,7 @@ async function aiWrite(){
     if(MODE === 'islamic' && $('aiSource').value !== 'none'){ renderPostOptions(await verifiedPosts(topic || L(type.n), 3)); return; }
     const what = type.id === 'custom' ? 'Follow this instruction: ' + topic : 'Write ' + type.p + (topic ? ' on the topic: "' + topic + '"' : '') + '.';
     const prompt = 'You write social-media photo-card text for a Bengali Facebook page. ' + what + ' Write 3 different options in Bengali. Each "text" must be ' + LEN_TXT[$('aiLen').value] + '; use line breaks (\\n) for rhythm where natural; wrap the 1–2 most important words in *asterisks* for highlighting. "heading" is an optional 1–3 word label (e.g. "জীবনের কথা"). Leave "ref" empty. ' + (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + styleBlock() + ' Return ONLY JSON: {"options":[{"heading":"","text":"","ref":""}]}';
-    const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.95, responseMimeType: 'application/json' } }, 60000);
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.95, responseMimeType: 'application/json' } }, 60000);
     let opts = (parseJson(r.text).options || []).map(o => ({ heading: norm(o.heading || ''), text: clean(o.text || '').replace(/\\n/g, '\n'), ref: '' })).filter(o => o.text);
     let dropped = 0;
     if(MODE === 'islamic'){ const k = opts.length; opts = opts.filter(o => !SACRED_PAT.test(o.text + ' ' + o.heading)); dropped = k - opts.length; }
@@ -1943,7 +2003,7 @@ async function aiTool(kind){
   document.querySelectorAll('[data-tool]').forEach(b => b.disabled = true); busy('toolStatus', true);
   try{
     const guard = MODE === 'islamic' ? ' ' + ISL_GUARD : '';
-    const r = await gemini({ contents: [{ role: 'user', parts: [{ text: P[kind] + guard + '\n\nTEXT:\n' + f.text }] }], generationConfig: { temperature: 0.5 } }, 60000);
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: P[kind] + guard + '\n\nTEXT:\n' + f.text }] }], generationConfig: { temperature: 0.5 } }, 60000);
     const out = clean(r.text);
     if(!out) throw new Error('EMPTY');
     if(MODE === 'islamic' && kind !== 'heading' && SACRED_PAT.test(out) && !SACRED_PAT.test(f.text)){ toast(t('tNotVerbatim')); return; }
@@ -2007,7 +2067,7 @@ async function aiCaption(){
     if(isSacred()){
       const full = f.full || { text: p.text, arabic: f.arabic, ref: p.ref };
       const prompt = 'You help a Bengali Islamic Facebook page. For the ' + (f.origin === 'ayah' ? 'Quran ayah translation' : 'hadith') + ' below, write in Bengali: "intro" (' + (style === 'hook' ? 'one emotional, honest hook line of at most 12 words that makes people want to read on — no clickbait' : 'one warm opening line, style: ' + style) + '), ' + (style === 'hook' ? '"lesson" (3–5 short lines: a small relatable everyday story or example about ordinary unnamed people — never about the Prophet ﷺ, Companions or any real person — that shows how this lesson applies today, ending with the takeaway in your own words)' : style === 'reflect' ? '"lesson" (1–2 sentences: a general practical takeaway in your own words)' : '"lesson" (empty string)') + ', "closing" (one short supplication-style line such as asking Allah for guidance), and "question" (' + ($('capCta').checked ? 'one sincere open question asking what lesson the reader takes from it' : 'empty string') + '). ' + (emo ? 'You may use 1–2 fitting emoji.' : 'No emoji.') + ' Do NOT repeat, paraphrase or add to the sacred text, and do not attribute any new words to Allah or the Prophet ﷺ.' + MONO_GUARD + ' Return ONLY JSON {"intro":"","lesson":"","closing":"","question":""}.\n\nTEXT:\n' + full.text + '\nREFERENCE: ' + full.ref;
-      const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, responseMimeType: 'application/json' } }, 60000);
+      const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, responseMimeType: 'application/json' } }, 60000);
       const o = parseJson(r.text); const parts = [];
       if(norm(o.intro)) parts.push(norm(o.intro));
       if($('capFull').checked){ if(full.arabic) parts.push(full.arabic); parts.push(full.text); if(full.ref) parts.push((emo ? '📚 ' : '— ') + full.ref); }
@@ -2018,7 +2078,7 @@ async function aiCaption(){
     } else {
       const shape = style === 'hook' ? 'Structure: line 1 = an emotional, honest hook (max 12 words) that makes people stop and read on, never clickbait; blank line; then 3–6 short lines telling a small relatable everyday story or example about ordinary unnamed people (never real, famous or historical persons) that leads to the lesson; blank line; one line with the lesson.' : '2–5 short lines, natural and engaging.';
       const prompt = 'Write a Bengali Facebook caption (style: ' + style + ') to post with a photo card whose text is below. ' + shape + ' Add the page owner\'s own perspective, feeling or a small lesson — do not simply repeat the card text. ' + (emo ? 'Use 1–3 fitting emoji.' : 'No emoji.') + ($('capCta').checked ? CTA_RULE : '') + ' No hashtags. ' + (MODE === 'islamic' ? ISL_GUARD : GEN_GUARD) + MONO_GUARD + ' Return only the caption.\n\nCARD TEXT:\n' + (p.heading ? p.heading + '\n' : '') + p.text + (p.ref ? '\n— ' + p.ref : '');
-      const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85 } }, 60000);
+      const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85 } }, 60000);
       out = clean(r.text).replace(/(^|\s)#\S+/g, '').trim();
       if(MODE === 'islamic' && SACRED_PAT.test(out)) throw friendly(t('tNotVerbatim'));
     }
@@ -2066,16 +2126,16 @@ function suggestLocal(){
     : 'Soft cinematic background with warm bokeh lights and gentle colours, emotional mood that suits: "' + p + '".';
 }
 async function suggestPrompt(){
-  if(!S.gkey){ $('imgPrompt').value = suggestLocal(); return; }
+  if(!S.gkey && !S.ckey){ $('imgPrompt').value = suggestLocal(); return; }
   const btn = $('imgSuggestBtn'); btn.disabled = true; busy('imgStatus', true);
   try{
-    const r = await gemini({ contents: [{ role: 'user', parts: [{ text: 'Write ONE image-generation prompt (1–2 sentences, English) for a background image behind this social-media card text. Describe scene, light, colours and mood; leave calm space for text. ' + (MODE === 'islamic' ? 'Visual style: soft painterly illustration in warm cream, golden-sunrise and deep-green tones (mosque silhouette, lanterns, open Quran on a wooden stand, leaves, gentle light). ' + ($('noFigures').checked ? 'No people, faces, human figures or animals. ' : '') : 'No recognisable real people. ') + 'No text or logos. Return only the prompt.\n\nCARD TEXT:\n' + cardPlain().text.slice(0, 600) }] }], generationConfig: { temperature: 0.7 } }, 45000);
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: 'Write ONE image-generation prompt (1–2 sentences, English) for a background image behind this social-media card text. Describe scene, light, colours and mood; leave calm space for text. ' + (MODE === 'islamic' ? 'Visual style: soft painterly illustration in warm cream, golden-sunrise and deep-green tones (mosque silhouette, lanterns, open Quran on a wooden stand, leaves, gentle light). ' + ($('noFigures').checked ? 'No people, faces, human figures or animals. ' : '') : 'No recognisable real people. ') + 'No text or logos. Return only the prompt.\n\nCARD TEXT:\n' + cardPlain().text.slice(0, 600) }] }], generationConfig: { temperature: 0.7 } }, 45000);
     $('imgPrompt').value = clean(r.text) || suggestLocal();
   }catch(e){ $('imgPrompt').value = $('imgPrompt').value || suggestLocal(); toast(aiErr(e)); }
   finally{ btn.disabled = false; busy('imgStatus', false); }
 }
 async function genImage(){
-  if(needKey()) return;
+  if(needGKey()) return;
   let p = $('imgPrompt').value.trim(); if(!p){ p = suggestLocal(); $('imgPrompt').value = p; }
   const ratio = D().ratio, btn = $('imgGenBtn'); btn.disabled = true; busy('imgStatus', true);
   try{
@@ -2288,7 +2348,8 @@ function resetBrand(){ if(!confirm(t('confirmBrand'))) return; BRAND[MODE] = Obj
 function masterReset(keepArg){
   const fromModal = typeof keepArg === 'boolean';
   if(!fromModal && !confirm(t('confirmMaster'))) return;
-  const keep = fromModal ? keepArg : $('keepLib').checked, keepVals = keep ? { library: store.get('library', []), gkey: store.get('gkey', ''), gmodel: store.get('gmodel', ''), imodel: store.get('imodel', ''), lang: store.get('lang', 'en') } : null;
+  const keep = fromModal ? keepArg : $('keepLib').checked, keepVals = keep ? { library: store.get('library', []), gkey: store.get('gkey', ''), gmodel: store.get('gmodel', ''), imodel: store.get('imodel', ''), lang: store.get('lang', 'bn'), ckey: store.get('ckey', ''), cmodel: store.get('cmodel', 'claude-sonnet-5-5'), useClaude: store.get('useClaude', true),
+    st_hist_islamic: store.get('st_hist_islamic', []), st_hist_general: store.get('st_hist_general', []), qg_hist_islamic: store.get('qg_hist_islamic', []), qg_hist_general: store.get('qg_hist_general', []) } : null;
   try{ Object.keys(localStorage).filter(k => k.indexOf('tfpc_') === 0).forEach(k => localStorage.removeItem(k)); }catch(e){}
   if(keepVals) Object.keys(keepVals).forEach(k => store.set(k, keepVals[k]));
   toast(t('tReset')); setTimeout(() => location.reload(), 600);
@@ -2307,7 +2368,7 @@ async function aiFullPost(){
     const prompt = 'You are the writer for a Bengali Facebook page. The page owner describes today’s post: "' + (desc || type.p) + '". ' + (type.id !== 'custom' && desc ? 'Style: ' + type.p + '. ' : '') +
       'Create one complete post in Bengali: "heading" (1–3 word label for the photo card), "text" (the photo-card text, ' + LEN_TXT[$('aiLen').value] + ', use \\n line breaks for rhythm, wrap the 1–2 most important words in *asterisks*), "caption" (a Facebook caption of 3–6 short lines that expands on the card' + (emo ? ', with 1–3 fitting emoji' : ', no emoji') + ', adding the owner\'s own perspective instead of repeating the card' + ($('capCta').checked ? ', ending with one sincere open question about the topic (not asking to like/share/tag or type a word)' : '') + ', no hashtags), and "hashtags" (3–4 relevant Bengali or English hashtags without #). ' +
       (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + MONO_GUARD + styleBlock() + ' Return ONLY JSON: {"heading":"","text":"","caption":"","hashtags":[]}';
-    const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, responseMimeType: 'application/json' } }, 70000);
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, responseMimeType: 'application/json' } }, 70000);
     const o = parseJson(r.text);
     const text = clean(o.text || '').replace(/\\n/g, '\n'), cap = clean(o.caption || '').replace(/\\n/g, '\n').replace(/(^|\s)#\S+/g, '').trim();
     if(!text) throw new Error('EMPTY');
@@ -2358,13 +2419,13 @@ async function fetchSource(src){
   throw new Error('kind');
 }
 async function pickSources(topic){
-  const r = await gemini({ contents: [{ role: 'user', parts: [{ text: 'A Bengali Islamic Facebook page wants a post about: "' + topic + '". Suggest up to 4 REAL sources that fit this topic best, most relevant first: Quran ayah ranges (at most 4 consecutive ayahs) or hadith from Sahih al-Bukhari or Sahih Muslim (standard numbering as on sunnah.com). Only suggest sources you are sure exist and match the topic. Return ONLY JSON: {"sources":[{"kind":"quran","surah":89,"from":27,"to":30},{"kind":"hadith","book":"bukhari","number":3244}]}' }] }], generationConfig: { temperature: 0.3, responseMimeType: 'application/json' } }, 60000);
+  const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: 'A Bengali Islamic Facebook page wants a post about: "' + topic + '". Suggest up to 4 REAL sources that fit this topic best, most relevant first: Quran ayah ranges (at most 4 consecutive ayahs) or hadith from Sahih al-Bukhari or Sahih Muslim (standard numbering as on sunnah.com). Only suggest sources you are sure exist and match the topic. Return ONLY JSON: {"sources":[{"kind":"quran","surah":89,"from":27,"to":30},{"kind":"hadith","book":"bukhari","number":3244}]}' }] }], generationConfig: { temperature: 0.3, responseMimeType: 'application/json' } }, 60000);
   return (parseJson(r.text).sources || []).slice(0, 5);
 }
 async function writeAround(src, topic){
   const prompt = 'Write a Bengali Facebook post about "' + (topic || 'this source') + '" built around the VERIFIED SOURCE below, in the page owner\'s style.' + styleBlock() +
     'Structure: "intro" = a short lead-in that introduces who is speaking (for Quran: e.g. "আল্লাহ বলেছেন," / "আল্লাহ কুরআনে বলেছেন,"; for hadith use the speaker shown in the source text, e.g. "রাসূলুল্লাহ ﷺ বলেছেন,"; for a hadith qudsi "আল্লাহ বলেছেন,"). "quote" = the most touching contiguous part of the SOURCE TEXT, copied EXACTLY word-for-word (you may only add line breaks \\n between its parts; never change, add or drop words; do not include the chain of narrators). "reflection" = 1–3 short, emotional lines in the owner\'s voice (e.g. starting with "সুবহানাল্লাহ…", "আহ্…"), your own words, not attributed to Allah or the Prophet ﷺ. "heading" = a 1–3 word label. "hashtags" = 3–4 hashtags without #.' + MONO_GUARD + ' If the source does not really fit the topic set "relevant": false. Return ONLY JSON {"relevant":true,"heading":"","intro":"","quote":"","reflection":"","hashtags":[]}.\n\nSOURCE TYPE: ' + (src.kind === 'quran' ? 'Quran (Bengali translation)' : 'Hadith (Bengali translation)') + '\nREFERENCE: ' + src.ref + '\nSOURCE TEXT:\n' + src.text.slice(0, 4000);
-  const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.8, responseMimeType: 'application/json' } }, 70000);
+  const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.8, responseMimeType: 'application/json' } }, 70000);
   const o = parseJson(r.text);
   if(o.relevant === false) return null;
   let quote = String(o.quote || '').replace(/\\n/g, '\n').replace(/^["“'«\s]+|["”'»\s]+$/g, '').trim();
@@ -2424,7 +2485,7 @@ function renderPostOptions(list){
   });
 }
 async function aiImageForPost(){
-  if(needKey()) return;
+  if(needGKey()) return;
   if(!cardPlain().text){ toast(t('tEmpty')); return; }
   const b = $('aiImgBtn'); b.disabled = true;
   try{ await suggestPrompt(); await genImage(); }
@@ -2464,9 +2525,9 @@ async function hlAuto(){
   const btn = $('hlAutoBtn'); btn.disabled = true;
   try{
     let phrases = [];
-    if(S.gkey){
+    if(S.gkey || S.ckey){
       try{
-        const r = await gemini({ contents: [{ role: 'user', parts: [{ text: 'From this Bengali social-media card text, choose the 1 to 3 most powerful, emotional short phrases (1–4 words each) that should be visually highlighted. Copy each phrase EXACTLY as it appears in the text. Return ONLY JSON {"phrases":[]}.\n\nTEXT:\n' + plain }] }], generationConfig: { temperature: 0.2, responseMimeType: 'application/json' } }, 40000);
+        const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: 'From this Bengali social-media card text, choose the 1 to 3 most powerful, emotional short phrases (1–4 words each) that should be visually highlighted. Copy each phrase EXACTLY as it appears in the text. Return ONLY JSON {"phrases":[]}.\n\nTEXT:\n' + plain }] }], generationConfig: { temperature: 0.2, responseMimeType: 'application/json' } }, 40000);
         phrases = (parseJson(r.text).phrases || []).filter(p => plain.includes(norm(p)));
       }catch(e){ if(authErr(e)) throw e; }
     }
@@ -2524,6 +2585,7 @@ const ST_CHARS = ['a rickshaw puller','a young garment worker','a university stu
 const ST_PLACES = ['a rainy night in Dhaka','a village during monsoon','a hospital corridor at midnight','a bus terminal before Eid','a launch on the river','a small rented room','a rooftop at sunset','a market at closing time','the kitchen before Fajr','an airport departure gate','a tea stall in winter fog','a school field after rain','a train journey home','a mosque courtyard after Isha','a crowded office','a village courtyard on a moonlit night'];
 const ST_LEN = 'about 150 to 230 words';
 const stHist = () => store.get('st_hist_' + MODE, []);
+/* life-story duplicate checks must ignore skip markers */
 const stUsed = k => stHist().some(h => h.k === k);
 let ST_KIND = store.get('st_kind', 'life'), ST_IMG = store.get('st_img', 'paint');
 const ST_BACK = [], ST_SKIP = {};
@@ -2536,7 +2598,7 @@ function stBuildUi(){
   const tp = store.get('st_topic_' + MODE, 'any'), box = $('stTopics'); box.innerHTML = '';
   QG_TOPICS[MODE].forEach(([id, bn, en]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (id === tp ? ' on' : ''); b.textContent = id === 'any' ? t('qgAny') : (LANG === 'bn' ? bn : en.charAt(0).toUpperCase() + en.slice(1));
     b.addEventListener('click', () => { store.set('st_topic_' + MODE, id); box.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b)); }); box.appendChild(b); });
-  const n = stHist().length; $('stCount').textContent = n ? t('stCount').replace('{n}', LANG === 'bn' ? bnNum(n) : n) : '';
+  const n = stHist().filter(h => h.sum !== 'skip').length; $('stCount').textContent = n ? t('stCount').replace('{n}', LANG === 'bn' ? bnNum(n) : n) : '';
   $('stPrev').disabled = !ST_BACK.some(x => x.mode === MODE);
 }
 const pick = a => a[Math.floor(Math.random() * a.length)];
@@ -2544,7 +2606,7 @@ const HUMAN_RULES = 'WRITE LIKE A REAL BENGALI STORYTELLER, NOT A ROBOT: concret
 async function stLife(){
   const tp = store.get('st_topic_' + MODE, 'any'), custom = $('stCustom').value.trim();
   let topic = QG_TOPICS[MODE].find(x => x[0] === tp) || QG_TOPICS[MODE][0]; if(topic[0] === 'any') topic = pick(QG_TOPICS[MODE].slice(1));
-  const hist = stHist().filter(h => h.k === 'life'); let extra = '';
+  const hist = stHist().filter(h => h.k === 'life' && h.sum !== 'skip'); let extra = '';
   for(let attempt = 0; attempt < 3; attempt++){
     const ch = pick(ST_CHARS), pl = pick(ST_PLACES), seed = Math.floor(Math.random() * 1e6);
     const avoid = hist.slice(-25).map(h => '- ' + h.sum).join('\n');
@@ -2555,7 +2617,7 @@ async function stLife(){
       'It is fiction: never call it a true story or claim it really happened.' + MONO_GUARD + '\n' +
       'Return ONLY JSON: {"title":"(3–6 word story title)","cardLines":"(2–4 very short lines, at most 28 words in total, using \\n: the opening MOMENT of the story that stops the scroll and ends on curiosity — not a summary, not the lesson. Wrap 1–2 key words in *asterisks*)","story":"(the full story, ' + ST_LEN + ', short paragraphs separated by \\n\\n, continuing naturally from the card lines)","lesson":"(one line, in your own words)","question":"(one sincere open question for readers)","summary":"(one-line English summary of the plot for our records)","imagePrompt":"(English, 1–2 sentences describing the key scene, mood and light — no text)","hashtags":["3 hashtags without #"]}' +
       (avoid ? '\n\nTHESE STORIES WERE ALREADY POSTED — the new one must have a different plot, characters, names and ending:\n' + avoid : '') + extra;
-    const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 1.0, topP: 0.95, responseMimeType: 'application/json' } }, 90000);
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 1.0, topP: 0.95, responseMimeType: 'application/json' } }, 90000);
     const o = parseJson(r.text), fx = s => clean(s || '').replace(/\\n/g, '\n').trim();
     const p = { title: norm(o.title || ''), card: fx(o.cardLines), story: fx(o.story), lesson: norm(o.lesson || ''), question: norm(o.question || ''), sum: norm(o.summary || '').slice(0, 220), img: norm(o.imagePrompt || ''), tags: Array.isArray(o.hashtags) ? o.hashtags : [] };
     if(!p.card || p.story.length < 200){ extra = '\n\nYour last answer was incomplete. Fill every field.'; continue; }
@@ -2565,9 +2627,22 @@ async function stLife(){
   }
   throw friendly(t('stFail'));
 }
+/* Quran passages that narrate stories — split into 5-ayah parts (text is always downloaded, never typed) */
+const ST_QRANGES = [[2,30,39],[2,49,61],[2,67,73],[2,246,251],[2,258,260],[3,35,47],[5,20,31],[7,59,93],[7,103,156],[7,163,166],[9,40,40],[10,71,92],[11,25,95],[12,4,101],[14,35,41],[15,51,77],[18,9,26],[18,32,44],[18,60,98],[19,2,58],[20,9,98],[21,51,91],[26,10,191],[27,7,58],[28,3,46],[28,76,83],[29,14,40],[31,12,19],[34,10,21],[36,13,29],[37,75,148],[38,17,48],[40,23,46],[44,17,33],[51,24,46],[54,9,42],[68,17,33],[71,1,28],[80,1,10],[85,4,10],[105,1,5]];
+/* story-rich books of Sahih al-Bukhari: Prophets, Virtues, Companions, Ansar, Campaigns */
+const ST_HRANGES = [[3326,3488],[3489,3648],[3649,3775],[3776,3948],[3949,4473]];
+const NARR_RX = /বললেন|বলল|বললো|বলেন|জিজ্ঞেস|অতঃপর|এরপর|তখন|তারপর|ফিরে|আসল|এলো|গেলেন|গেল/g;
+function stQuranWindows(){
+  const out = []; ST_QRANGES.forEach(([s, a, b]) => { for(let f = a; f <= b; f += 5) out.push({ s, f, t: Math.min(f + 4, b), key: 'q:' + s + ':' + f + ':' + Math.min(f + 4, b), title: '', scene: '' }); }); return out;
+}
+function stUsedQuranRanges(){
+  return stHist().map(h => h.k).filter(k => k && k[0] === 'q').map(k => { const p = k.split(':').map(Number), c = ST_QURAN.find(x => x.s === p[1] && x.f === p[2]); return [p[1], p[2], p[3] || (c ? c.t : p[2] + 4)]; });
+}
+const stHistAdd = (k, sum) => store.set('st_hist_' + MODE, stHist().concat({ k, sum, t: Date.now() }).slice(-4000));
 async function stSacredSource(kind){
   const list = kind === 'quran' ? ST_QURAN.map(x => Object.assign({ key: 'q:' + x.s + ':' + x.f }, x)) : ST_HADITH.map(x => Object.assign({ key: 'h:bukhari:' + x.n }, x));
   const free = list.filter(x => !stUsed(x.key) && !ST_SKIP[x.key]);
+  /* 1) hand-picked stories first */
   for(const c of free.sort(() => Math.random() - 0.5).slice(0, 4)){
     try{
       $('stStatusTxt').textContent = t('stFetchTxt');
@@ -2577,16 +2652,40 @@ async function stSacredSource(kind){
       return { kind: 'hadith', text: h.text, arabic: '', ref: 'সহিহ বুখারি, হাদিস: ' + bnNum(h.n), key: c.key, title: c.title, scene: c.scene };
     }catch(e){ if(e.status === 404) ST_SKIP[c.key] = 1; else throw friendly(t('stSrcFail')); }
   }
-  /* built-in list used up: ask the AI for a new REAL source, then download the real text */
+  $('stStatusTxt').textContent = t('stFetchTxt');
+  /* 2a) Quran: next unused part of a story passage */
+  if(kind === 'quran'){
+    const used = stUsedQuranRanges(), overlap = w => used.some(([s, a, b]) => s === w.s && !(w.t < a || w.f > b));
+    const wins = stQuranWindows().filter(w => !ST_SKIP[w.key] && !overlap(w)).sort(() => Math.random() - 0.5);
+    for(const w of wins.slice(0, 3)){
+      try{ const src = await fetchQuranRange(w.s, w.f, w.t); return Object.assign(src, { key: w.key, title: '', scene: '' }); }
+      catch(e){ ST_SKIP[w.key] = 1; if(!(e.status >= 400 && e.status < 500) && /fetch|network/i.test(String(e.message))) throw friendly(t('stSrcFail')); }
+    }
+  }
+  /* 2b) hadith: random search in the story books of Sahih al-Bukhari, keeping narrative hadith only */
+  if(kind === 'hadith'){
+    const total = ST_HRANGES.reduce((n, [a, b]) => n + b - a + 1, 0);
+    for(let tries = 0; tries < 10; tries++){
+      let r = Math.floor(Math.random() * total), n = 0;
+      for(const [a, b] of ST_HRANGES){ const len = b - a + 1; if(r < len){ n = a + r; break; } r -= len; }
+      const k = 'h:bukhari:' + n; if(stUsed(k) || ST_SKIP[k]) continue;
+      try{
+        const h = await fetchHadith('bukhari', n, 'ben');
+        if(h.text.length < 300 || (h.text.match(NARR_RX) || []).length < 3){ stHistAdd(k, 'skip'); continue; }
+        return { kind: 'hadith', text: h.text, arabic: '', ref: 'সহিহ বুখারি, হাদিস: ' + bnNum(h.n), key: k, title: '', scene: '' };
+      }catch(e){ if(e.status === 404){ stHistAdd(k, 'skip'); continue; } throw friendly(t('stSrcFail')); }
+    }
+  }
+  /* 3) last resort: ask the AI for a new REAL source, then download the real text */
   $('stStatusTxt').textContent = t('stUsedAll');
-  const used = stHist().filter(h => h.k && h.k[0] === (kind === 'quran' ? 'q' : 'h')).map(h => h.k).join(', ');
-  const ask = kind === 'quran' ? 'Suggest 4 Quran passages that NARRATE A STORY or event (prophets, past nations, parables) — each at most 5 consecutive ayahs. Avoid these already used (format q:surah:firstAyah): ' + used + '. Return ONLY JSON {"items":[{"surah":12,"from":4,"to":6}]}'
+  const used = stHist().filter(h => h.k && h.k[0] === (kind === 'quran' ? 'q' : 'h')).map(h => h.k).slice(-300).join(', ');
+  const ask = kind === 'quran' ? 'Suggest 4 Quran passages that NARRATE A STORY or event (prophets, past nations, parables) — each at most 5 consecutive ayahs. Avoid these already used (format q:surah:firstAyah[:lastAyah]): ' + used + '. Return ONLY JSON {"items":[{"surah":12,"from":4,"to":6}]}'
     : 'Suggest 6 hadith numbers from Sahih al-Bukhari (standard numbering as on sunnah.com) that tell a STORY or event (not rulings). Only numbers you are certain about. Avoid these already used (format h:bukhari:number): ' + used + '. Return ONLY JSON {"items":[{"number":2363}]}';
-  const r = await gemini({ contents: [{ role: 'user', parts: [{ text: ask }] }], generationConfig: { temperature: 0.6, responseMimeType: 'application/json' } }, 60000);
+  const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: ask }] }], generationConfig: { temperature: 0.6, responseMimeType: 'application/json' } }, 60000);
   for(const it of (parseJson(r.text).items || [])){
     try{
       $('stStatusTxt').textContent = t('stFetchTxt');
-      if(kind === 'quran'){ const k = 'q:' + parseInt(it.surah, 10) + ':' + parseInt(it.from, 10); if(stUsed(k)) continue; const src = await fetchQuranRange(it.surah, it.from, it.to); return Object.assign(src, { key: k, title: '', scene: '' }); }
+      if(kind === 'quran'){ const s = parseInt(it.surah, 10), f = parseInt(it.from, 10), to = Math.min(parseInt(it.to, 10) || f, f + 4), k = 'q:' + s + ':' + f + ':' + to; if(!s || !f || stUsedQuranRanges().some(([a, b, c]) => a === s && !(to < b || f > c))) continue; const src = await fetchQuranRange(s, f, to); return Object.assign(src, { key: k, title: '', scene: '' }); }
       const n = parseInt(it.number, 10), k = 'h:bukhari:' + n; if(!n || stUsed(k)) continue;
       const h = await fetchHadith('bukhari', n, 'ben'); if(h.text.length < 120) continue;
       return { kind: 'hadith', text: h.text, arabic: '', ref: 'সহিহ বুখারি, হাদিস: ' + bnNum(h.n), key: k, title: '', scene: '' };
@@ -2595,7 +2694,7 @@ async function stSacredSource(kind){
   throw friendly(t('stSrcFail'));
 }
 async function stSacred(kind){
-  for(let round = 0; round < 3; round++){
+  for(let round = 0; round < 5; round++){
     const src = await stSacredSource(kind);
     $('stStatusTxt').textContent = t('stWorkTxt');
     const prompt = 'A Bengali Islamic Facebook page posts an AUTHENTIC ' + (kind === 'quran' ? 'Quran story (Bengali translation of the ayahs)' : 'hadith story from Sahih al-Bukhari (Bengali translation)') + '. The SOURCE TEXT below will be printed word-for-word with its reference — you must NOT rewrite it. Write only the parts around it, in warm, human Bengali:\n' +
@@ -2605,9 +2704,9 @@ async function stSacred(kind){
       '"reflection": 3–5 short lines titled nothing — how this applies to our modern life today (work, family, phone, city), in your own heartfelt words; never attribute words to Allah or the Prophet ﷺ, never quote.\n"question": one sincere open question for readers.\n' +
       '"imagePrompt": English, the scene and mood only — no people, no faces, no prophets, only landscape, objects and light.\n"hashtags": 3 without #.\n' + HUMAN_RULES + MONO_GUARD +
       '\nReturn ONLY JSON {"relevant":true,"title":"","hook":"","context":"","excerpt":"","reflection":"","question":"","imagePrompt":"","hashtags":[]}\n\nREFERENCE: ' + src.ref + '\nSOURCE TEXT:\n' + src.text.slice(0, 5000);
-    const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85, responseMimeType: 'application/json' } }, 90000);
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85, responseMimeType: 'application/json' } }, 90000);
     const o = parseJson(r.text);
-    if(o.relevant === false){ store.set('st_hist_' + MODE, stHist().concat({ k: src.key, sum: 'skipped (not a story)', t: Date.now() }).slice(-600)); continue; }
+    if(o.relevant === false){ stHistAdd(src.key, 'skip'); continue; }
     const noQ = s => /["“”«»]/.test(s || '') ? '' : norm(s || '');
     let ex = String(o.excerpt || '').replace(/\\n/g, ' ').replace(/^["“'«\s]+|["”'»\s]+$/g, '').trim();
     if(ex.length < 12 || !keyNorm(src.text).includes(keyNorm(ex)) || qgWords(ex).size > 40){
@@ -2652,9 +2751,10 @@ async function stGenerate(){
     const want = MODE === 'islamic' ? 'storyi' : 'storyg';
     if(D().template !== want) applyTemplate(want);
     const cap = stCaption(p); setCaption(cap);
-    store.set('st_hist_' + MODE, stHist().concat({ k: p.k, sum: p.sum, card: p.kind === 'life' ? p.card : '', t: Date.now() }).slice(-600));
+    store.set('st_hist_' + MODE, stHist().concat({ k: p.k, sum: p.sum, card: p.kind === 'life' ? p.card : '', t: Date.now() }).slice(-4000));
     stShow(p, cap); stBuildUi();
-    if(ST_IMG !== 'none' && p.img){
+    if(ST_IMG !== 'none' && p.img && !S.gkey) toast(t('tNoImgKey'));
+    else if(ST_IMG !== 'none' && p.img){
       const style = ST_IMG === 'cine' ? 'Cinematic photorealistic film still, shallow depth of field, moody natural light, rich colour grade.' : 'Soft painterly digital illustration, warm cinematic colours, gentle light, storybook feeling.';
       const people = p.kind !== 'life' || (MODE === 'islamic' && $('noFigures').checked) ? ' Absolutely no people, prophets, faces or human figures — only landscape, objects and light.' : ' If a person appears, show them only from behind or as a distant silhouette, never a clear face.';
       $('imgPrompt').value = p.img + ' ' + style + people + ' Keep the lower part calm and darker for text.';
@@ -2755,7 +2855,7 @@ async function qgGenerate(randomTopic){
         (MODE === 'islamic' ? ISL_GUARD + ' You may mention Allah, prayer, dua, sabr, tawakkul, Jannah and the hereafter in your own words, but never as a quotation. ' : GEN_GUARD + ' ') + MONO_GUARD +
         (avoid ? '\n\nNEVER REPEAT: these posts were already published. Do not reuse their wording, their core idea, their metaphors or their opening words:\n' + avoid : '') + extra + styleBlock() +
         '\nReturn ONLY JSON: {"heading":"","text":"","hook":"","story":"","takeaway":"","question":"","hashtags":[]}';
-      const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 1.0, topP: 0.95, responseMimeType: 'application/json' } }, 70000);
+      const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 1.0, topP: 0.95, responseMimeType: 'application/json' } }, 70000);
       const o = parseJson(r.text), fx = s => clean(s || '').replace(/\\n/g, '\n').trim();
       const p = { heading: norm(o.heading || ''), text: fx(o.text), hook: norm(o.hook || ''), story: fx(o.story), takeaway: norm(o.takeaway || ''), question: norm(o.question || ''), tags: Array.isArray(o.hashtags) ? o.hashtags : [] };
       if(!p.text) continue;
@@ -2933,7 +3033,7 @@ function init(){
   $('gKey').value = S.gkey; $('gModel').value = S.gmodel; $('iModel').value = S.imodel;
   ['hArabic', 'hSahih', 'hGrade', 'aArabic', 'capEmoji', 'capTags', 'capFull', 'capCta', 'noFigures', 'aiWithImg'].forEach(id => { const v = store.get('chk_' + id, null); if(v !== null) $(id).checked = v; $(id).addEventListener('change', () => store.set('chk_' + id, $(id).checked)); });
   document.querySelectorAll('button[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
-  $('langBtn').addEventListener('click', () => { LANG = LANG === 'en' ? 'bn' : 'en'; store.set('lang', LANG); applyI18n(); fillSelects(); buildElemRows(); buildGallery(); renderPresets(); syncBrand(); updateImgUi(); syncDesign(); renderLib(); qgBuildUi(); stBuildUi(); renderMono(); });
+  $('langBtn').addEventListener('click', () => { LANG = LANG === 'en' ? 'bn' : 'en'; store.set('lang', LANG); applyI18n(); fillSelects(); buildElemRows(); buildGallery(); renderPresets(); syncBrand(); updateImgUi(); syncDesign(); renderLib(); qgBuildUi(); stBuildUi(); renderMono(); writerBadge(); });
   $('themeBtn').addEventListener('click', () => { S.theme = S.theme === 'dark' ? 'light' : 'dark'; store.set('theme', S.theme); document.documentElement.dataset.theme = S.theme; $('themeBtn').textContent = S.theme === 'dark' ? '☀️' : '🌙'; });
   document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
   document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.goto)));
@@ -3004,9 +3104,22 @@ function init(){
   $('libFile').addEventListener('change', async e => { const f = e.target.files && e.target.files[0]; e.target.value = ''; if(!f) return; try{ const j = JSON.parse(await f.text()); const items = (j.library || []).filter(x => x && x.f && typeof x.f.text === 'string' && (x.mode === 'general' || x.mode === 'islamic')); const ids = new Set(LIB.map(x => x.id)); LIB = items.filter(x => !ids.has(x.id)).concat(LIB).slice(0, 500); saveLib(); renderLib(); toast(t('tLibImported')); }catch(er){ toast(t('tBadFile')); } });
   // settings
   $('showKeyBtn').addEventListener('click', () => { const i = $('gKey'); i.type = i.type === 'password' ? 'text' : 'password'; });
+  $('cKey').value = S.ckey; $('cModelSel').value = S.cmodel; $('cUse').checked = S.useClaude;
+  $('showCKeyBtn').addEventListener('click', () => { const i = $('cKey'); i.type = i.type === 'password' ? 'text' : 'password'; });
+  const readC = () => { S.ckey = $('cKey').value.trim(); S.cmodel = $('cModelSel').value; S.useClaude = $('cUse').checked; };
+  const saveC = () => { readC(); store.set('ckey', S.ckey); store.set('cmodel', S.cmodel); store.set('useClaude', S.useClaude); refreshKeyHints(); writerBadge(); };
+  $('saveCKeyBtn').addEventListener('click', () => { saveC(); toast(t('tSaved')); });
+  $('cModelSel').addEventListener('change', saveC); $('cUse').addEventListener('change', saveC);
+  $('rmCKeyBtn').addEventListener('click', () => { $('cKey').value = ''; saveC(); $('cKeyState').textContent = ''; toast(t('tRemoved')); });
+  $('testCKeyBtn').addEventListener('click', async () => {
+    saveC(); if(!S.ckey){ toast(t('tNoKey')); return; }
+    $('cKeyState').textContent = '…';
+    try{ const r = await claude({ contents: [{ role: 'user', parts: [{ text: 'Reply with: OK' }] }] }, 30000); $('cKeyState').textContent = t('cKeyOk') + ' (' + r.model + ')'; }
+    catch(e){ $('cKeyState').textContent = t('cKeyBad') + ': ' + aiErr(e); }
+  });
   const readKey = () => { S.gkey = $('gKey').value.trim(); S.gmodel = $('gModel').value.trim(); S.imodel = $('iModel').value.trim(); MODELS = null; };
-  $('saveKeyBtn').addEventListener('click', () => { readKey(); store.set('gkey', S.gkey); store.set('gmodel', S.gmodel); store.set('imodel', S.imodel); refreshKeyHints(); toast(t('tSaved')); });
-  $('rmKeyBtn').addEventListener('click', () => { S.gkey = ''; store.set('gkey', ''); $('gKey').value = ''; MODELS = null; refreshKeyHints(); $('keyState').textContent = ''; toast(t('tRemoved')); });
+  $('saveKeyBtn').addEventListener('click', () => { readKey(); store.set('gkey', S.gkey); store.set('gmodel', S.gmodel); store.set('imodel', S.imodel); refreshKeyHints(); writerBadge(); toast(t('tSaved')); });
+  $('rmKeyBtn').addEventListener('click', () => { S.gkey = ''; store.set('gkey', ''); $('gKey').value = ''; MODELS = null; refreshKeyHints(); writerBadge(); $('keyState').textContent = ''; toast(t('tRemoved')); });
   $('testKeyBtn').addEventListener('click', async () => {
     readKey(); if(!S.gkey){ toast(t('tNoKey')); return; }
     $('keyState').textContent = '…';
@@ -3065,7 +3178,7 @@ function init(){
   document.addEventListener('keydown', e => { if(e.key === 'Escape'){ $('modal').classList.add('hidden'); $('resetModal').classList.add('hidden'); $('installModal').classList.add('hidden'); } });
   wireCanvas();
   if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { render(); });
-  setMode(MODE); updateImgUi(); renderAiThumbs(); refreshKeyHints();
+  setMode(MODE); updateImgUi(); renderAiThumbs(); refreshKeyHints(); writerBadge();
   ensureFonts().then(() => { render(); renderGallery(); });
 }
 window.TFPC = { state: C, F: () => F(), D: () => D(), B: () => B(), renderTo, setMode, showTab };
