@@ -217,6 +217,16 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
 .mi .btn{margin-top:5px}
 .monobtn{font-weight:700}
 .monobtn.ok{border-color:var(--ok);color:var(--ok)}.monobtn.warn{border-color:#d08a00;color:#b07400}.monobtn.bad{border-color:var(--danger);color:var(--danger);background:color-mix(in srgb,var(--danger) 8%,var(--surface))}
+.qgen{border:2px solid var(--accent);background:linear-gradient(160deg,var(--accent-soft),color-mix(in srgb,var(--gold) 10%,var(--surface)))}
+.qchips{display:flex;flex-wrap:wrap;gap:6px}
+.qchips .chip{font-size:13px}
+.qgbtns{align-items:center}
+.btn.big{flex:1 1 180px;padding:12px 14px;font-size:15px}
+.qcard{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px;font-family:'Hind Siliguri','Nirmala UI',sans-serif}
+.qcard .qh{font-size:12px;color:var(--accent);font-weight:700;margin-bottom:4px}
+.qcard .qt{font-size:17px;line-height:1.6;white-space:pre-line;font-weight:600}
+.qcard .qc{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;line-height:1.65;white-space:pre-line;color:var(--text)}
+.qcard .qc b{color:var(--accent)}
 #brandNudge input{border:1px solid var(--warn-line);border-radius:8px;padding:8px 10px;background:var(--surface);font-size:15px;min-width:0}
 </style>
 </head>
@@ -279,6 +289,19 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
     <div class="pane" id="p-text">
       <div class="banner hidden install-ui" id="installBanner"><b data-i18n="installBannerText"></b><button type="button" class="btn primary sm" id="installBtn2" data-i18n="install"></button><button type="button" class="btn sm" id="installX" aria-label="close">✕</button></div>
       <div class="warn hidden" id="brandNudge"><b data-i18n="nudgeTitle"></b><span class="row" style="margin-top:6px;gap:6px"><input type="text" id="nudgeName" data-i18n-ph="nudgePh" style="flex:1 1 160px"><button type="button" class="btn primary sm" id="nudgeSave" data-i18n="save"></button></span></div>
+      <div class="sect qgen" id="qgen">
+        <h4><span data-i18n="qgTitle"></span><small id="qgCount"></small></h4>
+        <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
+        <div class="fld"><span data-i18n="qgTopicLbl"></span><div class="qchips" id="qgTopics"></div></div>
+        <label class="fld"><input type="text" id="qgCustom" data-i18n-ph="qgCustomPh"></label>
+        <div class="fld"><span data-i18n="qgToneLbl"></span><div class="seg full" id="qgTone"><button type="button" data-tone="motivation" data-i18n="qgT1"></button><button type="button" data-tone="heart" data-i18n="qgT2"></button><button type="button" data-tone="lesson" data-i18n="qgT3"></button><button type="button" data-tone="mix" data-i18n="qgT4"></button></div></div>
+        <label class="chk" style="margin-bottom:10px"><input type="checkbox" id="qgCap" checked> <span data-i18n="qgCapLbl"></span></label>
+        <div class="row qgbtns"><button type="button" class="btn sm" id="qgPrev" data-i18n="qgPrev" disabled></button><button type="button" class="btn primary big" id="qgNext" data-i18n="qgNext"></button><button type="button" class="btn" id="qgRand" data-i18n="qgRand"></button></div>
+        <span class="status hidden" id="qgStatus" style="margin-top:8px"><span class="spin"></span><span id="qgStatusTxt" data-i18n="qgWorking"></span></span>
+        <div class="opts" id="qgOut"></div>
+        <p class="note"><span data-i18n="qgNote"></span> <button type="button" class="btn sm" id="qgClear" data-i18n="qgClear" style="margin-left:4px"></button></p>
+      </div>
+      <details class="sect" id="advAi" style="padding:0"><summary style="cursor:pointer;font-weight:600;font-size:13.5px;padding:12px" data-i18n="advAi"></summary><div style="padding:0 12px 12px">
       <div class="sect" id="src-ai" style="border:2px solid var(--accent);background:var(--accent-soft)">
         <h4><span data-i18n="aiTitle"></span></h4>
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
@@ -297,6 +320,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <div class="warn isl-only" data-i18n="aiIslNote"></div>
         <div class="opts" id="aiOpts"></div>
       </div>
+      </div></details>
 
       <div class="sect">
         <h4><span data-i18n="cardText"></span><span class="row" style="gap:6px"><button type="button" class="btn sm" id="smartPasteBtn" data-i18n="smartPaste"></button><button type="button" class="btn sm" id="clearTextBtn" data-i18n="clear"></button><button type="button" class="btn sm" id="saveLibBtn" data-i18n="saveLib"></button></span></h4>
@@ -661,7 +685,14 @@ const T = {
   c_small:'Text is small for a phone screen',c_smallFix:'Shorten the text or use 4:5 size so it is easy to read in the feed.',
   c_ratioOk:'Size {r} — fits the Facebook feed well',c_ratioBad:'Size {r} — Facebook crops it in the feed',c_ratioFix:'4:5 (1080×1350) or 1:1 shows fully in the feed. 9:16 is for Stories.',
   c_emoji:'Many emoji ({n})',c_emojiFix:'Use a few fitting emoji — too many looks spammy.',
-  tMonoIssues:'⚠️ Monetization check: {n} problem(s) — see the 💬 Caption tab',tMonoFixed:'✅ Fixed what could be fixed automatically',tMonoNothing:'Nothing to fix automatically',monoAll:'all clear',monoScore:'{a}/{b} passed'},
+  tMonoIssues:'⚠️ Monetization check: {n} problem(s) — see the 💬 Caption tab',tMonoFixed:'✅ Fixed what could be fixed automatically',tMonoNothing:'Nothing to fix automatically',
+  qgTitle:'⚡ New post in one tap',qgTopicLbl:'What do you want to write about today?',qgCustomPh:'Or write your own topic (optional), e.g. a father coming home late from work',
+  qgToneLbl:'Mood',qgT1:'💪 Motivation',qgT2:'💗 Heart-touching',qgT3:'🌱 Lesson',qgT4:'🔀 Mix',qgCapLbl:'Also write a caption (hook + short story/lesson)',
+  qgNext:'✨ New post ⏭️',qgRand:'🎲 Any topic',qgPrev:'⏮️ Previous',qgWorking:'Writing something new…',qgRetry:'Too similar to an old post — writing a fresh one…',
+  qgNote:'Every press writes something new: card text stays short, and each one is compared with all your earlier posts so it never repeats.',qgClear:'🗑 Clear memory',
+  qgCount:'{n} new so far, none repeated',qgCardLbl:'On the card',qgCapLblShort:'Caption (people can read more here)',qgAny:'🎲 Any',
+  qgCleared:'Memory cleared',qgConfirmClear:'Clear the memory of earlier posts? (After this, old ideas may come again.)',qgFail:'Could not get a fresh, different text — press again',
+  advAi:'🤖 Detailed AI writer (the earlier options)',tCapMade:'✨ Caption ready — check it, then press 📤 Share again',monoAll:'all clear',monoScore:'{a}/{b} passed'},
  bn:{install:'ইনস্টল',installHow:'📲 ফোনে ইনস্টল',installBannerText:'📲 অ্যাপটি ফোনে ইনস্টল করুন — হোম স্ক্রিনের আইকন থেকে সাধারণ অ্যাপের মতো খুলবে, দুর্বল ইন্টারনেটেও চলবে।',
   installTitle:'📲 TF Post Card Studio ইনস্টল করুন',instAndroid:'অ্যান্ড্রয়েড (Chrome):',instA1:'অ্যাপের লিংকটি Chrome-এ খুলুন।',instA2:'উপরে ডান কোণের ⋮ মেনুতে চাপুন।',instA3:'“Install app” (বা “Add to Home screen”) → Install চাপুন।',
   instIos:'আইফোন (Safari):',instI1:'অ্যাপের লিংকটি Safari-তে খুলুন।',instI2:'নিচের Share বাটন □↑ চাপুন।',instI3:'“Add to Home Screen” → Add চাপুন।',
@@ -741,7 +772,14 @@ const T = {
   c_small:'ফোনের পর্দায় লেখা ছোট দেখাবে',c_smallFix:'লেখা ছোট করুন বা ৪:৫ আকার নিন, যাতে ফিডে সহজে পড়া যায়।',
   c_ratioOk:'আকার {r} — ফেসবুক ফিডে পুরোটা দেখাবে',c_ratioBad:'আকার {r} — ফেসবুক ফিডে কেটে দেখাবে',c_ratioFix:'৪:৫ (১০৮০×১৩৫০) বা ১:১ ফিডে পুরো দেখায়। ৯:১৬ স্টোরির জন্য।',
   c_emoji:'ইমোজি বেশি ({n}টি)',c_emojiFix:'অল্প কয়েকটি মানানসই ইমোজি দিন — বেশি হলে স্প্যামের মতো দেখায়।',
-  tMonoIssues:'⚠️ মনিটাইজেশন চেকে {n}টি সমস্যা — 💬 ক্যাপশন ট্যাবে দেখুন',tMonoFixed:'✅ যা নিজে থেকে ঠিক করা যায়, ঠিক করা হয়েছে',tMonoNothing:'নিজে থেকে ঠিক করার মতো কিছু নেই',monoAll:'সব ঠিক আছে',monoScore:'{a}/{b} পাস'}
+  tMonoIssues:'⚠️ মনিটাইজেশন চেকে {n}টি সমস্যা — 💬 ক্যাপশন ট্যাবে দেখুন',tMonoFixed:'✅ যা নিজে থেকে ঠিক করা যায়, ঠিক করা হয়েছে',tMonoNothing:'নিজে থেকে ঠিক করার মতো কিছু নেই',
+  qgTitle:'⚡ এক চাপে নতুন পোস্ট',qgTopicLbl:'আজকে কী নিয়ে লিখতে চান?',qgCustomPh:'অথবা নিজের বিষয় লিখুন (ঐচ্ছিক), যেমন: রাতে কাজ থেকে ফেরা বাবা',
+  qgToneLbl:'লেখার মেজাজ',qgT1:'💪 মোটিভেশন',qgT2:'💗 হৃদয় ছোঁয়া',qgT3:'🌱 শিক্ষা',qgT4:'🔀 মিশ্র',qgCapLbl:'সাথে ক্যাপশনও লিখুন (শুরুর আকর্ষণীয় লাইন + ছোট গল্প/শিক্ষা)',
+  qgNext:'✨ নতুন লেখা ⏭️',qgRand:'🎲 যেকোনো বিষয়',qgPrev:'⏮️ আগেরটা',qgWorking:'নতুন লেখা তৈরি হচ্ছে…',qgRetry:'আগের একটি লেখার সাথে মিলে যাচ্ছিল — একদম নতুন একটি লেখা হচ্ছে…',
+  qgNote:'প্রতিবার চাপলে নতুন লেখা আসবে: কার্ডের লেখা ছোট থাকবে, আর আগের সব লেখার সাথে মিলিয়ে দেখা হয় যেন কখনো রিপিট না হয়।',qgClear:'🗑 স্মৃতি মুছুন',
+  qgCount:'এ পর্যন্ত {n}টি নতুন লেখা, কোনোটি রিপিট হয়নি',qgCardLbl:'কার্ডে',qgCapLblShort:'ক্যাপশন (মানুষ চাইলে এখানে পড়বে)',qgAny:'🎲 যেকোনো',
+  qgCleared:'স্মৃতি মুছে ফেলা হয়েছে',qgConfirmClear:'আগের লেখাগুলোর স্মৃতি মুছে ফেলবেন? (এরপর পুরোনো ভাবনা আবার আসতে পারে।)',qgFail:'আলাদা নতুন লেখা পাওয়া যায়নি — আবার চাপুন',
+  advAi:'🤖 বিস্তারিত AI লেখক (আগের অপশনগুলো)',tCapMade:'✨ ক্যাপশন তৈরি — একবার দেখে নিয়ে আবার 📤 শেয়ার চাপুন',monoAll:'সব ঠিক আছে',monoScore:'{a}/{b} পাস'}
 };
 let LANG = store.get('lang', 'bn');
 const t = k => (T[LANG] && T[LANG][k]) || T.en[k] || k;
@@ -1652,7 +1690,7 @@ function setMode(m){
   document.querySelectorAll('button[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
   C.undo = []; fillSelects(); buildPalettes(); buildElemRows(); buildGallery(); renderPresets(); if(HIST[m].last === null) HIST[m].last = snap(); histButtons(); syncFields(); syncDesign(); syncBrand(); loadLogo();
   showSrc(m === 'islamic' ? (S.srcI || 'hadith') : (S.srcG || 'tools'));
-  $('capText').value = store.get('cap_' + m, ''); $('styleEx').value = getStyle(m); $('aiOpts').innerHTML = '';
+  $('capText').value = store.get('cap_' + m, ''); $('styleEx').value = getStyle(m); $('aiOpts').innerHTML = ''; qgBuildUi();
   render();
 }
 function showTab(k){
@@ -1884,8 +1922,8 @@ async function smartPaste(){
 
 /* ================= captions ================= */
 const CAP_STYLES = {
-  general: [ { id:'emotional', n:{en:'Emotional',bn:'আবেগঘন'} }, { id:'simple', n:{en:'Simple',bn:'সাধারণ'} }, { id:'story', n:{en:'Short story intro',bn:'ছোট গল্পের ঢঙে'} }, { id:'question', n:{en:'Ask the audience',bn:'প্রশ্ন দিয়ে আলোচনা'} } ],
-  islamic: [ { id:'reflect', n:{en:'With a short lesson (most original)',bn:'ছোট শিক্ষাসহ (সবচেয়ে অরিজিনাল)'} }, { id:'dawah', n:{en:'Reminder (da‘wah)',bn:'দাওয়াহ / স্মরণিকা'} }, { id:'short', n:{en:'Short & simple',bn:'ছোট ও সহজ'} } ]
+  general: [ { id:'hook', n:{en:'📖 Hook + short story + lesson (most engaging)',bn:'📖 আকর্ষণীয় শুরু + ছোট গল্প + শিক্ষা (সবচেয়ে এনগেজিং)'} }, { id:'emotional', n:{en:'Emotional',bn:'আবেগঘন'} }, { id:'simple', n:{en:'Simple',bn:'সাধারণ'} }, { id:'story', n:{en:'Short story intro',bn:'ছোট গল্পের ঢঙে'} }, { id:'question', n:{en:'Ask the audience',bn:'প্রশ্ন দিয়ে আলোচনা'} } ],
+  islamic: [ { id:'hook', n:{en:'📖 Hook + short story + lesson (most engaging)',bn:'📖 আকর্ষণীয় শুরু + ছোট গল্প + শিক্ষা (সবচেয়ে এনগেজিং)'} }, { id:'reflect', n:{en:'With a short lesson (most original)',bn:'ছোট শিক্ষাসহ (সবচেয়ে অরিজিনাল)'} }, { id:'dawah', n:{en:'Reminder (da‘wah)',bn:'দাওয়াহ / স্মরণিকা'} }, { id:'short', n:{en:'Short & simple',bn:'ছোট ও সহজ'} } ]
 };
 const cardPlain = () => { const f = F(); return { heading: norm(f.heading), text: String(f.text || '').replace(/\*/g, '').trim(), ref: norm(f.ref) }; };
 function quickCaption(){
@@ -1914,7 +1952,7 @@ async function aiCaption(){
     let out;
     if(isSacred()){
       const full = f.full || { text: p.text, arabic: f.arabic, ref: p.ref };
-      const prompt = 'You help a Bengali Islamic Facebook page. For the ' + (f.origin === 'ayah' ? 'Quran ayah translation' : 'hadith') + ' below, write in Bengali: "intro" (one warm opening line, style: ' + style + '), ' + (style === 'reflect' ? '"lesson" (1–2 sentences: a general practical takeaway in your own words)' : '"lesson" (empty string)') + ', "closing" (one short supplication-style line such as asking Allah for guidance), and "question" (' + ($('capCta').checked ? 'one sincere open question asking what lesson the reader takes from it' : 'empty string') + '). ' + (emo ? 'You may use 1–2 fitting emoji.' : 'No emoji.') + ' Do NOT repeat, paraphrase or add to the sacred text, and do not attribute any new words to Allah or the Prophet ﷺ.' + MONO_GUARD + ' Return ONLY JSON {"intro":"","lesson":"","closing":"","question":""}.\n\nTEXT:\n' + full.text + '\nREFERENCE: ' + full.ref;
+      const prompt = 'You help a Bengali Islamic Facebook page. For the ' + (f.origin === 'ayah' ? 'Quran ayah translation' : 'hadith') + ' below, write in Bengali: "intro" (' + (style === 'hook' ? 'one emotional, honest hook line of at most 12 words that makes people want to read on — no clickbait' : 'one warm opening line, style: ' + style) + '), ' + (style === 'hook' ? '"lesson" (3–5 short lines: a small relatable everyday story or example about ordinary unnamed people — never about the Prophet ﷺ, Companions or any real person — that shows how this lesson applies today, ending with the takeaway in your own words)' : style === 'reflect' ? '"lesson" (1–2 sentences: a general practical takeaway in your own words)' : '"lesson" (empty string)') + ', "closing" (one short supplication-style line such as asking Allah for guidance), and "question" (' + ($('capCta').checked ? 'one sincere open question asking what lesson the reader takes from it' : 'empty string') + '). ' + (emo ? 'You may use 1–2 fitting emoji.' : 'No emoji.') + ' Do NOT repeat, paraphrase or add to the sacred text, and do not attribute any new words to Allah or the Prophet ﷺ.' + MONO_GUARD + ' Return ONLY JSON {"intro":"","lesson":"","closing":"","question":""}.\n\nTEXT:\n' + full.text + '\nREFERENCE: ' + full.ref;
       const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.7, responseMimeType: 'application/json' } }, 60000);
       const o = parseJson(r.text); const parts = [];
       if(norm(o.intro)) parts.push(norm(o.intro));
@@ -1924,7 +1962,8 @@ async function aiCaption(){
       if($('capCta').checked && norm(o.question) && !baitHits(o.question).length) parts.push((emo ? '💭 ' : '') + norm(o.question));
       out = parts.join('\n\n');
     } else {
-      const prompt = 'Write a Bengali Facebook caption (style: ' + style + ') to post with a photo card whose text is below. 2–5 short lines, natural and engaging. Add the page owner\'s own perspective, feeling or a small lesson — do not simply repeat the card text. ' + (emo ? 'Use 1–3 fitting emoji.' : 'No emoji.') + ($('capCta').checked ? CTA_RULE : '') + ' No hashtags. ' + (MODE === 'islamic' ? ISL_GUARD : GEN_GUARD) + MONO_GUARD + ' Return only the caption.\n\nCARD TEXT:\n' + (p.heading ? p.heading + '\n' : '') + p.text + (p.ref ? '\n— ' + p.ref : '');
+      const shape = style === 'hook' ? 'Structure: line 1 = an emotional, honest hook (max 12 words) that makes people stop and read on, never clickbait; blank line; then 3–6 short lines telling a small relatable everyday story or example about ordinary unnamed people (never real, famous or historical persons) that leads to the lesson; blank line; one line with the lesson.' : '2–5 short lines, natural and engaging.';
+      const prompt = 'Write a Bengali Facebook caption (style: ' + style + ') to post with a photo card whose text is below. ' + shape + ' Add the page owner\'s own perspective, feeling or a small lesson — do not simply repeat the card text. ' + (emo ? 'Use 1–3 fitting emoji.' : 'No emoji.') + ($('capCta').checked ? CTA_RULE : '') + ' No hashtags. ' + (MODE === 'islamic' ? ISL_GUARD : GEN_GUARD) + MONO_GUARD + ' Return only the caption.\n\nCARD TEXT:\n' + (p.heading ? p.heading + '\n' : '') + p.text + (p.ref ? '\n— ' + p.ref : '');
       const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85 } }, 60000);
       out = clean(r.text).replace(/(^|\s)#\S+/g, '').trim();
       if(MODE === 'islamic' && SACRED_PAT.test(out)) throw friendly(t('tNotVerbatim'));
@@ -2029,7 +2068,10 @@ async function downloadCard(type){ const b = await exportCard(type); if(b){ down
 async function shareCard(){
   const b = await exportCard('png'); if(!b) return;
   const file = new File([b], fileName('png'), { type: 'image/png' });
-  if(!$('capText').value.trim()) quickCaption();
+  if(!$('capText').value.trim()){
+    if(S.gkey){ showTab('caption'); if($('capStyle').querySelector('option[value=hook]')) $('capStyle').value = 'hook'; await aiCaption(); if($('capText').value.trim()){ toast(t('tCapMade')); return; } }
+    quickCaption();
+  }
   const cap = $('capText').value.trim(); if(cap && await copyText(cap)) toast(monoWarn() || t('tShareCap'));
   try{ await navigator.share({ files: [file], text: cap }); }catch(e){ if(e && e.name !== 'AbortError') download(b, fileName('png')); }
 }
@@ -2385,6 +2427,124 @@ async function hlAuto(){
   finally{ btn.disabled = false; }
 }
 
+/* ================= one-tap short post generator (never repeats) ================= */
+const QG_TOPICS = {
+  islamic: [
+    ['any','🎲 যেকোনো','any topic'],['sabr','ধৈর্য ও আশা','patience and hope in hard times'],['tawbah','তাওবা — ফিরে আসা','repentance and coming back to Allah after mistakes'],
+    ['salah','নামাজ ও সিজদা','prayer, sujood and the peace it gives'],['dua','দোয়ার শক্তি','the power of dua and not giving up asking'],['shukr','শুকরিয়া','gratitude to Allah for small blessings'],
+    ['rizq','রিজিক ও তাওয়াক্কুল','trusting Allah with provision and the future'],['parents','মা-বাবা','parents, their sacrifice and serving them'],['akhirah','মৃত্যু ও আখিরাত','remembering death, the grave and the hereafter gently'],
+    ['jannah','জান্নাতের আশা','longing for Jannah and meeting loved ones there'],['peace','অন্তরের প্রশান্তি','peace of heart through remembrance of Allah'],['ease','কষ্টের পর স্বস্তি','ease after hardship'],
+    ['halal','হালাল সংগ্রাম','struggling for halal income with honesty'],['time','সময়ের মূল্য','the value of time and life passing'],['forgive','ক্ষমা ও উদারতা','forgiving others and a soft heart'],
+    ['youth','তরুণদের জন্য','advice for young people facing temptations'],['good','ভালো মানুষ হওয়া','being a good, kind person for Allah’s sake']
+  ],
+  general: [
+    ['any','🎲 যেকোনো','any topic'],['motivation','সংগ্রাম ও সফলতা','struggle and success, not giving up'],['comeback','ব্যর্থতা থেকে ঘুরে দাঁড়ানো','rising again after failure'],
+    ['mother','মা','a mother’s love and silent sacrifice'],['father','বাবা','a father’s hidden struggles and love'],['family','পরিবার','family, home and belonging'],
+    ['alone','একাকীত্ব ও নিজেকে ভালোবাসা','loneliness and learning to love yourself'],['love','ভালোবাসা ও সম্পর্ক','love, relationships and loyalty'],['friend','বন্ধুত্ব','true friendship'],
+    ['confidence','আত্মবিশ্বাস','self-belief and courage'],['time','সময় ও জীবন','time, life passing and what really matters'],['grateful','কৃতজ্ঞতা','gratitude for small things'],
+    ['dream','স্বপ্ন ও লক্ষ্য','dreams, goals and hard work'],['patience','ধৈর্য','patience and waiting for your time'],['people','মানুষ চেনা','understanding people and life lessons from them'],
+    ['life','জীবনের শিক্ষা','life lessons that change you']
+  ]
+};
+const QG_ANGLES = [
+  'open with a tiny everyday scene (a tea stall, a bus window, a hospital corridor, a rainy rooftop, a village path at dusk)',
+  'write it like a short letter to yourself', 'contrast yesterday and today', 'focus on one small, specific detail that says everything',
+  'start with a gentle question that stops the reader', 'use a metaphor from nature (a seed, a river, the moon, monsoon rain, winter fog, a candle)',
+  'the quiet moment late at night when everyone is asleep', 'the morning after a failure', 'what we will regret one day if we don’t change',
+  'a promise you make to yourself', 'someone waiting at the door', 'a small act of kindness that changed a day',
+  'a memory from childhood', 'loneliness in a crowded city', 'the hands of a hard-working person', 'the first salary / first success',
+  'old parents and their silent waiting', 'hope arriving like dawn after a long night', 'the difference between what people see and what you carry inside',
+  'an honest confession', 'a lesson learned the hard way', 'speak directly to the reader as “তুমি” like a caring elder',
+  'a dialogue of two short lines', 'a turning point in one sentence', 'the weight of unsaid words', 'a reminder that this hard season will pass',
+  'what really stays with us at the end', 'gratitude hidden inside a hardship', 'a soft but strong wake-up call', 'courage to start again from zero'
+];
+const QG_TONES = { motivation: 'strongly motivational and uplifting, giving courage and energy to act', heart: 'deeply heart-touching and emotional, the kind of line that brings a lump to the throat', lesson: 'a clear life lesson that can change how someone lives', mix: 'emotional, heart-touching and motivating at the same time, with a clear lesson' };
+const qgHist = () => store.get('qg_hist_' + MODE, []);
+const qgWords = s => new Set(norm(String(s || '').replace(/\*/g, '')).split(/[\s,।!?;:"“”'‘’()\-—…]+/).filter(w => w.length > 1));
+function qgSim(a, b){ const A = qgWords(a), B = qgWords(b); if(!A.size || !B.size) return 0; let n = 0; A.forEach(w => { if(B.has(w)) n++; }); return n / Math.min(A.size, B.size); }
+function qgIsRepeat(text){ const k = keyNorm(text); return qgHist().some(h => keyNorm(h.text) === k || qgSim(h.text, text) >= 0.6); }
+function qgPickAngle(){ const used = store.get('qg_angles_' + MODE, []); const free = QG_ANGLES.filter(a => !used.includes(a)); const a = (free.length ? free : QG_ANGLES)[Math.floor(Math.random() * (free.length || QG_ANGLES.length))]; store.set('qg_angles_' + MODE, used.concat(a).slice(-14)); return a; }
+let QG_TOPIC = store.get('qg_topic_' + MODE, 'any'), QG_TONE = store.get('qg_tone', 'mix');
+const QG_BACK = [];
+function qgBuildUi(){
+  QG_TOPIC = store.get('qg_topic_' + MODE, 'any'); if(!QG_TOPICS[MODE].some(x => x[0] === QG_TOPIC)) QG_TOPIC = 'any';
+  const box = $('qgTopics'); box.innerHTML = '';
+  QG_TOPICS[MODE].forEach(([id, bn, en]) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip' + (id === QG_TOPIC ? ' on' : ''); b.textContent = id === 'any' ? t('qgAny') : (LANG === 'bn' ? bn : en.charAt(0).toUpperCase() + en.slice(1)); b.title = en;
+    b.addEventListener('click', () => { QG_TOPIC = id; store.set('qg_topic_' + MODE, id); box.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b)); }); box.appendChild(b); });
+  document.querySelectorAll('#qgTone [data-tone]').forEach(b => b.classList.toggle('on', b.dataset.tone === QG_TONE));
+  qgCountUi(); $('qgOut').innerHTML = ''; $('qgPrev').disabled = !QG_BACK.some(x => x.mode === MODE);
+}
+function qgCountUi(){ const n = qgHist().length; $('qgCount').textContent = n ? t('qgCount').replace('{n}', LANG === 'bn' ? bnNum(n) : n) : ''; }
+async function qgGenerate(randomTopic){
+  if(needKey()) return;
+  const custom = $('qgCustom').value.trim();
+  let topic = QG_TOPICS[MODE].find(x => x[0] === QG_TOPIC) || QG_TOPICS[MODE][0];
+  if(randomTopic || topic[0] === 'any'){ const list = QG_TOPICS[MODE].slice(1); topic = list[Math.floor(Math.random() * list.length)]; }
+  const topicTxt = custom && !randomTopic ? custom : topic[2];
+  const wantCap = $('qgCap').checked, emo = $('capEmoji').checked;
+  const btns = ['qgNext', 'qgRand', 'qgPrev']; btns.forEach(id => $(id).disabled = true); busy('qgStatus', true); $('qgStatusTxt').textContent = t('qgWorking');
+  try{
+    const hist = qgHist();
+    let post = null, extra = '';
+    for(let attempt = 0; attempt < 3 && !post; attempt++){
+      const angle = qgPickAngle(), seed = Math.floor(Math.random() * 1e6);
+      const avoid = hist.slice(-30).map(h => '- ' + h.text.replace(/\*/g, '').replace(/\n/g, ' / ') + (h.hook ? '  [caption opened with: ' + h.hook + ']' : '')).join('\n');
+      const prompt = 'You are the writer of a Bengali Facebook page' + (MODE === 'islamic' ? ' that shares Islamic reminders (“' + (norm(B().name) || 'প্রশান্তির বার্তা') + '”): faith mixed with real, personal everyday feelings' : ' that shares emotional, motivational life posts') + '. Write ONE completely fresh post.\n' +
+        'TOPIC: ' + topicTxt + '\nANGLE / STARTING IDEA: ' + angle + '\nTONE: ' + QG_TONES[QG_TONE] + '\nUNIQUENESS SEED: ' + seed + '\n' +
+        'CARD ("heading", "text"): "text" is what goes on the photo — SHORT: 10 to 22 words in 2–4 short lines (use \\n). Simple, warm, everyday Bengali that touches the heart; personal and specific, not a cliché or a famous saying. Wrap the 1–2 strongest words in *asterisks*. "heading" = a 1–3 word label.\n' +
+        (wantCap ? 'CAPTION: "hook" = ONE first line (max 12 words) that makes people stop and want to read the caption — emotional and honest, never clickbait. "story" = 3 to 6 short lines: a small, relatable everyday story or example about ordinary unnamed people (never real, famous or historical persons) that leads to the lesson. "takeaway" = one line with the lesson in your own words. "question" = ' + ($('capCta').checked ? 'one sincere open question that invites people to reflect.' : 'empty string.') + '\n' : 'Leave "hook", "story", "takeaway" and "question" empty.\n') +
+        '"hashtags" = 3 relevant hashtags without #.\n' +
+        (MODE === 'islamic' ? ISL_GUARD + ' You may mention Allah, prayer, dua, sabr, tawakkul, Jannah and the hereafter in your own words, but never as a quotation. ' : GEN_GUARD + ' ') + MONO_GUARD +
+        (avoid ? '\n\nNEVER REPEAT: these posts were already published. Do not reuse their wording, their core idea, their metaphors or their opening words:\n' + avoid : '') + extra + styleBlock() +
+        '\nReturn ONLY JSON: {"heading":"","text":"","hook":"","story":"","takeaway":"","question":"","hashtags":[]}';
+      const r = await gemini({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 1.0, topP: 0.95, responseMimeType: 'application/json' } }, 70000);
+      const o = parseJson(r.text), fx = s => clean(s || '').replace(/\\n/g, '\n').trim();
+      const p = { heading: norm(o.heading || ''), text: fx(o.text), hook: norm(o.hook || ''), story: fx(o.story), takeaway: norm(o.takeaway || ''), question: norm(o.question || ''), tags: Array.isArray(o.hashtags) ? o.hashtags : [] };
+      if(!p.text) continue;
+      const all = [p.heading, p.text, p.hook, p.story, p.takeaway].join('\n');
+      if(MODE === 'islamic' && SACRED_PAT.test(all)){ extra = '\n\nYour last attempt quoted or attributed words to Allah/the Prophet ﷺ. Do not do that — your own words only.'; continue; }
+      if(qgIsRepeat(p.text)){ $('qgStatusTxt').textContent = t('qgRetry'); extra = '\n\nYour last attempt was too close to an earlier post ("' + p.text.replace(/\*/g, '').replace(/\n/g, ' ') + '"). Choose a totally different idea and wording.'; continue; }
+      if(qgWords(p.text).size > 30){ extra = '\n\nYour last card text was too long. Keep it under 22 words.'; continue; }
+      post = p;
+    }
+    if(!post) throw friendly(t('qgFail'));
+    QG_BACK.push({ mode: MODE, f: JSON.stringify(F()), cap: $('capText').value }); if(QG_BACK.length > 20) QG_BACK.shift();
+    setFields({ heading: post.heading, text: post.text }, 'ai');
+    let cap = '';
+    if(wantCap){
+      const parts = [];
+      if(post.hook) parts.push((emo ? '✨ ' : '') + post.hook);
+      if(post.story) parts.push(post.story);
+      if(post.takeaway) parts.push((emo ? '🌱 ' : '') + post.takeaway);
+      if(post.question && $('capCta').checked) parts.push((emo ? '💭 ' : '') + post.question);
+      cap = stripBait(parts.join('\n\n'));
+      const tags = post.tags.map(h => '#' + String(h).replace(/^#+/, '').replace(/\s+/g, '_')).filter(h => h.length > 1);
+      const all = $('capTags').checked ? Array.from(new Set(norm(B().tags).split(/\s+/).filter(Boolean).concat(tags))).slice(0, 5).join(' ') : '';
+      if(all) cap += '\n\n' + all;
+      setCaption(cap);
+    }
+    store.set('qg_hist_' + MODE, hist.concat({ text: post.text, hook: post.hook, t: Date.now() }).slice(-400));
+    qgShow(post, cap); qgCountUi(); $('qgPrev').disabled = false;
+    if($('aiWithImg').checked) aiImageForPost();
+  }catch(e){ toast(aiErr(e)); }
+  finally{ btns.forEach(id => $(id).disabled = false); $('qgPrev').disabled = !QG_BACK.some(x => x.mode === MODE); busy('qgStatus', false); }
+}
+function qgShow(p, cap){
+  const box = $('qgOut'); box.innerHTML = '';
+  const d = document.createElement('div'); d.className = 'qcard';
+  const h = document.createElement('div'); h.className = 'qh'; h.textContent = '🖼️ ' + t('qgCardLbl') + (p.heading ? ' · ' + p.heading : ''); d.appendChild(h);
+  const tx = document.createElement('div'); tx.className = 'qt'; tx.textContent = p.text.replace(/\*/g, ''); d.appendChild(tx);
+  if(cap){ const c = document.createElement('div'); c.className = 'qc'; const b = document.createElement('b'); b.textContent = '💬 ' + t('qgCapLblShort') + '\n'; c.append(b, document.createTextNode(cap)); d.appendChild(c); }
+  const row = document.createElement('div'); row.className = 'row'; row.style.marginTop = '10px';
+  const cp = document.createElement('button'); cp.type = 'button'; cp.className = 'btn sm primary'; cp.textContent = t('capCopy'); cp.addEventListener('click', async () => toast(await copyText($('capText').value) ? t('tCopied') : t('tCopyFail')));
+  const sh = document.createElement('button'); sh.type = 'button'; sh.className = 'btn sm'; sh.textContent = t('capBoth'); sh.addEventListener('click', () => $('capBothBtn').click());
+  row.append(cp, sh); if(cap) d.appendChild(row); box.appendChild(d);
+}
+function qgBack(){
+  for(let i = QG_BACK.length - 1; i >= 0; i--){ if(QG_BACK[i].mode !== MODE) continue; const s = QG_BACK.splice(i, 1)[0]; Object.assign(F(), JSON.parse(s.f)); syncFields(); saveSoon(); render(); setCaption(s.cap || ''); $('qgOut').innerHTML = ''; break; }
+  $('qgPrev').disabled = !QG_BACK.some(x => x.mode === MODE);
+}
+
 /* ================= monetization check (Meta content-monetization + engagement-bait rules) ================= */
 const BAIT_RX = [
   /শেয়ার\s*(করুন|করবেন|করো|কর|করে\s*(দিন|দাও|দিবেন|রাখুন|অন্যদের|সবাইকে|জানিয়ে)|না\s*করে|করতে\s*ভুলবেন)/,
@@ -2512,7 +2672,7 @@ function init(){
   $('gKey').value = S.gkey; $('gModel').value = S.gmodel; $('iModel').value = S.imodel;
   ['hArabic', 'hSahih', 'hGrade', 'aArabic', 'capEmoji', 'capTags', 'capFull', 'capCta', 'noFigures', 'aiWithImg'].forEach(id => { const v = store.get('chk_' + id, null); if(v !== null) $(id).checked = v; $(id).addEventListener('change', () => store.set('chk_' + id, $(id).checked)); });
   document.querySelectorAll('button[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
-  $('langBtn').addEventListener('click', () => { LANG = LANG === 'en' ? 'bn' : 'en'; store.set('lang', LANG); applyI18n(); fillSelects(); buildElemRows(); buildGallery(); renderPresets(); syncBrand(); updateImgUi(); syncDesign(); renderLib(); });
+  $('langBtn').addEventListener('click', () => { LANG = LANG === 'en' ? 'bn' : 'en'; store.set('lang', LANG); applyI18n(); fillSelects(); buildElemRows(); buildGallery(); renderPresets(); syncBrand(); updateImgUi(); syncDesign(); renderLib(); qgBuildUi(); renderMono(); });
   $('themeBtn').addEventListener('click', () => { S.theme = S.theme === 'dark' ? 'light' : 'dark'; store.set('theme', S.theme); document.documentElement.dataset.theme = S.theme; $('themeBtn').textContent = S.theme === 'dark' ? '☀️' : '🌙'; });
   document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
   document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.goto)));
@@ -2595,6 +2755,12 @@ function init(){
   $('undoBtn').addEventListener('click', histUndo); $('redoBtn').addEventListener('click', histRedo);
   document.addEventListener('keydown', e => { if(!(e.ctrlKey || e.metaKey) || /INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || '')) return; const k = e.key.toLowerCase(); if(k === 'z' && !e.shiftKey){ e.preventDefault(); histUndo(); } else if(k === 'y' || (k === 'z' && e.shiftKey)){ e.preventDefault(); histRedo(); } });
   $('aiPostBtn').addEventListener('click', aiFullPost);
+  $('qgNext').addEventListener('click', () => qgGenerate(false));
+  $('qgRand').addEventListener('click', () => qgGenerate(true));
+  $('qgPrev').addEventListener('click', qgBack);
+  $('qgClear').addEventListener('click', () => { if(!confirm(t('qgConfirmClear'))) return; store.set('qg_hist_' + MODE, []); store.set('qg_angles_' + MODE, []); qgCountUi(); toast(t('qgCleared')); });
+  document.querySelectorAll('#qgTone [data-tone]').forEach(b => b.addEventListener('click', () => { QG_TONE = b.dataset.tone; store.set('qg_tone', QG_TONE); document.querySelectorAll('#qgTone [data-tone]').forEach(x => x.classList.toggle('on', x === b)); }));
+  $('qgCap').checked = store.get('chk_qgCap', true); $('qgCap').addEventListener('change', () => store.set('chk_qgCap', $('qgCap').checked));
   initPwa(); applyPv(); syncThemeColor();
   $('pvBtn').addEventListener('click', () => { store.set('pv', (store.get('pv', 0) + 1) % PV_SIZES.length); applyPv(); });
   $('langBtn2').addEventListener('click', () => $('langBtn').click());
