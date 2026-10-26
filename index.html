@@ -182,7 +182,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
   .stagebar .grp{flex-wrap:nowrap;gap:6px}
   .stagebar .btn,.stagebar .seg button{white-space:nowrap;padding:8px 11px}
   .stagebar .grp{display:contents}
-  #monoBtn{order:-7}#pngBtn{order:-6}#shareBtn{order:-5}#undoBtn{order:-4}#redoBtn{order:-3}#ratioSeg{order:-2;flex:none}#pvBtn{order:-1}
+  #monoBtn{order:-8}#reelBtn{order:-7}#pngBtn{order:-6}#shareBtn{order:-5}#undoBtn{order:-4}#redoBtn{order:-3}#ratioSeg{order:-2;flex:none}#pvBtn{order:-1}
   .panel{overflow:visible}
   .tabs{position:fixed;left:0;right:0;bottom:0;z-index:60;justify-content:space-around;gap:2px;padding:5px 4px calc(5px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);border-bottom:0;box-shadow:0 -6px 20px rgba(0,0,0,.07);overflow:visible}
   .tab{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 1px 5px;border-radius:12px;font-size:10.5px;line-height:1.15;transition:background .15s,color .15s}
@@ -237,6 +237,52 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
 .qcard .qc{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14px;line-height:1.65;white-space:pre-line;color:var(--text)}
 .qcard .qc b{color:var(--accent)}
 #brandNudge input{border:1px solid var(--warn-line);border-radius:8px;padding:8px 10px;background:var(--surface);font-size:15px;min-width:0}
+/* ===== reel studio ===== */
+.btn.reelbtn{background:linear-gradient(135deg,var(--gold),#d9a62e 45%,var(--accent));border-color:transparent;color:#fff;font-weight:700;box-shadow:0 2px 10px color-mix(in srgb,var(--gold) 45%,transparent)}
+.btn.reelbtn:hover{filter:brightness(1.07);background:linear-gradient(135deg,var(--gold),#d9a62e 45%,var(--accent))}
+html.reel-open,html.reel-open body{overflow:hidden}
+.reel{position:fixed;inset:0;z-index:84;background:var(--bg);display:flex;flex-direction:column}
+.rhead{display:flex;align-items:center;gap:10px;padding:calc(8px + env(safe-area-inset-top)) 12px 8px;border-bottom:1px solid var(--line);background:var(--surface)}
+.rhead b{font-size:16px}
+.rhead .rmode{flex:1;font-size:12.5px;color:var(--muted)}
+.rhead .btn{width:40px;height:40px;padding:0;font-size:17px;border-radius:50%}
+.rbody{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.rstage{position:relative;background:#0d0d0f;display:flex;justify-content:center;align-items:center;padding:10px;cursor:pointer}
+#rvCv{display:block;max-width:100%;max-height:52vh;width:auto;height:auto;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.rplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:26px;display:grid;place-items:center;pointer-events:none;backdrop-filter:blur(4px)}
+.rbar{height:4px;background:#2a2a2e}.rbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--accent))}
+.rctl{padding:12px 10px 16px}
+.rctl input[type=range]{width:100%;accent-color:var(--accent)}
+.rstyle{border:2px solid var(--accent);background:linear-gradient(160deg,var(--accent-soft),color-mix(in srgb,var(--gold) 10%,var(--surface)))}
+.rtags{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px}
+.rtag{font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 10px;line-height:1.3}
+.rtag.fix{border-color:var(--accent);color:var(--accent)}
+.rnew{color:var(--ok);font-weight:600}.rused{color:#b07400;font-weight:600}
+.rcode{font-size:11px;color:var(--faint);margin-left:6px;font-weight:400}
+.rstyle .btn.big{width:100%}
+.rctl .seg.full button{padding:10px 4px;font-size:13.5px}
+.rctl .qchips .chip{font-size:13.5px;padding:8px 12px}
+.rctl details summary{cursor:pointer;font-weight:600;font-size:13.5px;padding:2px 0}
+.rctl details[open] summary{margin-bottom:10px}
+.rfoot{display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
+.rfoot .btn{flex:1;padding:13px 10px;font-size:15px;border-radius:12px}
+.rfoot .btn.primary{flex:1.6}
+.rover{position:absolute;inset:0;z-index:3;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+.rover .spin{width:38px;height:38px;border-width:4px}
+.rover b{font-size:17px}
+.rprog{width:min(320px,80vw);height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}.rprog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--accent));transition:width .2s}
+.rdone{justify-content:flex-start;overflow:auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom))}
+.rdone video{max-width:100%;max-height:46vh;border-radius:10px;background:#000;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.rdone .btn{width:min(380px,100%);padding:13px;font-size:15px;border-radius:12px}
+.rdone small{color:var(--muted)}
+@media (min-width:901px){
+  .rbody{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(360px,.9fr);overflow:hidden}
+  .rleft{display:flex;flex-direction:column;min-height:0;background:#0d0d0f}
+  .rstage{flex:1}
+  #rvCv{max-height:calc(100vh - 170px)}
+  .rctl{overflow:auto;padding:16px}
+  .rfoot{justify-content:flex-end}.rfoot .btn,.rfoot .btn.primary{flex:0 0 auto;min-width:190px}
+}
 </style>
 </head>
 <body>
@@ -276,6 +322,7 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
         <button type="button" class="btn" id="shuffleBtn" data-i18n="shuffle"></button>
         <button type="button" class="btn" id="previewBtn" data-i18n="preview"></button>
         <button type="button" class="btn primary hidden" id="shareBtn" data-i18n="share"></button>
+        <button type="button" class="btn reelbtn" id="reelBtn" data-i18n="reelBtn"></button>
         <button type="button" class="btn" id="jpgBtn">JPG</button>
         <button type="button" class="btn primary" id="pngBtn" data-i18n="dlPng"></button>
       </div>
@@ -634,6 +681,56 @@ html[data-mode="islamic"] .brand .logo{background:linear-gradient(135deg,#0f3d24
 </div></div>
 <div id="pasteBar" class="hidden"><span id="pasteTxt"></span><span class="row" style="gap:6px;flex:none"><button type="button" class="btn sm" id="pasteAgain" data-i18n="shCopyAgain"></button><button type="button" class="btn sm" id="pasteX" aria-label="close">✕</button></span></div>
 <div id="updateBar" class="hidden"><span data-i18n="updateText"></span><button type="button" class="btn sm" id="updateBtn" data-i18n="reload"></button></div>
+<div id="reelSheet" class="reel hidden" role="dialog" aria-modal="true">
+  <div class="rhead"><b data-i18n="rTitle"></b><span class="rmode" id="rvMode"></span><button type="button" class="btn" id="rvClose" aria-label="close">✕</button></div>
+  <div class="rbody">
+    <div class="rleft">
+      <div class="rstage" id="rvStage"><canvas id="rvCv" width="360" height="640"></canvas><span class="rplay hidden" id="rvPlayBig">▶</span></div>
+      <div class="rbar"><i id="rvBar"></i></div>
+    </div>
+    <div class="rctl">
+      <div class="sect rstyle">
+        <h4><span><span data-i18n="rStyle"></span><span class="rcode" id="rvCode"></span></span><small id="rvNew"></small></h4>
+        <div class="rtags" id="rvTags"></div>
+        <button type="button" class="btn primary big" id="rvRoll" data-i18n="rRoll"></button>
+        <p class="note" data-i18n="rUniq"></p>
+      </div>
+      <div class="sect">
+        <h4 data-i18n="rSize"></h4>
+        <div class="seg full" id="rvRatio"><button type="button" data-r="9:16">📱 9:16</button><button type="button" data-r="4:5">4:5</button><button type="button" data-r="1:1">1:1</button><button type="button" data-r="16:9">16:9</button></div>
+        <div class="seg full" id="rvLayout" style="margin-top:8px"><button type="button" data-l="fill" data-i18n="rFill"></button><button type="button" data-l="frame" data-i18n="rFrame"></button></div>
+        <h4 style="margin-top:14px" data-i18n="rLen"></h4>
+        <div class="seg full" id="rvDur"><button type="button" data-d="6">6s</button><button type="button" data-d="8">8s</button><button type="button" data-d="10">10s</button><button type="button" data-d="15">15s</button><button type="button" data-d="20">20s</button></div>
+      </div>
+      <div class="sect">
+        <h4 data-i18n="rSound"></h4>
+        <div class="qchips" id="rvSound"></div>
+        <div id="rvOwnBox" class="hidden" style="margin-top:10px">
+          <div class="row" style="align-items:center"><button type="button" class="btn sm" id="rvOwnPick" data-i18n="rOwnPick"></button><small id="rvOwnName" style="color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%"></small></div>
+          <input type="file" id="rvOwnFile" accept="audio/*" class="hidden">
+          <label class="fld" style="margin-top:8px"><span><span data-i18n="rOwnStart"></span>: <b id="rvOwnOffV">0</b></span><input type="range" id="rvOwnOff" min="0" max="120" step="1" value="0"></label>
+        </div>
+        <label class="fld" id="rvVolBox" style="margin-top:10px"><span data-i18n="rVol"></span><input type="range" id="rvVol" min="0" max="100" step="1" value="70"></label>
+        <p class="note" id="rvSoundNote"></p>
+      </div>
+      <details class="sect"><summary data-i18n="rManual"></summary><div id="rvManualBox"></div></details>
+      <p class="note" data-i18n="rTip" style="text-align:center"></p>
+    </div>
+  </div>
+  <div class="rfoot"><button type="button" class="btn" id="rvPlay"></button><button type="button" class="btn primary" id="rvMake" data-i18n="rMake"></button></div>
+  <div class="rover hidden" id="rvBusy"><span class="spin"></span><b id="rvBusyTxt"></b><div class="rprog"><i id="rvBusyBar"></i></div><small id="rvBusySub" style="color:var(--muted)"></small><button type="button" class="btn" id="rvCancel" data-i18n="rCancel"></button></div>
+  <div class="rover rdone hidden" id="rvDone">
+    <b data-i18n="rDoneT"></b>
+    <video id="rvVideo" controls playsinline loop></video>
+    <small id="rvDoneInfo"></small>
+    <p class="warn hidden" id="rvDoneNote" style="max-width:380px"></p>
+    <button type="button" class="btn primary" id="rvShare" data-i18n="rShare"></button>
+    <button type="button" class="btn" id="rvSave" data-i18n="rSave"></button>
+    <p class="note" data-i18n="rShareTip" style="max-width:380px"></p>
+    <button type="button" class="btn" id="rvAnother" data-i18n="rAnother"></button>
+    <button type="button" class="btn sm" id="rvDoneX" style="width:auto" data-i18n="rBack"></button>
+  </div>
+</div>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
 'use strict';
@@ -1080,6 +1177,15 @@ function drawSwash(ctx, x0, x1, y, fs, col){
 function drawItem(ctx, it, boxX, y, boxW, align){
   const bx = align === 'center' ? boxX + (boxW - it.w) / 2 : align === 'right' ? boxX + boxW - it.w : boxX;
   ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.direction = 'ltr';
+  /* reel animation: every line / block gets its own entrance (only while a reel frame is drawn) */
+  const RA = REEL.on && DZ && !DZ.thumb ? REEL : null;
+  if(RA && (it.type === 'bar' || it.type === 'orn' || it.type === 'pill')){
+    ctx.save(); RA.line(ctx, RA.k++, bx + it.w / 2, y + it.h / 2); if(it.type === 'pill') RA.word(ctx, RA.wk++);
+    drawItem0(ctx, it, bx, y, null, align); ctx.restore(); ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; return;
+  }
+  drawItem0(ctx, it, bx, y, RA, align);
+}
+function drawItem0(ctx, it, bx, y, RA, align){
   if(it.type === 'bar'){ ctx.fillStyle = it.color; ctx.fillRect(bx, y, it.w, it.h); return; }
   if(it.type === 'orn'){ (it.style === 'arch' ? drawArchOrn : drawOrn)(ctx, bx + it.w / 2, y + it.h / 2, it.w, it.color, it.u || it.h / 34); return; }
   if(it.type === 'pill'){
@@ -1087,7 +1193,7 @@ function drawItem(ctx, it, boxX, y, boxW, align){
     ctx.fillStyle = it.color; ctx.font = fontStr(it.size, it.weight || 700, it.fam || BODY); ctx.fillText(it.text, bx + it.size * 0.8, y + it.h / 2 + it.size * 0.05);
     C.regions.push({ k: it.k, x: bx, y, w: it.w, h: it.h }); return;
   }
-  if(it.bg){ ctx.fillStyle = it.bg; rr(ctx, bx, y, it.w, it.h, it.radius != null ? it.radius : it.fs * 0.2); ctx.fill(); }
+  if(it.bg){ ctx.save(); if(RA){ RA.line(ctx, RA.k, bx + it.w / 2, y + it.h / 2); RA.word(ctx, RA.wk); } ctx.fillStyle = it.bg; rr(ctx, bx, y, it.w, it.h, it.radius != null ? it.radius : it.fs * 0.2); ctx.fill(); ctx.restore(); }
   ctx.font = fontStr(it.fs, it.weight, it.fam);
   const innerW = it.w - 2 * it.padX, inX = bx + it.padX;
   const shadowOn = () => { if(it.shadow){ ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = it.fs * 0.2; ctx.shadowOffsetY = it.fs * 0.04; } };
@@ -1095,26 +1201,32 @@ function drawItem(ctx, it, boxX, y, boxW, align){
   it.lay.lines.forEach((ln, i) => {
     const lx = align === 'center' ? inX + (innerW - ln.w) / 2 : align === 'right' ? inX + innerW - ln.w : inX;
     const cy = y + it.padY + i * it.lhpx + it.lhpx / 2 + it.fs * 0.05;
+    if(RA){ ctx.save(); RA.line(ctx, RA.k++, lx + ln.w / 2, cy); }
     if(it.rtl){
+      if(RA) RA.word(ctx, RA.wk++);
       ctx.direction = 'rtl'; ctx.textAlign = 'right'; ctx.fillStyle = it.color; shadowOn();
-      ctx.fillText(ln.words.map((w, j) => (j && w.g ? ' ' : '') + w.w).join(''), lx + ln.w, cy); shadowOff(); ctx.direction = 'ltr'; ctx.textAlign = 'left'; return;
+      ctx.fillText(ln.words.map((w, j) => (j && w.g ? ' ' : '') + w.w).join(''), lx + ln.w, cy); shadowOff(); ctx.direction = 'ltr'; ctx.textAlign = 'left';
+      if(RA) ctx.restore(); return;
     }
-    const mode = it.hlMode || 'color', fs = it.fs;
+    const mode = it.hlMode || 'color', fs = it.fs, w0 = RA ? RA.wk : 0;
     const fN = fontStr(fs, it.weight, it.fam), fH = it.hlF ? fontStr(fs * (it.hlF.scale || 1), it.hlF.w, it.hlF.fam) : fN;
     const xs = []; let x = lx; ln.words.forEach((wd, j) => { if(j) x += wd.g; xs.push(x); x += wd.ww; });
     const runs = [];
     if(it.hl) ln.words.forEach((wd, j) => { if(!wd.hl) return; const r = runs[runs.length - 1]; if(r && r.e === j - 1) r.e = j; else runs.push({ s: j, e: j }); });
     runs.forEach(r => { r.x0 = xs[r.s]; r.x1 = xs[r.e] + ln.words[r.e].ww; });
-    if(mode === 'box') runs.forEach(r => { ctx.fillStyle = it.hl; rr(ctx, r.x0 - fs * 0.14, cy - it.lhpx * 0.42, r.x1 - r.x0 + fs * 0.28, it.lhpx * 0.84, fs * 0.12); ctx.fill(); });
-    if(mode === 'marker') runs.forEach(r => drawMarker(ctx, r.x0, r.x1, cy, fs, it.hl));
+    const inWord = (j, fn) => { if(!RA) return fn(); ctx.save(); RA.word(ctx, w0 + j); fn(); ctx.restore(); };
+    if(mode === 'box') runs.forEach(r => inWord(r.s, () => { ctx.fillStyle = it.hl; rr(ctx, r.x0 - fs * 0.14, cy - it.lhpx * 0.42, r.x1 - r.x0 + fs * 0.28, it.lhpx * 0.84, fs * 0.12); ctx.fill(); }));
+    if(mode === 'marker') runs.forEach(r => inWord(r.s, () => drawMarker(ctx, r.x0, r.x1, cy, fs, it.hl)));
     ln.words.forEach((wd, j) => {
       const on = wd.hl && it.hl;
       ctx.font = on ? fH : fN;
       ctx.fillStyle = !on ? it.color : mode === 'box' ? (it.hlText || (lum(it.hl) > 0.55 ? '#111' : '#fff')) : mode === 'marker' ? it.color : it.hl;
       if(on && mode === 'glow'){ ctx.shadowColor = hexA(it.hl, 0.9); ctx.shadowBlur = fs * 0.5; ctx.shadowOffsetY = 0; } else shadowOn();
-      ctx.fillText(wd.w, xs[j], cy); shadowOff();
+      if(RA){ const ga = ctx.globalAlpha; RA.word(ctx, w0 + j); ctx.fillText(wd.w, xs[j], cy); ctx.globalAlpha = ga; } else ctx.fillText(wd.w, xs[j], cy);
+      shadowOff();
     });
-    if(mode === 'swash') runs.forEach(r => drawSwash(ctx, r.x0, r.x1, cy + fs * 0.56, fs, it.hl));
+    if(mode === 'swash') runs.forEach(r => inWord(r.e, () => drawSwash(ctx, r.x0, r.x1, cy + fs * 0.56, fs, it.hl)));
+    if(RA){ RA.wk += ln.words.length; ctx.restore(); }
     ctx.font = fN;
   });
   if(it.k) C.regions.push({ k: it.k, x: bx, y, w: it.w, h: it.h });
@@ -1195,8 +1307,10 @@ function drawPhoto(ctx, x, y, w, h, rad, blur){
     const iw = im.naturalWidth, ih = im.naturalHeight, s = Math.max(w / iw, h / ih) * (C.zoom / 100);
     const dw = iw * s, dh = ih * s, mx = (dw - w) / 2, my = (dh - h) / 2;
     if(!DZ.thumb) C.pmax = { x: mx, y: my };
+    if(REEL.on && !DZ.thumb) REEL.camera(ctx, x, y, w, h);
     if(blur > 0){ ctx.filter = 'blur(' + blur + 'px)'; const e = blur * 2; ctx.drawImage(im, x - mx + C.panX * mx - e, y - my + C.panY * my - e, dw + e * 2, dh + e * 2); ctx.filter = 'none'; }
     else ctx.drawImage(im, x - mx + C.panX * mx, y - my + C.panY * my, dw, dh);
+    if(REEL.on && !DZ.thumb && !(blur > 0) && !REEL.fxDone && ctx.globalAlpha > 0.6 && w * h > 0.3 * REEL.W * REEL.H){ ctx.setTransform(REEL.pre); REEL.fxDone = true; REEL.sceneFx(ctx, x, y, w, h); }
   }
   ctx.restore();
   if(!DZ.thumb) C.regions.push({ k: 'photo', x, y, w, h });
@@ -3254,12 +3368,613 @@ function init(){
   $('modalDl').addEventListener('click', () => { $('modal').classList.add('hidden'); downloadCard('png'); });
   $('modal').addEventListener('click', e => { if(e.target === $('modal')) $('modal').classList.add('hidden'); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape'){ $('shareModal').classList.add('hidden'); $('modal').classList.add('hidden'); $('resetModal').classList.add('hidden'); $('installModal').classList.add('hidden'); } });
-  wireCanvas();
+  wireCanvas(); reelWire();
   if(document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { render(); });
   setMode(MODE); updateImgUi(); renderAiThumbs(); refreshKeyHints(); writerBadge();
   ensureFonts().then(() => { render(); renderGallery(); });
 }
-window.TFPC = { state: C, F: () => F(), D: () => D(), B: () => B(), renderTo, setMode, showTab };
+/* ================= 🎬 REEL STUDIO — turn the card into a short video (MP4) =================
+   The card is redrawn for every video frame: the photo gets a "camera" move, text lines / words
+   make an entrance, light effects float inside the photo, then colour grade, vignette and grain.
+   Every reel gets a fresh random style (camera × text × effect × tone × intro) that is never reused,
+   plus its own particle layout and its own app-made music — so no two reels are identical. */
+Object.assign(T.en, {
+  reelBtn:'🎬 Reel', rTitle:'🎬 Reel Studio', rStyle:'This reel’s style', rRoll:'🎲 New style', rNew:'✓ new — never used', rUsed:'used before',
+  rUniq:'Every reel gets a new camera move, text animation, effect and tone — and its own particle layout and music. The same video is never made twice.',
+  rSize:'📐 Video size', rFill:'Full screen', rFrame:'Card in middle', rLen:'⏱️ Length', rSound:'🎵 Sound', rVol:'Volume',
+  sSilent:'🔇 No sound', sPad:'🎹 Soft music', sNature:'🍃 Breeze & birds', sRain:'🌧️ Rain', sWaves:'🌊 Waves', sOwn:'📁 My file',
+  nSilent:'Add music later inside Facebook (Reels → 🎵 music). That music is licensed, so it is the safest for monetization.',
+  nSynth:'This sound is created by the app itself, new each time — no copyright problem.',
+  nOwn:'Use only music you have the rights to. Songs downloaded from YouTube etc. can stop monetization.',
+  rOwnPick:'Choose audio file', rOwnStart:'Start from (sec)', rManual:'🎛️ Choose yourself (optional)', rAuto:'🎲 Auto',
+  gCam:'🎥 Camera', gTxt:'✍️ Text entrance', gFx:'✨ Effect', gGrade:'🎨 Colour tone', gIntro:'🎬 Start / end',
+  rPlay:'▶ Play', rPause:'⏸ Pause', rMake:'🎬 Make video', rWorking:'Making video…', rFrameOf:'Frame {a} of {b}', rKeep:'Keep this screen open until it finishes.',
+  rCancel:'Cancel', rCancelled:'Cancelled', rDoneT:'✅ Video ready', rShare:'📤 Share to Facebook', rSave:'⬇ Save to phone', rAnother:'🎲 Make another (new style)',
+  rShareTip:'In Facebook choose “Reel”. If the caption was copied, long-press the text box → Paste.',
+  rNoAudio:'This browser could not add sound — the video was made without sound. Add music inside Facebook.',
+  rSlow:'Real-time recording (this browser has no fast video maker) — please wait…', rFail:'Could not make the video: ', rNoRec:'This browser cannot make video. Please use Chrome.',
+  rOwnFail:'Could not read this audio file', rBack:'← Back to Reel Studio', rTip:'Tip: tap the video to play / pause'
+});
+Object.assign(T.bn, {
+  reelBtn:'🎬 রিল', rTitle:'🎬 রিল স্টুডিও', rStyle:'এই রিলের স্টাইল', rRoll:'🎲 নতুন স্টাইল', rNew:'✓ নতুন — আগে ব্যবহার হয়নি', rUsed:'আগে ব্যবহৃত',
+  rUniq:'প্রতিটা রিলে ক্যামেরার নড়াচড়া, লেখা আসার ধরন, ইফেক্ট ও রঙ নতুন হয় — কণার বিন্যাস ও মিউজিকও আলাদা। একই ভিডিও কখনো দুবার তৈরি হয় না।',
+  rSize:'📐 ভিডিওর মাপ', rFill:'পুরো স্ক্রিন জুড়ে', rFrame:'কার্ড মাঝখানে', rLen:'⏱️ দৈর্ঘ্য', rSound:'🎵 শব্দ', rVol:'ভলিউম',
+  sSilent:'🔇 শব্দ ছাড়া', sPad:'🎹 নরম সুর', sNature:'🍃 বাতাস ও পাখি', sRain:'🌧️ বৃষ্টি', sWaves:'🌊 ঢেউ', sOwn:'📁 নিজের ফাইল',
+  nSilent:'পরে Facebook-এ রিল আপলোডের সময় 🎵 থেকে মিউজিক যোগ করুন — ওটা লাইসেন্স করা, তাই মনিটাইজেশনের জন্য সবচেয়ে নিরাপদ।',
+  nSynth:'এই শব্দটা অ্যাপ নিজেই তৈরি করে, প্রতিবার নতুন — কোনো কপিরাইট সমস্যা নেই।',
+  nOwn:'শুধু এমন মিউজিক দিন যেটা ব্যবহারের অধিকার আপনার আছে। ইউটিউব ইত্যাদি থেকে নামানো গানে মনিটাইজেশন বন্ধ হতে পারে।',
+  rOwnPick:'অডিও ফাইল বেছে নিন', rOwnStart:'কত সেকেন্ড থেকে শুরু', rManual:'🎛️ নিজে বেছে নিন (ঐচ্ছিক)', rAuto:'🎲 অটো',
+  gCam:'🎥 ক্যামেরা', gTxt:'✍️ লেখা আসার ধরন', gFx:'✨ ইফেক্ট', gGrade:'🎨 রঙের টোন', gIntro:'🎬 শুরু / শেষ',
+  rPlay:'▶ প্লে', rPause:'⏸ থামান', rMake:'🎬 ভিডিও বানান', rWorking:'ভিডিও তৈরি হচ্ছে…', rFrameOf:'{b}টির মধ্যে {a} নম্বর ফ্রেম', rKeep:'শেষ না হওয়া পর্যন্ত এই স্ক্রিন খোলা রাখুন।',
+  rCancel:'বাতিল', rCancelled:'বাতিল হয়েছে', rDoneT:'✅ ভিডিও তৈরি', rShare:'📤 ফেসবুকে শেয়ার', rSave:'⬇ ফোনে সেভ', rAnother:'🎲 আরেকটা বানান (নতুন স্টাইল)',
+  rShareTip:'Facebook-এ “Reel” বেছে নিন। ক্যাপশন কপি হয়ে থাকলে লেখার ঘরে চেপে ধরে Paste করুন।',
+  rNoAudio:'এই ব্রাউজারে শব্দ যোগ করা গেল না — ভিডিওটি শব্দ ছাড়া তৈরি হয়েছে। Facebook-এ মিউজিক যোগ করুন।',
+  rSlow:'রিয়েল-টাইম রেকর্ডিং চলছে (এই ব্রাউজারে দ্রুত ভিডিও মেকার নেই) — একটু অপেক্ষা করুন…', rFail:'ভিডিও তৈরি করা গেল না: ', rNoRec:'এই ব্রাউজারে ভিডিও বানানো যায় না। Chrome ব্যবহার করুন।',
+  rOwnFail:'এই অডিও ফাইলটি পড়া গেল না', rBack:'← রিল স্টুডিওতে ফিরুন', rTip:'টিপস: ভিডিওর উপর চাপলে প্লে / থামবে'
+});
+
+const REEL = { on:false, k:0, wk:0, W:1080, H:1080, u:1, sc:1, pre:null, fxDone:false, cam:null,
+  camera(ctx, x, y, w, h){ const c = this.cam; this.pre = ctx.getTransform(); if(!c) return; const cx = x + w / 2, cy = y + h / 2;
+    ctx.translate(cx + c.x * w, cy + c.y * h); if(c.r) ctx.rotate(c.r); if(c.kx || c.ky) ctx.transform(1, c.ky || 0, c.kx || 0, 1, 0, 0); ctx.scale(c.s, c.s); ctx.translate(-cx, -cy); },
+  sceneFx(ctx, x, y, w, h){ reelFx(ctx, x, y, w, h, this.u, 1); },
+  line(ctx, i, cx, cy){ reelLine(ctx, i, cx, cy); },
+  word(ctx, j){ reelWord(ctx, j); }
+};
+const RX = { cam:{}, txt:{}, fx:{}, grade:{}, intro:{} };
+const ease = p => p <= 0 ? 0 : p >= 1 ? 1 : p * p * (3 - 2 * p);
+const easeOut = p => p <= 0 ? 0 : p >= 1 ? 1 : 1 - Math.pow(1 - p, 3);
+const backOut = p => { const c = 1.6; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+/* camera moves: p = eased progress 0→1 over the reel, s = seconds (speed-scaled), d = ±1 direction */
+RX.cam = {
+  zoomIn:  { n:{en:'Slow zoom in',bn:'ধীরে জুম-ইন'}, f:(p) => ({ s:1.02 + 0.13 * p, x:0, y:0 }) },
+  zoomOut: { n:{en:'Slow zoom out',bn:'ধীরে জুম-আউট'}, f:(p) => ({ s:1.16 - 0.13 * p, x:0, y:0 }) },
+  push:    { n:{en:'Push in',bn:'এগিয়ে যাওয়া'}, f:(p) => ({ s:1 + 0.15 * easeOut(p), x:0, y:0 }) },
+  pan:     { n:{en:'Side pan',bn:'পাশে সরে যাওয়া'}, f:(p, s, d) => ({ s:1.14, x:(-0.055 + 0.11 * p) * d, y:0 }) },
+  tilt:    { n:{en:'Up / down tilt',bn:'উপর-নিচে সরা'}, f:(p, s, d) => ({ s:1.14, x:0, y:(0.055 - 0.11 * p) * d }) },
+  diag:    { n:{en:'Diagonal drift',bn:'কোনাকুনি ভেসে যাওয়া'}, f:(p, s, d) => ({ s:1.10 + 0.06 * p, x:(-0.03 + 0.06 * p) * d, y:0.03 - 0.06 * p }) },
+  sway:    { n:{en:'Gentle sway (3D)',bn:'হালকা দোলা (3D)'}, f:(p, s, d) => ({ s:1.12, x:0.028 * Math.sin(s * 0.9) * d, y:0.01 * Math.sin(s * 0.6), r:0.009 * Math.sin(s * 0.75 + 1) * d }) },
+  breathe: { n:{en:'Breathing',bn:'নিঃশ্বাসের মতো'}, f:(p, s) => ({ s:1.075 + 0.04 * Math.sin(s * 1.1), x:0.008 * Math.sin(s * 0.5), y:0 }) },
+  orbit:   { n:{en:'Orbit',bn:'চক্রাকারে ঘোরা'}, f:(p, s, d) => ({ s:1.13, x:0.034 * Math.cos(s * 0.65) * d, y:0.034 * Math.sin(s * 0.65) }) },
+  dolly:   { n:{en:'Zoom + turn',bn:'জুম + হালকা ঘোরা'}, f:(p, s, d) => ({ s:1.05 + 0.12 * p, x:0, y:0, r:(0.012 * p - 0.006) * d }) },
+  tilt3d:  { n:{en:'3D tilt',bn:'3D কাত হওয়া'}, f:(p, s, d) => ({ s:1.13, x:0.014 * Math.sin(s * 0.85) * d, y:0, kx:0.024 * Math.sin(s * 0.85) * d, ky:0.011 * Math.sin(s * 0.7 + 1) }) }
+};
+RX.txt = {
+  fadeUp: { n:{en:'Lines rise up',bn:'লাইন ধরে ভেসে ওঠা'} },
+  fade:   { n:{en:'Soft fade, line by line',bn:'লাইন ধরে ফুটে ওঠা'} },
+  slide:  { n:{en:'Lines slide in',bn:'পাশ থেকে আসা'} },
+  pop:    { n:{en:'Pop in',bn:'হালকা লাফিয়ে আসা'} },
+  blurIn: { n:{en:'Focus in',bn:'ঝাপসা থেকে স্পষ্ট'} },
+  word:   { n:{en:'Word by word',bn:'শব্দে শব্দে'} },
+  gentle: { n:{en:'All together, gently',bn:'একসাথে ধীরে'} }
+};
+RX.fx = {
+  dust:    { n:{en:'Floating dust',bn:'ভাসমান ধুলিকণা'}, m:'gi' },
+  bokeh:   { n:{en:'Soft bokeh lights',bn:'নরম আলোর বৃত্ত'}, m:'gi' },
+  petals:  { n:{en:'Falling petals',bn:'ঝরে পড়া পাপড়ি'}, m:'g' },
+  rain:    { n:{en:'Rain',bn:'বৃষ্টি'}, m:'gi' },
+  snow:    { n:{en:'Snow',bn:'তুষার'}, m:'g' },
+  rays:    { n:{en:'Light rays',bn:'আলোর রশ্মি'}, m:'gi' },
+  leak:    { n:{en:'Warm light leak',bn:'উষ্ণ আলোর ছটা'}, m:'g' },
+  shine:   { n:{en:'Shine sweep',bn:'ঝলক'}, m:'gi' },
+  stars:   { n:{en:'Twinkling stars',bn:'মিটিমিটি তারা'}, m:'gi' },
+  noor:    { n:{en:'Golden glow dust',bn:'সোনালি নূরের কণা'}, m:'i' },
+  lantern: { n:{en:'Lantern glow',bn:'লণ্ঠনের আভা'}, m:'i' },
+  none:    { n:{en:'No effect',bn:'ইফেক্ট ছাড়া'}, m:'' }
+};
+RX.grade = {
+  none:    { n:{en:'Natural',bn:'স্বাভাবিক'} },
+  warm:    { n:{en:'Warm',bn:'উষ্ণ'} },
+  cool:    { n:{en:'Cool',bn:'শীতল'} },
+  cine:    { n:{en:'Cinematic',bn:'সিনেমাটিক'} },
+  vintage: { n:{en:'Vintage',bn:'ভিনটেজ'} },
+  dreamy:  { n:{en:'Dreamy',bn:'স্বপ্নিল'} }
+};
+RX.intro = {
+  black: { n:{en:'Fade from black',bn:'কালো থেকে আসা'} },
+  white: { n:{en:'Glow from white',bn:'সাদা আলো থেকে আসা'} },
+  none:  { n:{en:'Direct start',bn:'সরাসরি শুরু'} }
+};
+const RGROUPS = ['cam', 'txt', 'fx', 'grade', 'intro'];
+const RS = Object.assign({ open:false, playing:false, t:0, t0:0, raf:0, recipe:null, nLines:1, nWords:1, audio:null, audioKey:'', audioJob:null,
+  actx:null, src:null, gain:null, ownBuf:null, ownName:'', exporting:false, cancel:false, blob:null, url:'', name:'', cv:null, cardCv:null, bg:null, shadow:null, grain:null, parts:null, partsKey:'' },
+  { dur:10, ratio:'9:16', layout:'fill', sound:'', vol:70, ownOff:0, fixed:{} }, store.get('reel_prefs', {}));
+RS.fixed = RS.fixed || {};
+const EXDIM = { '1:1':[1080,1080], '4:5':[1080,1350], '9:16':[1080,1920], '16:9':[1920,1080] };
+function reelSavePrefs(){ store.set('reel_prefs', { dur:RS.dur, ratio:RS.ratio, layout:RS.layout, sound:RS.sound, vol:RS.vol, ownOff:RS.ownOff, fixed:RS.fixed }); }
+function reelSound(){ return RS.sound || (MODE === 'islamic' ? 'nature' : 'pad'); }
+function reelKey(r){ return [r.cam, r.txt, r.fx, r.grade, r.intro].join('|'); }
+function reelHist(){ return store.get('reel_hist_' + MODE, []); }
+function reelPool(g){ return Object.keys(RX[g]).filter(k => g !== 'fx' || (RX.fx[k].m.indexOf(MODE === 'islamic' ? 'i' : 'g') >= 0)); }
+function reelRoll(){
+  const hist = reelHist(), prev = RS.recipe, used = new Set(hist);
+  let best = null;
+  for(let i = 0; i < 80; i++){
+    const r = { seed:(Math.random() * 1e9) >>> 0 };
+    RGROUPS.forEach(g => { const pool = reelPool(g); r[g] = RS.fixed[g] && RX[g][RS.fixed[g]] ? RS.fixed[g] : pool[Math.floor(Math.random() * pool.length)]; });
+    if(!RS.fixed.fx && r.fx === 'none' && Math.random() < 0.8) continue; /* effects look better — "none" only now and then */
+    if(prev && !RS.fixed.cam && r.cam === prev.cam) continue;
+    if(prev && !RS.fixed.fx && r.fx === prev.fx && i < 60) continue;
+    best = r; if(!used.has(reelKey(r))) break;
+  }
+  if(!best){ best = { seed:(Math.random() * 1e9) >>> 0 }; RGROUPS.forEach(g => { best[g] = RS.fixed[g] || reelPool(g)[0]; }); }
+  const q = rng(best.seed);
+  best.dir = q() < 0.5 ? -1 : 1; best.spd = 0.82 + q() * 0.36; best.vig = 0.22 + q() * 0.22; best.grain = 0.025 + q() * 0.04; best.tone = q();
+  RS.recipe = best; RS.parts = null;
+  reelUi(); reelRefresh(true);
+}
+function reelMarkUsed(){ if(!RS.recipe) return; const h = reelHist().filter(k => k !== reelKey(RS.recipe)); h.unshift(reelKey(RS.recipe)); store.set('reel_hist_' + MODE, h.slice(0, 60)); }
+
+/* ---- text entrance timing ---- */
+function reelTimes(){
+  const r = RS.recipe || {}, d = RS.dur, t0 = r.intro === 'none' ? 0.2 : 0.55;
+  const n = Math.max(1, RS.nLines), nw = Math.max(1, RS.nWords);
+  const win = Math.min(d * 0.5, Math.max(0.8, n * 0.55)), stg = n > 1 ? win / n : 0;
+  const wwin = Math.min(d * 0.55, nw * 0.2), wst = wwin / nw;
+  return { t0, stg, ld:0.85, wst, wd:0.38 };
+}
+function reelLine(ctx, i, cx, cy){
+  const r = RS.recipe; if(!r || r.txt === 'word') return;
+  const tm = reelTimes(), u = REEL.u;
+  const q = r.txt === 'gentle' ? ease((RS.t - tm.t0) / 1.5) : ease((RS.t - tm.t0 - i * tm.stg) / tm.ld);
+  if(q >= 1) return;
+  ctx.globalAlpha *= Math.max(0, q);
+  if(r.txt === 'fadeUp') ctx.translate(0, (1 - q) * 36 * u);
+  else if(r.txt === 'slide') ctx.translate((i % 2 ? 1 : -1) * r.dir * (1 - easeOut(q)) * 80 * u, 0);
+  else if(r.txt === 'pop'){ const s = 0.84 + 0.16 * backOut(Math.max(0, q)); ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy); }
+  else if(r.txt === 'gentle'){ const s = 1.05 - 0.05 * q; ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy); }
+  else if(r.txt === 'blurIn' && q > 0) ctx.filter = 'blur(' + ((1 - q) * 12 * u * REEL.sc).toFixed(1) + 'px)';
+}
+function reelWord(ctx, j){
+  const r = RS.recipe; if(!r || r.txt !== 'word') return;
+  const tm = reelTimes(); ctx.globalAlpha *= ease((RS.t - tm.t0 - j * tm.wst) / tm.wd);
+}
+
+/* ---- particles & light effects (drawn inside the photo, behind the text) ---- */
+function reelParts(){
+  const r = RS.recipe, key = r.seed + r.fx;
+  if(RS.parts && RS.partsKey === key) return RS.parts;
+  const q = rng(r.seed ^ 0x5bd1e995), a = [];
+  for(let i = 0; i < 90; i++) a.push({ x:q(), y:q(), z:q(), ph:q() * 6.283, sp:0.6 + q() * 0.8, k:q() });
+  RS.partsKey = key; RS.parts = a; return a;
+}
+function reelFx(ctx, x, y, w, h, u, amt){
+  const r = RS.recipe; if(!r || r.fx === 'none') return;
+  const P = reelParts(), t = RS.t * r.spd, isl = MODE === 'islamic', D2 = Math.max(w, h);
+  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip(); ctx.globalAlpha = amt;
+  const gold = r.tone < 0.5 ? '255,214,140' : '255,232,180';
+  const fx = r.fx;
+  if(fx === 'dust' || fx === 'noor'){
+    ctx.globalCompositeOperation = 'lighter';
+    const n = fx === 'noor' ? 30 : 46, col = fx === 'noor' ? gold : (isl ? '255,236,200' : '255,246,235');
+    for(let i = 0; i < n; i++){ const p = P[i];
+      const py = y + ((p.y - t * 0.022 * p.sp) % 1 + 1) % 1 * h, px = x + (p.x + 0.012 * Math.sin(t * 0.6 + p.ph)) * w;
+      const tw = 0.5 + 0.5 * Math.sin(t * 2.1 * p.sp + p.ph), rad = (fx === 'noor' ? 3.5 + 8 * p.z : 2 + 4.2 * p.z) * u;
+      if(fx === 'noor'){ const g = ctx.createRadialGradient(px, py, 0, px, py, rad * 3.2); g.addColorStop(0, 'rgba(' + col + ',' + (0.55 * tw + 0.2) + ')'); g.addColorStop(1, 'rgba(' + col + ',0)'); ctx.fillStyle = g; ctx.fillRect(px - rad * 3.2, py - rad * 3.2, rad * 6.4, rad * 6.4); }
+      else { ctx.fillStyle = 'rgba(' + col + ',' + (0.18 + 0.5 * tw * p.k) + ')'; ctx.beginPath(); ctx.arc(px, py, rad, 0, 6.283); ctx.fill(); }
+    }
+  } else if(fx === 'bokeh'){
+    ctx.globalCompositeOperation = 'lighter';
+    const col = isl ? gold : (r.tone < 0.5 ? '255,190,210' : '200,220,255');
+    for(let i = 0; i < 14; i++){ const p = P[i];
+      const px = x + (p.x + 0.04 * Math.sin(t * 0.25 + p.ph)) * w, py = y + ((p.y - t * 0.012 * p.sp) % 1 + 1) % 1 * h, rad = (30 + 90 * p.z) * u;
+      const al = 0.08 + 0.1 * (0.5 + 0.5 * Math.sin(t * 0.8 + p.ph));
+      const g = ctx.createRadialGradient(px, py, rad * 0.55, px, py, rad); g.addColorStop(0, 'rgba(' + col + ',' + al + ')'); g.addColorStop(0.85, 'rgba(' + col + ',' + al * 0.7 + ')'); g.addColorStop(1, 'rgba(' + col + ',0)');
+      ctx.fillStyle = g; ctx.fillRect(px - rad, py - rad, rad * 2, rad * 2); }
+  } else if(fx === 'petals'){
+    const cols = r.tone < 0.5 ? ['#f7b6c8', '#f9cfdc', '#ffffff'] : ['#ffd1dc', '#fde2b8', '#f4a7b9'];
+    for(let i = 0; i < 22; i++){ const p = P[i];
+      const py = y + (((p.y + t * 0.05 * p.sp) % 1.1) - 0.05) * h, px = x + (((p.x + 0.05 * Math.sin(t * 0.8 + p.ph) + t * 0.015 * r.dir) % 1 + 1) % 1) * w;
+      ctx.save(); ctx.translate(px, py); ctx.rotate(t * p.sp + p.ph); ctx.scale(1, 0.5 + 0.5 * Math.abs(Math.sin(t * 1.3 + p.ph)));
+      ctx.globalAlpha = amt * 0.85; ctx.fillStyle = cols[i % 3]; ctx.beginPath(); ctx.ellipse(0, 0, (13 + 10 * p.z) * u, (6 + 5 * p.z) * u, 0, 0, 6.283); ctx.fill(); ctx.restore(); }
+  } else if(fx === 'rain'){
+    ctx.strokeStyle = 'rgba(225,235,255,0.42)'; ctx.lineCap = 'round';
+    const sl = 0.18 * r.dir;
+    for(let i = 0; i < 80; i++){ const p = P[i % 90]; const len = (26 + 34 * p.z) * u;
+      const py = y + ((p.y + t * (0.8 + 0.5 * p.z)) % 1) * (h + len) - len, px = x + ((p.x + p.k * 0.0001) % 1) * w;
+      ctx.lineWidth = (1.1 + 1.8 * p.z) * u; ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + sl * len, py + len); ctx.stroke(); }
+    ctx.fillStyle = 'rgba(10,20,40,0.10)'; ctx.fillRect(x, y, w, h);
+  } else if(fx === 'snow'){
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    for(let i = 0; i < 60; i++){ const p = P[i];
+      const py = y + ((p.y + t * 0.04 * p.sp) % 1) * h, px = x + (p.x + 0.02 * Math.sin(t * 0.9 + p.ph)) * w;
+      ctx.globalAlpha = amt * (0.4 + 0.5 * p.z); ctx.beginPath(); ctx.arc(px, py, (2.2 + 5 * p.z) * u, 0, 6.283); ctx.fill(); }
+  } else if(fx === 'rays' || fx === 'lantern'){
+    ctx.globalCompositeOperation = 'lighter';
+    const ox = r.dir > 0 ? x + w * 0.85 : x + w * 0.15, oy = y - h * 0.05, col = isl ? gold : '255,236,200';
+    if(fx === 'rays'){
+      for(let i = 0; i < 5; i++){ const p = P[i]; const ang = Math.PI / 2 + r.dir * (0.25 + i * 0.13) + 0.05 * Math.sin(t * 0.3 + p.ph);
+        const wd = (40 + 70 * p.z) * u, al = 0.07 + 0.06 * (0.5 + 0.5 * Math.sin(t * 0.7 + p.ph));
+        ctx.save(); ctx.translate(ox, oy); ctx.rotate(ang - Math.PI / 2); const g = ctx.createLinearGradient(0, 0, 0, D2 * 1.4); g.addColorStop(0, 'rgba(' + col + ',' + al + ')'); g.addColorStop(1, 'rgba(' + col + ',0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(-wd * 0.2, 0); ctx.lineTo(wd * 0.2, 0); ctx.lineTo(wd, D2 * 1.4); ctx.lineTo(-wd, D2 * 1.4); ctx.closePath(); ctx.fill(); ctx.restore(); }
+    } else {
+      const pul = 0.75 + 0.25 * Math.sin(t * 1.6) + 0.06 * Math.sin(t * 5.3);
+      const g = ctx.createRadialGradient(ox, y + h * 0.12, 0, ox, y + h * 0.12, D2 * 0.7); g.addColorStop(0, 'rgba(' + col + ',' + 0.32 * pul + ')'); g.addColorStop(0.4, 'rgba(' + col + ',' + 0.1 * pul + ')'); g.addColorStop(1, 'rgba(' + col + ',0)');
+      ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
+      for(let i = 0; i < 14; i++){ const p = P[i]; const px = ox + (p.x - 0.5) * w * 0.6, py = y + ((p.y - t * 0.02 * p.sp) % 1 + 1) % 1 * h * 0.8, rad = (2 + 4 * p.z) * u;
+        ctx.fillStyle = 'rgba(' + col + ',' + (0.3 + 0.4 * (0.5 + 0.5 * Math.sin(t * 2 + p.ph))) + ')'; ctx.beginPath(); ctx.arc(px, py, rad, 0, 6.283); ctx.fill(); }
+    }
+  } else if(fx === 'leak'){
+    ctx.globalCompositeOperation = 'screen';
+    [[255, 140, 60], [255, 90, 120]].forEach((c, i) => { const p = P[i]; const px = x + (0.5 + 0.55 * Math.sin(t * 0.22 * (i ? 0.8 : 1) + p.ph) * r.dir) * w, py = y + (0.3 + 0.4 * Math.cos(t * 0.17 + p.ph)) * h, rad = D2 * (0.45 + 0.15 * p.z);
+      const g = ctx.createRadialGradient(px, py, 0, px, py, rad); g.addColorStop(0, 'rgba(' + c + ',0.26)'); g.addColorStop(1, 'rgba(' + c + ',0)'); ctx.fillStyle = g; ctx.fillRect(x, y, w, h); });
+  } else if(fx === 'shine'){
+    ctx.globalCompositeOperation = 'lighter';
+    const d = RS.dur, sweeps = [[0.25, 0.55], [0.72, 0.92]];
+    sweeps.forEach(([a, b]) => { const q = (RS.t - a * d) / ((b - a) * d); if(q <= 0 || q >= 1) return;
+      const cx = x - w * 0.4 + q * w * 1.8, bw = w * 0.22, g = ctx.createLinearGradient(cx - bw, y, cx + bw, y + bw * 0.6);
+      const col = isl ? gold : '255,255,255'; g.addColorStop(0, 'rgba(' + col + ',0)'); g.addColorStop(0.5, 'rgba(' + col + ',0.22)'); g.addColorStop(1, 'rgba(' + col + ',0)');
+      ctx.save(); ctx.translate(cx, y + h / 2); ctx.rotate(-0.35 * r.dir); ctx.translate(-cx, -(y + h / 2)); ctx.fillStyle = g; ctx.fillRect(cx - bw, y - h, bw * 2, h * 3); ctx.restore(); });
+  } else if(fx === 'stars'){
+    ctx.globalCompositeOperation = 'lighter';
+    const col = isl ? gold : '255,250,235';
+    for(let i = 0; i < 20; i++){ const p = P[i]; const px = x + p.x * w, py = y + Math.pow(p.y, 1.6) * h * 0.85;
+      const tw = Math.max(0, Math.sin(t * (1.2 + p.sp) + p.ph)), s = (8 + 15 * p.z) * u * (0.4 + 0.6 * tw); if(tw < 0.05) continue;
+      const g = ctx.createRadialGradient(px, py, 0, px, py, s * 1.6); g.addColorStop(0, 'rgba(' + col + ',' + 0.6 * tw + ')'); g.addColorStop(1, 'rgba(' + col + ',0)'); ctx.fillStyle = g; ctx.fillRect(px - s * 1.6, py - s * 1.6, s * 3.2, s * 3.2);
+      ctx.fillStyle = 'rgba(' + col + ',' + 0.85 * tw + ')'; ctx.beginPath(); ctx.moveTo(px, py - s); ctx.quadraticCurveTo(px, py, px + s, py); ctx.quadraticCurveTo(px, py, px, py + s); ctx.quadraticCurveTo(px, py, px - s, py); ctx.quadraticCurveTo(px, py, px, py - s); ctx.fill(); }
+  }
+  ctx.restore();
+}
+
+/* ---- one frame of the card (photo camera + text entrance + scene effect) ---- */
+function reelCard(cv, ratio, size){
+  const keep = { regions:C.regions, pmax:C.pmax, textFs:C.textFs, lr:C.logoReserve };
+  const [W, H] = RATIOS[ratio], r = RS.recipe;
+  Object.assign(REEL, { on:true, k:0, wk:0, fxDone:false, W, H, u:Math.min(W, H) / 1080, sc:size / Math.max(W, H), pre:null });
+  REEL.cam = r ? RX.cam[r.cam].f(ease(RS.t / RS.dur), RS.t * r.spd, r.dir) : null;
+  try{ renderTo(cv, { ratio, size }); } finally {
+    REEL.on = false; C.regions = keep.regions; C.pmax = keep.pmax; C.textFs = keep.textFs; C.logoReserve = keep.lr; }
+}
+function reelCount(){ const c = document.createElement('canvas'), t = RS.t; RS.t = 1e4; reelCard(c, reelCardRatio(), 160); RS.nLines = Math.max(1, REEL.k); RS.nWords = Math.max(1, REEL.wk); RS.t = t; }
+function reelCardRatio(){ return RS.layout === 'fill' ? RS.ratio : D().ratio; }
+function reelFramed(){ return RS.layout === 'frame'; }
+function grainPat(ctx){
+  if(!RS.grain){ const g = document.createElement('canvas'); g.width = g.height = 160; const gx = g.getContext('2d'), id = gx.createImageData(160, 160);
+    for(let i = 0; i < id.data.length; i += 4){ const v = Math.random() * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255; }
+    gx.putImageData(id, 0, 0); RS.grain = g; }
+  return ctx.createPattern(RS.grain, 'repeat');
+}
+/* static helpers for the "card in middle" layout: blurred background + soft shadow (made once) */
+function reelPrep(OW, OH){
+  if(!reelFramed()) return;
+  const key = OW + 'x' + OH + D().ratio + MODE + JSON.stringify(F()).length;
+  const cr = RATIOS[D().ratio], asp = cr[0] / cr[1];
+  let rw = OW * 0.86, rh = rw / asp; if(rh > OH * 0.78){ rh = OH * 0.78; rw = rh * asp; }
+  RS.box = { x:(OW - rw) / 2, y:(OH - rh) / 2 - OH * 0.01, w:rw, h:rh, rad:Math.min(OW, OH) * 0.025 };
+  if(RS.bg && RS.bg.key === key) return;
+  const tmp = document.createElement('canvas'), keep = { regions:C.regions, pmax:C.pmax, textFs:C.textFs, lr:C.logoReserve };
+  renderTo(tmp, { ratio:D().ratio, size:260 }); C.regions = keep.regions; C.pmax = keep.pmax; C.textFs = keep.textFs; C.logoReserve = keep.lr;
+  const bg = document.createElement('canvas'); bg.width = Math.round(OW / 4); bg.height = Math.round(OH / 4); const bx = bg.getContext('2d');
+  const s = Math.max(bg.width / tmp.width, bg.height / tmp.height) * 1.15; bx.filter = 'blur(' + Math.round(bg.width / 22) + 'px)';
+  bx.drawImage(tmp, (bg.width - tmp.width * s) / 2, (bg.height - tmp.height * s) / 2, tmp.width * s, tmp.height * s); bx.filter = 'none';
+  bx.fillStyle = 'rgba(0,0,0,0.38)'; bx.fillRect(0, 0, bg.width, bg.height);
+  const m = Math.round(Math.min(OW, OH) * 0.06), sh = document.createElement('canvas'); sh.width = Math.round(rw + m * 2); sh.height = Math.round(rh + m * 2);
+  const sx = sh.getContext('2d'); sx.shadowColor = 'rgba(0,0,0,0.55)'; sx.shadowBlur = m * 0.7; sx.shadowOffsetY = m * 0.25; sx.fillStyle = '#000'; rr(sx, m, m, rw, rh, RS.box.rad); sx.fill();
+  RS.bg = { key, cv:bg }; RS.shadow = { cv:sh, m };
+}
+function reelCompose(ctx, OW, OH){
+  const r = RS.recipe, t = RS.t, d = RS.dur, ou = Math.min(OW, OH) / 1080;
+  if(!RS.cardCv) RS.cardCv = document.createElement('canvas');
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, OW, OH);
+  let fxBox = { x:0, y:0, w:OW, h:OH };
+  if(!reelFramed()){
+    reelCard(RS.cardCv, RS.ratio, Math.max(OW, OH));
+    if(!hasImg() && r){ const c = RX.cam[r.cam].f(ease(t / d), t * r.spd, r.dir), s = 1 + (c.s - 1) * 0.5 + 0.012;
+      ctx.save(); ctx.translate(OW / 2 + c.x * OW * 0.4, OH / 2 + c.y * OH * 0.4); if(c.r) ctx.rotate(c.r * 0.5); ctx.scale(s, s); ctx.drawImage(RS.cardCv, -OW / 2, -OH / 2, OW, OH); ctx.restore(); }
+    else ctx.drawImage(RS.cardCv, 0, 0, OW, OH);
+  } else {
+    reelPrep(OW, OH); const b = RS.box, bz = 1.06 + 0.08 * ease(t / d);
+    ctx.drawImage(RS.bg.cv, (OW - OW * bz) / 2, (OH - OH * bz) / 2, OW * bz, OH * bz);
+    const fl = 0.965 + 0.035 * easeOut(Math.min(1, t / 1.4)), bob = Math.sin(t * 0.9) * 5 * ou;
+    ctx.save(); ctx.translate(OW / 2, b.y + b.h / 2 + bob); ctx.scale(fl, fl); ctx.translate(-OW / 2, -(b.y + b.h / 2));
+    const m = RS.shadow.m * (b.w / (RS.shadow.cv.width - RS.shadow.m * 2)); ctx.drawImage(RS.shadow.cv, b.x - m, b.y - m, b.w + m * 2, b.h + m * 2);
+    reelCard(RS.cardCv, D().ratio, Math.round(Math.max(b.w, b.h)));
+    rr(ctx, b.x, b.y, b.w, b.h, b.rad); ctx.clip(); ctx.drawImage(RS.cardCv, b.x, b.y, b.w, b.h); ctx.restore();
+    fxBox = b;
+  }
+  if(r && !REEL.fxDone) reelFx(ctx, fxBox.x, fxBox.y, fxBox.w, fxBox.h, Math.min(fxBox.w, fxBox.h) / 1080, 0.8);
+  if(r){
+    const g = r.grade; ctx.globalCompositeOperation = 'soft-light';
+    if(g === 'warm'){ ctx.fillStyle = 'rgba(255,160,70,0.28)'; ctx.fillRect(0, 0, OW, OH); }
+    else if(g === 'cool'){ ctx.fillStyle = 'rgba(70,130,255,0.26)'; ctx.fillRect(0, 0, OW, OH); }
+    else if(g === 'cine'){ const gr = ctx.createLinearGradient(0, 0, OW, OH); gr.addColorStop(0, 'rgba(0,120,140,0.32)'); gr.addColorStop(1, 'rgba(255,140,60,0.30)'); ctx.fillStyle = gr; ctx.fillRect(0, 0, OW, OH); }
+    else if(g === 'vintage'){ ctx.fillStyle = 'rgba(170,120,60,0.40)'; ctx.fillRect(0, 0, OW, OH); }
+    else if(g === 'dreamy'){ ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = 'rgba(255,235,245,0.10)'; ctx.fillRect(0, 0, OW, OH); }
+    ctx.globalCompositeOperation = 'source-over';
+    const vg = ctx.createRadialGradient(OW / 2, OH / 2, Math.min(OW, OH) * 0.38, OW / 2, OH / 2, Math.hypot(OW, OH) * 0.6);
+    vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,' + (g === 'dreamy' ? r.vig * 0.5 : r.vig) + ')'); ctx.fillStyle = vg; ctx.fillRect(0, 0, OW, OH);
+    const gp = grainPat(ctx); if(gp){ ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = g === 'vintage' ? r.grain * 2 : r.grain;
+      const q = (t * 30) | 0; ctx.translate(-((q * 37) % 160), -((q * 71) % 160)); ctx.fillStyle = gp; ctx.fillRect(0, 0, OW + 160, OH + 160); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+    let fade = 0, col = '0,0,0';
+    if(r.intro === 'black'){ fade = 1 - ease(t / 0.7); }
+    else if(r.intro === 'white'){ fade = 1 - easeOut(t / 0.9); col = '255,255,255'; }
+    if(fade > 0){ ctx.fillStyle = 'rgba(' + col + ',' + fade + ')'; ctx.fillRect(0, 0, OW, OH); }
+    const tail = r.intro === 'none' ? 0.35 : 0.65, out = ease((t - (d - tail)) / tail);
+    if(out > 0){ ctx.fillStyle = 'rgba(0,0,0,' + out + ')'; ctx.fillRect(0, 0, OW, OH); }
+  }
+  ctx.restore();
+}
+
+/* ================= app-made sound (no copyright) ================= */
+const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+async function reelSynth(kind, dur, seed){
+  const sr = 48000, ctx = new OfflineAudioContext(2, Math.ceil(sr * dur), sr), q = rng((seed ^ 0x9e3779b9) >>> 0);
+  const master = ctx.createGain(); master.connect(ctx.destination);
+  const fin = kind === 'own' ? 0.4 : Math.min(1.2, dur * 0.12), fout = Math.min(1.6, dur * 0.2);
+  master.gain.setValueAtTime(0, 0); master.gain.linearRampToValueAtTime(1, fin); master.gain.setValueAtTime(1, Math.max(fin, dur - fout)); master.gain.linearRampToValueAtTime(0, dur);
+  const noiseBuf = sec => { const b = ctx.createBuffer(2, Math.round(sr * sec), sr); for(let c = 0; c < 2; c++){ const d = b.getChannelData(c); for(let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; } return b; };
+  const loopNoise = () => { const s = ctx.createBufferSource(); s.buffer = noiseBuf(2.3); s.loop = true; s.start(0); return s; };
+  const filt = (type, f, Q) => { const b = ctx.createBiquadFilter(); b.type = type; b.frequency.value = f; if(Q) b.Q.value = Q; return b; };
+  const gainN = v => { const g = ctx.createGain(); g.gain.value = v; return g; };
+  const pan = v => ctx.createStereoPanner ? (() => { const p = ctx.createStereoPanner(); p.pan.value = v; return p; })() : gainN(1);
+  if(kind === 'pad'){
+    const rv = ctx.createConvolver(), L = Math.round(sr * 2.8), ib = ctx.createBuffer(2, L, sr);
+    for(let c = 0; c < 2; c++){ const d = ib.getChannelData(c); for(let i = 0; i < L; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / L, 2.6); } rv.buffer = ib;
+    const lp = filt('lowpass', 1300 + q() * 900), dry = gainN(0.55), wet = gainN(0.5);
+    lp.connect(dry); dry.connect(master); lp.connect(rv); rv.connect(wet); wet.connect(master);
+    const PROG = [[0, 7, 9, 5], [9, 5, 0, 7], [0, 9, 5, 7], [0, 4, 9, 5], [5, 0, 7, 9], [9, 7, 5, 7], [0, 5, 9, 7]];
+    const prog = PROG[Math.floor(q() * PROG.length)], root = 48 + Math.floor(q() * 8), cl = Math.max(2.2, Math.min(4, dur / (dur > 12 ? 6 : 4)));
+    const arp = q() < 0.75, beat = 60 / (64 + q() * 20), pat = [[0, 1, 2, 3, 2, 1], [0, 2, 1, 3], [0, 1, 2, 1], [3, 2, 1, 0, 1, 2]][Math.floor(q() * 4)];
+    let ai = 0;
+    for(let i = 0, t = 0; t < dur; i++, t += cl){
+      const deg = prog[i % 4], cr = root + deg, minor = deg === 9 || deg === 2 || deg === 4, notes = [cr, cr + (minor ? 3 : 4), cr + 7, cr + 12];
+      notes.forEach((m, k) => ['triangle', 'sine'].forEach((type, j) => {
+        const o = ctx.createOscillator(); o.type = type; o.frequency.value = mtof(m); o.detune.value = j ? 7 : -6;
+        const g = ctx.createGain(), pk = (type === 'triangle' ? 0.04 : 0.055) * (k === 3 ? 0.6 : 1);
+        g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(pk, t + 0.9); g.gain.setValueAtTime(pk, t + cl - 0.1); g.gain.linearRampToValueAtTime(0, t + cl + 1.1);
+        o.connect(g); g.connect(lp); o.start(t); o.stop(t + cl + 1.2); }));
+      const b = ctx.createOscillator(); b.type = 'sine'; b.frequency.value = mtof(cr - 12); const bg = ctx.createGain();
+      bg.gain.setValueAtTime(0, t); bg.gain.linearRampToValueAtTime(0.09, t + 0.6); bg.gain.setValueAtTime(0.09, t + cl - 0.1); bg.gain.linearRampToValueAtTime(0, t + cl + 0.8); b.connect(bg); bg.connect(lp); b.start(t); b.stop(t + cl + 0.9);
+      if(arp) for(let bt = t + (i === 0 ? beat * 2 : 0); bt < t + cl - 0.05 && bt < dur - 1; bt += beat){
+        const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = mtof(notes[pat[ai++ % pat.length]] + 12);
+        const g = ctx.createGain(); g.gain.setValueAtTime(0, bt); g.gain.linearRampToValueAtTime(0.06, bt + 0.012); g.gain.exponentialRampToValueAtTime(0.0006, bt + 1.5);
+        const p = pan((q() - 0.5) * 0.6); o.connect(g); g.connect(p); p.connect(dry); p.connect(rv); o.start(bt); o.stop(bt + 1.6); }
+    }
+  } else if(kind === 'rain'){
+    const n1 = loopNoise(), hp = filt('highpass', 450), lp = filt('lowpass', 3800), g1 = gainN(0.22); n1.connect(hp); hp.connect(lp); lp.connect(g1); g1.connect(master);
+    const n2 = loopNoise(), lp2 = filt('lowpass', 260), g2 = gainN(0.35); n2.connect(lp2); lp2.connect(g2); g2.connect(master);
+    const drop = noiseBuf(0.03);
+    for(let t = 0.05; t < dur; t += 0.03 + q() * 0.1){ const s = ctx.createBufferSource(); s.buffer = drop; const bp = filt('bandpass', 1500 + q() * 3800, 3 + q() * 4), g = ctx.createGain(), p = pan(q() * 1.6 - 0.8);
+      g.gain.setValueAtTime(0.04 + q() * 0.08, t); g.gain.exponentialRampToValueAtTime(0.0005, t + 0.03); s.connect(bp); bp.connect(g); g.connect(p); p.connect(master); s.start(t); }
+  } else if(kind === 'nature'){
+    const n = loopNoise(), bp = filt('bandpass', 420, 0.7), g = ctx.createGain(); n.connect(bp); bp.connect(g); g.connect(master);
+    g.gain.setValueAtTime(0.2, 0); for(let t = 1.5; t < dur + 1.5; t += 1.5){ g.gain.linearRampToValueAtTime(0.12 + q() * 0.3, t); bp.frequency.linearRampToValueAtTime(280 + q() * 450, t); }
+    for(let t = 0.7 + q() * 1.2; t < dur - 0.6; t += 1.4 + q() * 3){
+      const nC = 2 + Math.floor(q() * 4), base = 2200 + q() * 2300, p = pan(q() * 1.4 - 0.7), up = q() < 0.6;
+      for(let c = 0; c < nC; c++){ const st = t + c * (0.09 + q() * 0.06), o = ctx.createOscillator(), gg = ctx.createGain(); o.type = 'sine';
+        o.frequency.setValueAtTime(base * (up ? 1 : 1.4), st); o.frequency.exponentialRampToValueAtTime(base * (up ? 1.45 : 0.95), st + 0.07);
+        gg.gain.setValueAtTime(0, st); gg.gain.linearRampToValueAtTime(0.045, st + 0.015); gg.gain.linearRampToValueAtTime(0, st + 0.085);
+        o.connect(gg); gg.connect(p); o.start(st); o.stop(st + 0.1); }
+      p.connect(master); }
+  } else if(kind === 'waves'){
+    const n = loopNoise(), lp = filt('lowpass', 750), g = ctx.createGain(); n.connect(lp); lp.connect(g); g.connect(master);
+    const n2 = loopNoise(), hp = filt('highpass', 2800), g2 = ctx.createGain(); n2.connect(hp); hp.connect(g2); g2.connect(master);
+    g.gain.setValueAtTime(0.1, 0); g2.gain.setValueAtTime(0.01, 0);
+    for(let t = 0; t < dur + 8;){ const per = 5 + q() * 3; g.gain.linearRampToValueAtTime(0.55, t + per * 0.45); g2.gain.linearRampToValueAtTime(0.07, t + per * 0.5); g.gain.linearRampToValueAtTime(0.08, t + per); g2.gain.linearRampToValueAtTime(0.008, t + per); t += per; }
+  } else if(kind === 'own' && RS.ownBuf){
+    const s = ctx.createBufferSource(); s.buffer = RS.ownBuf; s.loop = RS.ownBuf.duration < dur + RS.ownOff; s.connect(master); s.start(0, Math.min(RS.ownOff, Math.max(0, RS.ownBuf.duration - 1)));
+  } else return null;
+  const out = await ctx.startRendering();
+  if(kind !== 'own'){ /* level every app-made sound to the same loudness */
+    let pk = 0; for(let c = 0; c < out.numberOfChannels; c++){ const d = out.getChannelData(c); for(let i = 0; i < d.length; i += 2){ const v = Math.abs(d[i]); if(v > pk) pk = v; } }
+    const g = pk > 1e-4 ? Math.min(8, 0.8 / pk) : 1; if(g !== 1) for(let c = 0; c < out.numberOfChannels; c++){ const d = out.getChannelData(c); for(let i = 0; i < d.length; i++) d[i] *= g; } }
+  return out;
+}
+function reelAudioKey(){ const s = reelSound(); return s === 'silent' || (s === 'own' && !RS.ownBuf) ? '' : [s, RS.dur, RS.recipe && RS.recipe.seed, s === 'own' ? RS.ownName + '@' + RS.ownOff : ''].join('|'); }
+function reelAudio(){
+  const key = reelAudioKey(); if(!key){ RS.audio = null; RS.audioKey = ''; return Promise.resolve(null); }
+  if(RS.audioKey === key && RS.audio) return Promise.resolve(RS.audio);
+  if(RS.audioJob && RS.audioJob.key === key) return RS.audioJob.p;
+  const p = reelSynth(reelSound(), RS.dur, RS.recipe ? RS.recipe.seed : 1).then(b => { if(reelAudioKey() === key){ RS.audio = b; RS.audioKey = key; } return b; }).catch(e => { console.warn(e); return null; });
+  RS.audioJob = { key, p }; return p;
+}
+function reelStopAudio(){ if(RS.src){ try{ RS.src.stop(); }catch(e){} RS.src = null; } }
+async function reelPlayAudio(from){
+  reelStopAudio(); if(!RS.playing) return;
+  const buf = await reelAudio(); if(!buf || !RS.playing) return;
+  try{ if(!RS.actx) RS.actx = new (window.AudioContext || window.webkitAudioContext)(); if(RS.actx.state === 'suspended') await RS.actx.resume(); }catch(e){ return; }
+  reelStopAudio();
+  const s = RS.actx.createBufferSource(), g = RS.actx.createGain(); s.buffer = buf; g.gain.value = RS.vol / 100; s.connect(g); g.connect(RS.actx.destination);
+  const at = RS.playing ? (performance.now() - RS.t0) / 1000 : from; s.start(0, Math.max(0, Math.min(buf.duration - 0.01, at))); RS.src = s; RS.gain = g;
+}
+
+/* ================= preview ================= */
+function reelPvDims(){ const [EW, EH] = EXDIM[RS.ratio], k = Math.min(1, (matchMedia('(max-width:900px)').matches ? 720 : 860) / Math.max(EW, EH)); return [Math.round(EW * k), Math.round(EH * k)]; }
+function reelDraw(){
+  const cv = $('rvCv'); if(!cv || !RS.recipe) return;
+  const [OW, OH] = reelPvDims(); if(cv.width !== OW) cv.width = OW; if(cv.height !== OH) cv.height = OH;
+  reelCompose(cv.getContext('2d'), OW, OH);
+  $('rvBar').style.width = (Math.min(1, RS.t / RS.dur) * 100).toFixed(1) + '%';
+}
+function reelTick(now){
+  RS.raf = 0; if(!RS.open || !RS.playing) return;
+  RS.t = (now - RS.t0) / 1000;
+  if(RS.t >= RS.dur){ RS.t0 = now; RS.t = 0; reelPlayAudio(0); }
+  reelDraw(); RS.raf = requestAnimationFrame(reelTick);
+}
+function reelPlay(on){
+  RS.playing = on; $('rvPlay').textContent = t(on ? 'rPause' : 'rPlay'); $('rvPlayBig').classList.toggle('hidden', on);
+  if(on){ if(RS.t >= RS.dur - 0.05) RS.t = 0; RS.t0 = performance.now() - RS.t * 1000; reelPlayAudio(RS.t); if(!RS.raf) RS.raf = requestAnimationFrame(reelTick); }
+  else { reelStopAudio(); if(RS.raf){ cancelAnimationFrame(RS.raf); RS.raf = 0; } }
+}
+function reelRefresh(restart){
+  RS.bg = null; reelCount();
+  if(restart){ RS.t = 0; RS.t0 = performance.now(); if(RS.playing) reelPlayAudio(0); }
+  else if(!RS.playing) RS.t = Math.min(RS.t, RS.dur);
+  if(!RS.playing){ if(restart) RS.t = Math.min(RS.dur * 0.75, 0.55 + reelTimes().stg * RS.nLines + 1.2); reelDraw(); }
+  reelAudio();
+}
+
+/* ================= UI ================= */
+function reelChip(label, on, data){ return '<button type="button" class="chip' + (on ? ' on' : '') + '" ' + data + '>' + label + '</button>'; }
+function reelUi(){
+  const r = RS.recipe; if(!r) return;
+  $('rvMode').textContent = MODE === 'islamic' ? '🕌 ' + t('mIslamic') : '🌸 ' + t('mGeneral');
+  const ic = { cam:'🎥', txt:'✍️', fx:'✨', grade:'🎨', intro:'🎬' };
+  $('rvTags').innerHTML = RGROUPS.map(g => '<span class="rtag' + (RS.fixed[g] ? ' fix' : '') + '">' + ic[g] + ' ' + L(RX[g][r[g]].n) + '</span>').join('');
+  const used = reelHist().indexOf(reelKey(r)) >= 0;
+  $('rvNew').textContent = used ? t('rUsed') : t('rNew'); $('rvNew').className = used ? 'rused' : 'rnew';
+  $('rvCode').textContent = '#' + r.seed.toString(36).toUpperCase().slice(-5);
+  document.querySelectorAll('#rvRatio [data-r]').forEach(b => b.classList.toggle('on', b.dataset.r === RS.ratio));
+  document.querySelectorAll('#rvLayout [data-l]').forEach(b => b.classList.toggle('on', b.dataset.l === RS.layout));
+  document.querySelectorAll('#rvDur [data-d]').forEach(b => b.classList.toggle('on', +b.dataset.d === RS.dur));
+  const snd = reelSound();
+  $('rvSound').innerHTML = [['silent', 'sSilent'], ['pad', 'sPad'], ['nature', 'sNature'], ['rain', 'sRain'], ['waves', 'sWaves'], ['own', 'sOwn']].map(([k, l]) => reelChip(t(l), snd === k, 'data-s="' + k + '"')).join('');
+  $('rvOwnBox').classList.toggle('hidden', snd !== 'own'); $('rvVolBox').classList.toggle('hidden', snd === 'silent');
+  $('rvOwnName').textContent = RS.ownName || ''; $('rvOwnOff').value = RS.ownOff; $('rvOwnOffV').textContent = RS.ownOff;
+  if(RS.ownBuf) $('rvOwnOff').max = Math.max(0, Math.floor(RS.ownBuf.duration - 2));
+  $('rvVol').value = RS.vol;
+  $('rvSoundNote').textContent = t(snd === 'silent' ? 'nSilent' : snd === 'own' ? 'nOwn' : 'nSynth');
+  $('rvManualBox').innerHTML = RGROUPS.map(g => '<div class="fld"><span>' + t({ cam:'gCam', txt:'gTxt', fx:'gFx', grade:'gGrade', intro:'gIntro' }[g]) + '</span><div class="qchips">' +
+    reelChip(t('rAuto'), !RS.fixed[g], 'data-g="' + g + '" data-v=""') + reelPool(g).map(k => reelChip(L(RX[g][k].n), RS.fixed[g] === k, 'data-g="' + g + '" data-v="' + k + '"')).join('') + '</div></div>').join('');
+}
+function reelOpen(){
+  if(RS.open) return;
+  RS.open = true; $('reelSheet').classList.remove('hidden'); document.documentElement.classList.add('reel-open');
+  try{ history.pushState({ reel:1 }, ''); }catch(e){}
+  $('rvDone').classList.add('hidden');
+  ensureFonts().then(() => { if(!RS.recipe || RS.recipeMode !== MODE){ RS.recipeMode = MODE; RS.recipe = null; reelRoll(); } else { reelUi(); reelRefresh(true); } reelPlay(true); });
+}
+function reelClose(fromPop){
+  if(!RS.open || RS.exporting) { if(fromPop && RS.exporting) try{ history.pushState({ reel:1 }, ''); }catch(e){} return; }
+  RS.open = false; reelPlay(false); $('reelSheet').classList.add('hidden'); document.documentElement.classList.remove('reel-open');
+  if(!fromPop && history.state && history.state.reel) try{ history.back(); }catch(e){}
+  render();
+}
+function reelBusy(on, txt){ $('rvBusy').classList.toggle('hidden', !on); if(txt != null) $('rvBusyTxt').textContent = txt; if(on) $('rvBusyBar').style.width = '0%'; }
+function reelProgress(p, txt){ $('rvBusyBar').style.width = (Math.max(0, Math.min(1, p)) * 100).toFixed(1) + '%'; if(txt) $('rvBusySub').textContent = txt; }
+function reelName(ext){ return 'reel - ' + fileName(ext).replace(/ - [\dx]+\.\w+$/, '') + ' - ' + RS.ratio.replace(':', 'x') + '.' + ext; }
+
+/* ================= export (fast, frame-exact MP4 via WebCodecs; real-time recording as fallback) ================= */
+async function reelExport(){
+  if(RS.exporting) return;
+  if(C.tainted){ toast(t('tTaint')); return; }
+  reelPlay(false); RS.exporting = true; RS.cancel = false; reelBusy(true, t('rWorking')); reelProgress(0, t('rKeep'));
+  let lock = null; try{ if(navigator.wakeLock) lock = await navigator.wakeLock.request('screen'); }catch(e){}
+  let res = null, note = '';
+  try{
+    await ensureFonts(); reelCount();
+    res = await reelExportFast();
+    if(!res && !RS.cancel){ reelProgress(0, t('rSlow')); res = await reelExportRec(); }
+    if(res && res.noAudio) note = t('rNoAudio');
+  }catch(e){ console.error(e); toast(t('rFail') + (e && e.message || e)); res = null; }
+  try{ if(lock) lock.release(); }catch(e){}
+  RS.exporting = false; reelBusy(false);
+  if(RS.cancel){ toast(t('rCancelled')); RS.t = 0; reelDraw(); return; }
+  if(!res || !res.blob) return;
+  if(RS.url) URL.revokeObjectURL(RS.url);
+  RS.blob = res.blob; RS.url = URL.createObjectURL(res.blob); RS.name = reelName(res.ext);
+  reelMarkUsed(); reelUi();
+  $('rvVideo').src = RS.url; $('rvDoneInfo').textContent = (res.blob.size / 1048576).toFixed(1) + ' MB · ' + res.info;
+  $('rvDoneNote').textContent = note; $('rvDoneNote').classList.toggle('hidden', !note);
+  $('rvDone').classList.remove('hidden');
+  try{ $('rvVideo').play().catch(() => {}); }catch(e){}
+}
+async function reelExportFast(){
+  if(!window.VideoEncoder || !window.VideoFrame) return null;
+  let MUX; try{ MUX = await import('./mp4-muxer.mjs'); }catch(e){ try{ MUX = await import('https://cdn.jsdelivr.net/npm/mp4-muxer@5.2.1/+esm'); }catch(e2){ console.warn(e2); return null; } }
+  const [W, H] = EXDIM[RS.ratio], fps = 30, N = Math.round(RS.dur * fps);
+  let vc = null;
+  for(const c of ['avc1.640028', 'avc1.4d0028', 'avc1.42e028', 'avc1.640032']){
+    const cfg = { codec:c, width:W, height:H, bitrate:8e6, framerate:fps, avc:{ format:'avc' } };
+    try{ if((await VideoEncoder.isConfigSupported(cfg)).supported){ vc = cfg; break; } }catch(e){} }
+  if(!vc) return null;
+  let ac = null, buf = null, noAudio = false;
+  if(reelAudioKey()){
+    reelProgress(0, '🎵 …'); buf = await reelAudio();
+    if(buf && window.AudioEncoder){
+      for(const c of [{ codec:'mp4a.40.2', mux:'aac' }, { codec:'opus', mux:'opus' }]){ const cfg = { codec:c.codec, sampleRate:48000, numberOfChannels:2, bitrate:160000 };
+        try{ if((await AudioEncoder.isConfigSupported(cfg)).supported){ ac = { ...c, cfg }; break; } }catch(e){} } }
+    if(!ac) noAudio = true;
+  }
+  const muxer = new MUX.Muxer({ target:new MUX.ArrayBufferTarget(), video:{ codec:'avc', width:W, height:H, frameRate:fps }, ...(ac ? { audio:{ codec:ac.mux, numberOfChannels:2, sampleRate:48000 } } : {}), fastStart:'in-memory', firstTimestampBehavior:'offset' });
+  let err = null;
+  if(ac){
+    const ae = new AudioEncoder({ output:(ch, meta) => muxer.addAudioChunk(ch, meta), error:e => err = e }); ae.configure(ac.cfg);
+    const v = RS.vol / 100, Lc = buf.getChannelData(0), Rc = buf.getChannelData(buf.numberOfChannels > 1 ? 1 : 0), CH = 4800;
+    for(let s = 0; s < buf.length; s += CH){ const n = Math.min(CH, buf.length - s), d = new Float32Array(n * 2);
+      for(let i = 0; i < n; i++){ d[i] = Lc[s + i] * v; d[n + i] = Rc[s + i] * v; }
+      const a = new AudioData({ format:'f32-planar', sampleRate:48000, numberOfFrames:n, numberOfChannels:2, timestamp:Math.round(s * 1e6 / 48000), data:d }); ae.encode(a); a.close(); }
+    await ae.flush(); ae.close();
+  }
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
+  const ve = new VideoEncoder({ output:(ch, meta) => muxer.addVideoChunk(ch, meta), error:e => err = e }); ve.configure(vc);
+  RS.bg = null;
+  for(let i = 0; i < N; i++){
+    if(err) throw err; if(RS.cancel){ try{ ve.close(); }catch(e){} return null; }
+    RS.t = i / fps; reelCompose(ctx, W, H);
+    const f = new VideoFrame(cv, { timestamp:Math.round(i * 1e6 / fps), duration:Math.round(1e6 / fps) }); ve.encode(f, { keyFrame:i % (fps * 2) === 0 }); f.close();
+    while(ve.encodeQueueSize > 3) await new Promise(r => setTimeout(r, 4));
+    if(i % 3 === 0){ reelProgress(i / N, t('rFrameOf').replace('{a}', bnN(i + 1)).replace('{b}', bnN(N))); await new Promise(r => setTimeout(r, 0)); }
+  }
+  await ve.flush(); ve.close(); if(err) throw err; muxer.finalize(); RS.bg = null;
+  return { blob:new Blob([muxer.target.buffer], { type:'video/mp4' }), ext:'mp4', info:W + '×' + H + ' · ' + fps + 'fps · MP4' + (ac ? ' + ' + (ac.mux === 'aac' ? 'AAC' : 'Opus') : ''), noAudio };
+}
+function bnN(n){ return LANG === 'bn' ? bnNum(n) : String(n); }
+async function reelExportRec(){
+  const [EW, EH] = EXDIM[RS.ratio], k = Math.min(1, 1280 / Math.max(EW, EH)), W = Math.round(EW * k / 2) * 2, H = Math.round(EH * k / 2) * 2;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d');
+  if(!window.MediaRecorder || !cv.captureStream){ toast(t('rNoRec')); return null; }
+  RS.t = 0; RS.bg = null; reelCompose(ctx, W, H);
+  const stream = cv.captureStream(30); let noAudio = false, src = null;
+  const buf = reelAudioKey() ? await reelAudio() : null;
+  if(buf){ try{ if(!RS.actx) RS.actx = new (window.AudioContext || window.webkitAudioContext)(); await RS.actx.resume(); const dst = RS.actx.createMediaStreamDestination();
+    src = RS.actx.createBufferSource(); src.buffer = buf; const g = RS.actx.createGain(); g.gain.value = RS.vol / 100; src.connect(g); g.connect(dst); dst.stream.getAudioTracks().forEach(tr => stream.addTrack(tr)); }catch(e){ noAudio = true; } }
+  const types = ['video/mp4;codecs=avc1,mp4a.40.2', 'video/mp4', 'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
+  const mime = types.find(m => MediaRecorder.isTypeSupported(m)) || '';
+  const rec = new MediaRecorder(stream, mime ? { mimeType:mime, videoBitsPerSecond:6e6 } : undefined), chunks = [];
+  rec.ondataavailable = e => { if(e.data && e.data.size) chunks.push(e.data); };
+  const done = new Promise(r => rec.onstop = r);
+  rec.start(250); if(src) src.start();
+  const t0 = performance.now();
+  await new Promise(res => { const step = () => { if(RS.cancel){ res(); return; } RS.t = (performance.now() - t0) / 1000; if(RS.t >= RS.dur){ res(); return; } reelCompose(ctx, W, H); reelProgress(RS.t / RS.dur); requestAnimationFrame(step); }; requestAnimationFrame(step); });
+  rec.stop(); try{ if(src) src.stop(); }catch(e){} await done; stream.getTracks().forEach(tr => tr.stop());
+  if(RS.cancel) return null;
+  const type = (rec.mimeType || mime || 'video/webm').split(';')[0], ext = type.indexOf('mp4') >= 0 ? 'mp4' : 'webm';
+  return { blob:new Blob(chunks, { type }), ext, info:W + '×' + H + ' · ' + ext.toUpperCase(), noAudio };
+}
+async function reelShare(){
+  if(!RS.blob) return;
+  const cap = $('capText').value.trim(), copying = cap ? copyText(cap) : Promise.resolve(false);
+  const file = new File([RS.blob], RS.name, { type:RS.blob.type });
+  let can = false; try{ can = !!(navigator.canShare && navigator.canShare({ files:[file] })); }catch(e){}
+  const copied = await copying; if(cap) showPasteBar(copied);
+  if(can){ try{ await navigator.share({ files:[file] }); }catch(e){ if(e && e.name !== 'AbortError') download(RS.blob, RS.name); } }
+  else download(RS.blob, RS.name);
+}
+function reelWire(){
+  $('reelBtn').addEventListener('click', reelOpen);
+  $('rvClose').addEventListener('click', () => reelClose(false));
+  window.addEventListener('popstate', () => { if(RS.open) reelClose(true); });
+  document.addEventListener('visibilitychange', () => { if(document.hidden && RS.open && RS.playing) reelPlay(false); });
+  $('rvRoll').addEventListener('click', () => { reelRoll(); reelPlay(true); });
+  $('rvPlay').addEventListener('click', () => reelPlay(!RS.playing));
+  $('rvStage').addEventListener('click', () => reelPlay(!RS.playing));
+  $('rvMake').addEventListener('click', reelExport);
+  $('rvCancel').addEventListener('click', () => { RS.cancel = true; });
+  $('rvRatio').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if(!b) return; RS.ratio = b.dataset.r; reelSavePrefs(); reelUi(); reelRefresh(true); });
+  $('rvLayout').addEventListener('click', e => { const b = e.target.closest('[data-l]'); if(!b) return; RS.layout = b.dataset.l; reelSavePrefs(); reelUi(); reelRefresh(true); });
+  $('rvDur').addEventListener('click', e => { const b = e.target.closest('[data-d]'); if(!b) return; RS.dur = +b.dataset.d; reelSavePrefs(); reelUi(); reelRefresh(true); });
+  $('rvSound').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if(!b) return; RS.sound = b.dataset.s; reelSavePrefs(); reelUi();
+    if(RS.sound === 'own' && !RS.ownBuf) $('rvOwnFile').click(); else if(RS.playing){ RS.t0 = performance.now() - RS.t * 1000; reelPlayAudio(RS.t); } else reelAudio(); });
+  $('rvOwnPick').addEventListener('click', () => $('rvOwnFile').click());
+  $('rvOwnFile').addEventListener('change', async e => { const f = e.target.files && e.target.files[0]; if(!f) return;
+    try{ const ab = await f.arrayBuffer(), ac = new OfflineAudioContext(2, 48000, 48000); RS.ownBuf = await ac.decodeAudioData(ab); RS.ownName = f.name; RS.ownOff = 0; RS.sound = 'own'; reelSavePrefs(); reelUi(); if(RS.playing) reelPlayAudio(RS.t); else reelAudio(); }
+    catch(err){ console.warn(err); toast(t('rOwnFail')); } e.target.value = ''; });
+  $('rvOwnOff').addEventListener('input', e => { $('rvOwnOffV').textContent = e.target.value; });
+  $('rvOwnOff').addEventListener('change', e => { RS.ownOff = +e.target.value; reelSavePrefs(); if(RS.playing) reelPlayAudio(RS.t); else reelAudio(); });
+  $('rvVol').addEventListener('input', e => { RS.vol = +e.target.value; if(RS.gain) RS.gain.gain.value = RS.vol / 100; });
+  $('rvVol').addEventListener('change', reelSavePrefs);
+  $('rvManualBox').addEventListener('click', e => { const b = e.target.closest('[data-g]'); if(!b) return; const g = b.dataset.g, v = b.dataset.v;
+    if(v) RS.fixed[g] = v; else delete RS.fixed[g];
+    reelSavePrefs(); if(v){ RS.recipe[g] = v; if(g === 'fx') RS.parts = null; reelUi(); reelRefresh(true); } else reelUi(); if(!RS.playing) reelPlay(true); });
+  $('rvShare').addEventListener('click', reelShare);
+  $('rvSave').addEventListener('click', () => { if(RS.blob) download(RS.blob, RS.name); toast(t('tDl')); });
+  $('rvAnother').addEventListener('click', () => { $('rvDone').classList.add('hidden'); try{ $('rvVideo').pause(); }catch(e){} reelRoll(); reelPlay(true); });
+  $('rvDoneX').addEventListener('click', () => { $('rvDone').classList.add('hidden'); try{ $('rvVideo').pause(); }catch(e){} });
+}
+
+window.TFPC = { reel: { RS, RX, compose: reelCompose, count: reelCount, synth: reelSynth }, state: C, F: () => F(), D: () => D(), B: () => B(), renderTo, setMode, showTab };
 if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
