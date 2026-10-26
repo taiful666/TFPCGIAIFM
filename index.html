@@ -631,7 +631,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
         <p class="note" style="margin:0 0 8px" data-i18n="cIntro"></p>
         <label class="fld"><span>Claude API key</span><span class="row" style="gap:6px"><input type="password" id="cKey" placeholder="sk-ant-..." autocomplete="off" spellcheck="false" style="flex:1"><button type="button" class="btn" id="showCKeyBtn">👁️</button></span></label>
         <label class="fld"><span data-i18n="cModel"></span><select id="cModelSel"><option value="claude-sonnet-5-5" data-i18n="cmSonnet"></option><option value="claude-opus-5-5" data-i18n="cmOpus"></option><option value="claude-haiku-5-5" data-i18n="cmHaiku"></option></select></label>
-        <label class="chk" style="margin-bottom:8px"><input type="checkbox" id="cUse" checked> <span data-i18n="cUse"></span></label>
+        <label class="chk hidden" style="margin-bottom:8px"><input type="checkbox" id="cUse" checked> <span data-i18n="cUse"></span></label>
         <div class="row"><button type="button" class="btn primary" id="saveCKeyBtn" data-i18n="save"></button><button type="button" class="btn" id="testCKeyBtn" data-i18n="test"></button><button type="button" class="btn" id="rmCKeyBtn" data-i18n="remove"></button><span class="status" id="cKeyState"></span></div>
         <div class="okbox" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span id="cSpent" style="flex:1 1 200px"></span><button type="button" class="btn sm" id="cSpentReset" data-i18n="cSpentReset"></button></div>
         <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:600;font-size:13px" data-i18n="cHowT"></summary>
@@ -900,7 +900,7 @@ const T = {
   cCost:'Rough cost with Sonnet 5.5: one full story ≈ $0.03–0.05 (about ৳4–6); a short post or caption ≈ $0.01. Prices: Sonnet 5.5 $2 / $10 per million input/output tokens.',
   cSec:'🔒 The key stays only in this browser and goes directly to Anthropic. Do not use it on shared computers. Prepaid credit keeps your spending safe.',
   cKeyOk:'✅ Claude works',cKeyBad:'❌ Claude key not working',cCredit:'Claude: credit balance is too low — add credit in Claude Console → Billing',cOverload:'Claude is busy right now — try again in a minute',
-  tNoImgKey:'Pictures need a Gemini key (⚙️ Settings) — the story was written without a picture',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
+  tNoCKey:'All writing is done by Claude — add your Claude API key in ⚙️ Settings',tNoImgKey:'Pictures need a Gemini key (⚙️ Settings) — the story was written without a picture',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
   cCut:'Claude stopped before finishing — press again',
   shTitle:'📤 Share to Facebook',shCapT:'📝 Caption (full story) + photo card',shCapS:'The whole caption is copied now. In Facebook, press and hold in the text box → Paste.',
   shCardT:'🖼️ Photo card only',shCardS:'Only the picture goes — no caption.',shNoCap:'The caption is empty — make one first:',shPrev:'👀 See the caption that will be copied',
@@ -1010,7 +1010,7 @@ const T = {
   cCost:'আনুমানিক খরচ (Sonnet 5.5): একটি পূর্ণ গল্প ≈ ০.০৩–০.০৫ ডলার (প্রায় ৪–৬ টাকা); ছোট পোস্ট বা ক্যাপশন ≈ ০.০১ ডলার। দাম: Sonnet 5.5 প্রতি ১০ লাখ টোকেনে ইনপুট ২ ডলার / আউটপুট ১০ ডলার।',
   cSec:'🔒 কী শুধু এই ব্রাউজারেই থাকে এবং সরাসরি Anthropic-এ যায়। শেয়ার করা কম্পিউটারে ব্যবহার করবেন না। প্রিপেইড ক্রেডিট থাকায় খরচ নিরাপদ থাকে।',
   cKeyOk:'✅ Claude কাজ করছে',cKeyBad:'❌ Claude কী কাজ করছে না',cCredit:'Claude: ক্রেডিট শেষ — Claude Console → Billing-এ ক্রেডিট যোগ করুন',cOverload:'Claude এখন ব্যস্ত — এক মিনিট পর আবার চেষ্টা করুন',
-  tNoImgKey:'ছবির জন্য Gemini কী লাগবে (⚙️ সেটিংস) — গল্পটি ছবি ছাড়া লেখা হয়েছে',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
+  tNoCKey:'সব লেখা এখন Claude লেখে — ⚙️ সেটিংসে আপনার Claude API কী দিন',tNoImgKey:'ছবির জন্য Gemini কী লাগবে (⚙️ সেটিংস) — গল্পটি ছবি ছাড়া লেখা হয়েছে',usingClaude:'✍️ Claude',usingGemini:'✨ Gemini',
   cCut:'Claude লেখা শেষ করার আগেই থেমে গেছে — আবার চাপুন',
   shTitle:'📤 ফেসবুকে শেয়ার',shCapT:'📝 ক্যাপশন (পুরো গল্প) + ফটো কার্ড',shCapS:'পুরো ক্যাপশন এখনই কপি হয়ে যাবে। ফেসবুকে লেখার ঘরে আঙুল চেপে ধরে “Paste” চাপুন।',
   shCardT:'🖼️ শুধু ফটো কার্ড',shCardS:'শুধু ছবিটি যাবে — কোনো ক্যাপশন নয়।',shNoCap:'ক্যাপশন খালি — আগে ক্যাপশন তৈরি করুন:',shPrev:'👀 যে ক্যাপশন কপি হবে সেটা দেখুন',
@@ -1891,7 +1891,8 @@ const CTA_RULE = ' End with ONE sincere, open question about the topic that invi
 const SACRED_PAT = /(রাসূল|রাসুল|নবী|নবীজি|রসূল)[^।\n]{0,25}(বলেছেন|বলেন|ইরশাদ)|হাদিসে|হাদীসে|কুরআনে|কোরআনে|আল্লাহ\s*(তা[‘'আ]*লা\s*)?(বলেন|বলেছেন|ইরশাদ)|সূরা\s|আয়াত|ﷺ|\(সা[ঃ:.]?\)/;
 /* ---- Claude (Anthropic) for writing; Gemini stays for pictures ---- */
 const CAPI = 'https://api.anthropic.com/v1/messages';
-const useClaude = () => !!S.ckey && (S.useClaude || !S.gkey);
+/* all writing is done by Claude; Gemini is only for pictures */
+const useClaude = () => !!S.ckey;
 async function claude(body, ms){
   const parts = (body.contents || []).flatMap(c => c.parts || []).map(p => p.text || '').join('\n');
   const json = body.generationConfig && body.generationConfig.responseMimeType === 'application/json';
@@ -1899,7 +1900,7 @@ async function claude(body, ms){
   const to = withTimeout(Math.max(ms || 60000, 120000));
   /* 5.5 models think adaptively by default; thinking is billed and counts toward max_tokens,
      so: generous max_tokens + medium effort for long writing, low effort for short jobs */
-  const effort = prompt.length > 2500 ? 'medium' : 'low';
+  const effort = body.effort || (prompt.length > 2500 ? 'medium' : 'low');
   const req = { model: S.cmodel || 'claude-sonnet-5-5', max_tokens: 16000, output_config: { effort }, system: 'You are a gifted Bengali writer for Facebook pages. Write natural, warm, human Bengali. Follow every instruction exactly.', messages: [{ role: 'user', content: prompt }] };
   const send = b => fetch(CAPI, { method: 'POST', signal: to.signal, headers: { 'content-type': 'application/json', 'x-api-key': S.ckey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' }, body: JSON.stringify(b) });
   try{
@@ -1923,7 +1924,7 @@ async function claude(body, ms){
     return { text, model: j.model || S.cmodel };
   }finally{ to.done(); }
 }
-function writerBadge(){ document.querySelectorAll('.writerTag').forEach(x => { x.textContent = (S.gkey || S.ckey) ? (useClaude() ? t('usingClaude') : t('usingGemini')) : ''; }); }
+function writerBadge(){ document.querySelectorAll('.writerTag').forEach(x => { x.textContent = S.ckey ? t('usingClaude') : ''; }); }
 /* running cost estimate (USD per million tokens: input / output) */
 const CPRICE = { 'claude-sonnet-5-5': [2, 10], 'claude-opus-5-5': [4, 20], 'claude-haiku-5-5': [0.1, 0.5] };
 let RUN_COST = 0;
@@ -1934,10 +1935,10 @@ function claudeCost(u, model){
 }
 const usd = v => '$' + (v < 0.1 ? v.toFixed(3) : v.toFixed(2));
 function costUi(){ const el = $('cSpent'); if(!el) return; const s = store.get('c_spent', 0) || 0, n = store.get('c_jobs', 0) || 0; el.textContent = n ? t('cSpentTxt').replace('{s}', usd(s)).replace('{n}', LANG === 'bn' ? bnNum(n) : n) : ''; }
-function writeAI(body, ms){ return useClaude() ? claude(body, ms) : gemini(body, ms); }
-function needKey(){ if(S.gkey || S.ckey) return false; toast(t('tNoKey')); return true; }
+function writeAI(body, ms){ if(!S.ckey) return Promise.reject(friendly(t('tNoCKey'))); return claude(body, ms); }
+function needKey(){ if(S.ckey) return false; toast(t('tNoCKey')); return true; }
 function needGKey(){ if(S.gkey) return false; toast(t('tNoImgKey')); return true; }
-function refreshKeyHints(){ document.querySelectorAll('[data-keyhint]').forEach(e => e.classList.toggle('hidden', !!(S.gkey || S.ckey))); }
+function refreshKeyHints(){ document.querySelectorAll('[data-keyhint]').forEach(e => e.classList.toggle('hidden', !!S.ckey)); }
 
 /* ================= fields / UI sync ================= */
 const isSacred = () => ['hadith', 'ayah', 'sacred'].includes(F().origin);
@@ -2294,9 +2295,9 @@ async function aiCaption(){
       if($('capCta').checked && norm(o.question) && !baitHits(o.question).length) parts.push((emo ? '💭 ' : '') + norm(o.question));
       out = parts.join('\n\n');
     } else {
-      const shape = style === 'hook' ? 'Structure: line 1 = an emotional, honest hook (max 12 words) that makes people stop and read on, never clickbait; blank line; then 3–6 short lines telling a small relatable everyday story or example about ordinary unnamed people (never real, famous or historical persons) that leads to the lesson; blank line; one line with the lesson.' : '2–5 short lines, natural and engaging.';
+      const shape = style === 'hook' ? 'Structure: line 1 = an emotional, honest hook (max 12 words) that makes people stop and read on, never clickbait; blank line; then a real-feeling mini story of 6–10 short lines (about 80–140 words) with one ordinary Bangladeshi person with a common first name (never real, famous or historical persons), one concrete moment, small sensory details and one or two short lines of dialogue, that leads to the lesson; blank line; one short, quotable line with the lesson. ' + HUMAN_RULES : '2–5 short lines, natural and engaging.';
       const prompt = 'Write a Bengali Facebook caption (style: ' + style + ') to post with a photo card whose text is below. ' + shape + ' Add the page owner\'s own perspective, feeling or a small lesson — do not simply repeat the card text. ' + (emo ? 'Use 1–3 fitting emoji.' : 'No emoji.') + ($('capCta').checked ? CTA_RULE : '') + ' No hashtags. ' + (MODE === 'islamic' ? ISL_GUARD : GEN_GUARD) + MONO_GUARD + ' Return only the caption.\n\nCARD TEXT:\n' + (p.heading ? p.heading + '\n' : '') + p.text + (p.ref ? '\n— ' + p.ref : '');
-      const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85 } }, 60000);
+      const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.85 }, effort: 'medium' }, 90000);
       out = clean(r.text).replace(/(^|\s)#\S+/g, '').trim();
       if(MODE === 'islamic' && SACRED_PAT.test(out)) throw friendly(t('tNotVerbatim'));
     }
@@ -2603,8 +2604,8 @@ async function aiFullPost(){
     const emo = $('capEmoji').checked;
     const prompt = 'You are the writer for a Bengali Facebook page. The page owner describes today’s post: "' + (desc || type.p) + '". ' + (type.id !== 'custom' && desc ? 'Style: ' + type.p + '. ' : '') +
       'Create one complete post in Bengali: "heading" (1–3 word label for the photo card), "text" (the photo-card text, ' + LEN_TXT[$('aiLen').value] + ', use \\n line breaks for rhythm, wrap the 1–2 most important words in *asterisks*), "caption" (a Facebook caption of 3–6 short lines that expands on the card' + (emo ? ', with 1–3 fitting emoji' : ', no emoji') + ', adding the owner\'s own perspective instead of repeating the card' + ($('capCta').checked ? ', ending with one sincere open question about the topic (not asking to like/share/tag or type a word)' : '') + ', no hashtags), and "hashtags" (3–4 relevant Bengali or English hashtags without #). ' +
-      (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + MONO_GUARD + avoidBlock() + styleBlock() + ' Return ONLY JSON: {"heading":"","text":"","caption":"","hashtags":[]}';
-    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, responseMimeType: 'application/json' } }, 70000);
+      (MODE === 'islamic' ? ISL_GUARD + ' Even if the style examples contain Quran/hadith quotes, do not include any quotes — keep only their tone.' : GEN_GUARD) + MONO_GUARD + avoidBlock() + styleBlock() + QG_QUALITY() + ' Return ONLY JSON: {"drafts":["","","",""],"heading":"","text":"","caption":"","hashtags":[]}';
+    const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, responseMimeType: 'application/json' }, effort: 'medium' }, 90000);
     const o = parseJson(r.text);
     const text = clean(o.text || '').replace(/\\n/g, '\n'), cap = clean(o.caption || '').replace(/\\n/g, '\n').replace(/(^|\s)#\S+/g, '').trim();
     if(!text) throw new Error('EMPTY');
@@ -2761,7 +2762,7 @@ async function hlAuto(){
   const btn = $('hlAutoBtn'); btn.disabled = true;
   try{
     let phrases = [];
-    if(S.gkey || S.ckey){
+    if(S.ckey){
       try{
         const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: 'From this Bengali social-media card text, choose the 1 to 3 most powerful, emotional short phrases (1–4 words each) that should be visually highlighted. Copy each phrase EXACTLY as it appears in the text. Return ONLY JSON {"phrases":[]}.\n\nTEXT:\n' + plain }] }], generationConfig: { temperature: 0.2, responseMimeType: 'application/json' } }, 40000);
         phrases = (parseJson(r.text).phrases || []).filter(p => plain.includes(norm(p)));
@@ -3056,6 +3057,39 @@ const QG_ANGLES = [
   'what really stays with us at the end', 'gratitude hidden inside a hardship', 'a soft but strong wake-up call', 'courage to start again from zero'
 ];
 const QG_TONES = { motivation: 'strongly motivational and uplifting, giving courage and energy to act', heart: 'deeply heart-touching and emotional, the kind of line that brings a lump to the throat', lesson: 'a clear life lesson that can change how someone lives', mix: 'emotional, heart-touching and motivating at the same time, with a clear lesson' };
+/* quality bar for every short card post (Claude) */
+const QG_GOOD = {
+  general: [
+    'যে রাতে ভেবেছিলে সব শেষ,\nসেই রাতটাও তো তুমি *পার করে* এসেছ।\nনিজেকে এত ছোট ভেবো না।',
+    'মানুষ তোমার পতন দেখবে,\nতোমার *ঘাম* দেখবে না।\nতাই ব্যাখ্যা দিও না — কাজটা চালিয়ে যাও।',
+    'দেরিতে শুরু করা মানে হেরে যাওয়া না।\nহেরে যাওয়া মানে *শুরুই না করা*।',
+    'বাবার জুতার তলা ক্ষয়ে যায়,\nযাতে তোমার পায়ে *কাঁটা* না ফোটে।',
+    'যে চেয়ারে আজ অবহেলায় বসে আছো,\nএকদিন সেটার জন্যই তুমি *স্বপ্ন* দেখতে।',
+    'সবাই চলে গেলেও যে মানুষটা থেকে যায়,\nতাকে কখনো *অপশন* বানিও না।'
+  ],
+  islamic: [
+    'সবাই যখন দরজা বন্ধ করে দেয়,\nজায়নামাজটা তখনও *খোলা* থাকে।',
+    'দোয়া কবুল হতে দেরি মানে *না* নয়।\nহয়তো আল্লাহ এর চেয়েও ভালোটা সাজাচ্ছেন।',
+    'গুনাহ যত বড়ই হোক,\nফিরে আসার রাস্তাটা তার চেয়েও *বড়*।',
+    'যে সিজদায় কাঁদতে কাঁদতে কিছুই বলতে পারোনি,\nআল্লাহ সেই *নীরবতাও* বোঝেন।',
+    'হালাল রুটির টুকরো ছোট হতে পারে,\nকিন্তু তাতে ঘুমটা *শান্তির*।',
+    'মানুষকে খুশি করতে গিয়ে ক্লান্ত?\nএকবার শুধু *আল্লাহর* জন্য বাঁচো, দেখবে বোঝা হালকা।'
+  ]
+};
+const QG_BAD = [
+  'আজ যদি সব এলোমেলোও লাগে, তবু তুমি কি একটা পা বাড়াতে পারবে? আল্লাহ ভরসা রাখা মনকে খালি হাতে ফেরান না।',
+  'জীবনে কঠিন সময় আসবেই, কিন্তু ধৈর্য ধরলে সফলতা আসবে।',
+  'বাবা আজও দরজার দিকে তাকিয়ে থাকেন, মুখে কিছু বলেন না। (topic was “being a good person for Allah’s sake” — off-topic)'
+];
+const QG_QUALITY = () => '\n\nQUALITY BAR — this is the most important part. The card must be the kind of line people screenshot, save and share because it hits them in the chest and makes them want to get up and try again.\n' +
+  '• ONE sharp insight with a TURN: a contrast, a reversal or a surprising truth in the second half (what people see vs. what you carry; late vs. never; small vs. big). Not a soft wish, not advice in general terms.\n' +
+  '• Concrete and visual: one real object or moment (a worn shoe, a prayer mat, a cold cup of tea, a cracked phone screen, a bus window) instead of abstract words like “জীবন”, “সফলতা”, “কঠিন সময়”.\n' +
+  '• Natural spoken Bengali that a Bangladeshi would actually say — never sounds translated from English, no bookish words, no rhetorical “তুমি কি পারবে?” filler.\n' +
+  '• It must clearly be about the TOPIC. The angle is only a starting idea — drop it if it pulls away from the topic.\n' +
+  (MODE === 'islamic' ? '• Islamic page: the line must carry a clear faith element (Allah, sujood, dua, tawakkul, akhirah, halal…) tied to the topic, warm and hopeful, never harsh.\n' : '• Motivational page: leave the reader with courage, self-respect or the urge to act — never hopeless or self-pitying.\n') +
+  'EXAMPLES OF THE LEVEL WE WANT (do not copy them, do not reuse their ideas — only match their power and shape):\n' + QG_GOOD[MODE].map(x => '- ' + x.replace(/\n/g, ' / ')).join('\n') +
+  '\nEXAMPLES OF WHAT WE NEVER WANT (vague, flat, generic, translated-sounding, off-topic):\n' + QG_BAD.map(x => '- ' + x).join('\n') +
+  '\nMETHOD: first write 4 very different card drafts in "drafts", judge them honestly against the quality bar, then put ONLY the single strongest one (polished) in "text".\n';
 const qgHist = () => store.get('qg_hist_' + MODE, []);
 const qgWords = s => new Set(norm(String(s || '').replace(/\*/g, '')).split(/[\s,।!?;:"“”'‘’()\-—…]+/).filter(w => w.length > 1));
 function qgSim(a, b){ const A = qgWords(a), B = qgWords(b); if(!A.size || !B.size) return 0; let n = 0; A.forEach(w => { if(B.has(w)) n++; }); return n / Math.min(A.size, B.size); }
@@ -3088,13 +3122,14 @@ async function qgGenerate(randomTopic){
       const avoid = hist.slice(-30).map(h => '- ' + h.text.replace(/\*/g, '').replace(/\n/g, ' / ') + (h.hook ? '  [caption opened with: ' + h.hook + ']' : '')).concat(pubHist().slice(-15).map(h => '- ' + h.text.replace(/\n/g, ' / '))).join('\n');
       const prompt = 'You are the writer of a Bengali Facebook page' + (MODE === 'islamic' ? ' that shares Islamic reminders (“' + (norm(B().name) || 'প্রশান্তির বার্তা') + '”): faith mixed with real, personal everyday feelings' : ' that shares emotional, motivational life posts') + '. Write ONE completely fresh post.\n' +
         'TOPIC: ' + topicTxt + '\nANGLE / STARTING IDEA: ' + angle + '\nTONE: ' + QG_TONES[QG_TONE] + '\nUNIQUENESS SEED: ' + seed + '\n' +
-        'CARD ("heading", "text"): "text" is what goes on the photo — SHORT: 10 to 22 words in 2–4 short lines (use \\n). Simple, warm, everyday Bengali that touches the heart; personal and specific, not a cliché or a famous saying. Wrap the 1–2 strongest words in *asterisks*. "heading" = a 1–3 word label.\n' +
-        (wantCap ? 'CAPTION: "hook" = ONE first line (max 12 words) that makes people stop and want to read the caption — emotional and honest, never clickbait. "story" = 3 to 6 short lines: a small, relatable everyday story or example about ordinary unnamed people (never real, famous or historical persons) that leads to the lesson. "takeaway" = one line with the lesson in your own words. "question" = ' + ($('capCta').checked ? 'one sincere open question that invites people to reflect.' : 'empty string.') + '\n' : 'Leave "hook", "story", "takeaway" and "question" empty.\n') +
+        'CARD ("heading", "text"): "text" is what goes on the photo — SHORT: 8 to 24 words in 2–4 short lines (use \\n). A powerful, quotable line in simple everyday Bengali (see QUALITY BAR below); never a cliché or a famous saying. Wrap the 1–2 strongest words in *asterisks*. "heading" = a 1–3 word label.\n' +
+        (wantCap ? 'CAPTION: "hook" = ONE first line (max 12 words) that makes people stop and want to read the caption — emotional and honest, never clickbait, not a repeat of the card. "story" = a real-feeling mini story of 6 to 10 short lines (about 80–140 words): one ordinary Bangladeshi person with a common first name (never real, famous or historical persons), one concrete moment, small sensory details and one or two short lines of dialogue, ending at the moment of change. ' + HUMAN_RULES + ' "takeaway" = one short, quotable line with the lesson in your own words (not a cliché). "question" = ' + ($('capCta').checked ? 'one sincere open question that invites people to reflect.' : 'empty string.') + '\n' : 'Leave "hook", "story", "takeaway" and "question" empty.\n') +
         '"hashtags" = 3 relevant hashtags without #.\n' +
         (MODE === 'islamic' ? ISL_GUARD + ' You may mention Allah, prayer, dua, sabr, tawakkul, Jannah and the hereafter in your own words, but never as a quotation. ' : GEN_GUARD + ' ') + MONO_GUARD +
         (avoid ? '\n\nNEVER REPEAT: these posts were already published. Do not reuse their wording, their core idea, their metaphors or their opening words:\n' + avoid : '') + extra + styleBlock() +
-        '\nReturn ONLY JSON: {"heading":"","text":"","hook":"","story":"","takeaway":"","question":"","hashtags":[]}';
-      const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 1.0, topP: 0.95, responseMimeType: 'application/json' } }, 70000);
+        QG_QUALITY() +
+        '\nReturn ONLY JSON: {"drafts":["","","",""],"heading":"","text":"","hook":"","story":"","takeaway":"","question":"","hashtags":[]}';
+      const r = await writeAI({ contents: [{ role: 'user', parts: [{ text: prompt }] }], generationConfig: { temperature: 1.0, topP: 0.95, responseMimeType: 'application/json' }, effort: 'medium' }, 90000);
       const o = parseJson(r.text), fx = s => clean(s || '').replace(/\\n/g, '\n').trim();
       const p = { heading: norm(o.heading || ''), text: fx(o.text), hook: norm(o.hook || ''), story: fx(o.story), takeaway: norm(o.takeaway || ''), question: norm(o.question || ''), tags: Array.isArray(o.hashtags) ? o.hashtags : [] };
       if(!p.text) continue;
