@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" id="themeColor" content="#f4f5f7">
-<meta name="description" content="TF QuoteCard — Islamic &amp; motivational quote cards, stories and captions for Facebook">
+<meta name="description" content="TF Post Maker — make Islamic &amp; motivational quote posts, story posts, captions and reels for Facebook in one tap">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="TF QuoteCard">
+<meta name="apple-mobile-web-app-title" content="TF Post Maker">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>TF QuoteCard — ইসলামিক ও মোটিভেশনাল পোস্ট মেকার</title>
+<title>TF Post Maker — ইসলামিক ও মোটিভেশনাল পোস্ট, গল্প ও ক্যাপশন</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f6b4a'/%3E%3Crect x='14' y='12' width='36' height='40' rx='5' fill='%23fbf6e9'/%3E%3Cpath d='M38 20a9 9 0 1 0 0 14 7 7 0 1 1 0-14z' fill='%23c9a227'/%3E%3Crect x='20' y='40' width='24' height='3' rx='1.5' fill='%231f6b4a'/%3E%3C/svg%3E">
@@ -306,7 +306,7 @@ html.reel-open,html.reel-open body{overflow:hidden}
 }
 </style>
 <style id="v2pro">
-/* ===================== TF QuoteCard v2 — calm, minimal, app-like (same language as TF NewsCard) ===================== */
+/* ===================== TF Post Maker v2 — calm, minimal, app-like (same language as TF NewsCard) ===================== */
 :root{
   --bg:#f4f5f7;--surface:#fff;--surface-2:#f1f2f5;--surface-3:#e9ebef;--text:#121417;--muted:#5f6672;--faint:#9aa0aa;--line:#e5e7eb;
   --accent:#17704a;--accent-2:#125e3d;--accent-soft:#e6f3ec;--accent-ink:#fff;--gold:#17704a;--ok:#14804a;--danger:#d1342b;
@@ -405,7 +405,6 @@ html[data-theme="dark"] #cv{box-shadow:0 8px 28px rgba(0,0,0,.5)}
 .tabs::-webkit-scrollbar{display:none}
 .tab{border-radius:11px;padding:9px 12px;font-size:13.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:7px}
 .tab svg.i{width:18px;height:18px}
-.tab[data-tab="brand"],.tab[data-tab="library"],.tab[data-tab="settings"]{display:none!important}
 .tabs{display:flex}.tabs .tab{flex:1 1 0;justify-content:center}
 .tab.on,html[data-theme="dark"] .tab.on{background:var(--accent-soft);color:var(--accent);box-shadow:none}
 .pane{padding:0}
@@ -502,9 +501,6 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
   html[data-theme="dark"] .stagebar .btn:not(.primary){background:var(--surface-2)}
   .stagebar .btn.primary{border:0}
   .stagebar .btn svg.i{width:19px;height:19px}
-  .stagebar{grid-template-columns:none!important;grid-auto-columns:minmax(0,1fr);grid-auto-flow:column}
-  #monoBtn,#jpgBtn,#previewBtn{display:none!important}
-  #undoBtn{order:1}#redoBtn{order:2}#shuffleBtn{order:3}#reelBtn{order:4}#shareBtn{order:5}#pngBtn{order:6}
   .tabs{position:fixed;left:0;right:0;bottom:0;margin:0;border:0;border-top:1px solid var(--line);border-radius:0;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:none;padding:4px 6px calc(4px + env(safe-area-inset-bottom));justify-content:space-around}
   .tab{flex:1 1 0;min-height:56px;flex-direction:column;gap:3px;font-size:11.5px;padding:4px 0;background:transparent!important}
   .tab .ti{padding:4px 18px;border-radius:999px;transition:background .15s;display:grid;place-items:center}
@@ -521,11 +517,72 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
   .v2top #ratioSeg button{padding:7px 5px}
 }
 </style>
+<style id="v3">
+/* ===================== TF Post Maker v3 — one job per tab, one place to finish ===================== */
+/* segmented sub-switches inside tabs */
+.v3seg{margin:0 0 12px;background:var(--surface);border:1px solid var(--line);padding:4px;border-radius:var(--r)}
+.v3seg button{padding:10px 6px;font-size:14px;border-radius:11px}
+.v3seg button.on,html[data-theme="dark"] .v3seg button.on{background:var(--accent-soft);color:var(--accent);box-shadow:none}
+.v3pagehead{display:flex;align-items:center;gap:8px;margin:2px 2px 12px;font-size:18px}
+/* card size row */
+.v3ratio h4{margin:0!important;flex-wrap:wrap}
+.v3ratio #ratioSeg button{padding:7px 10px;font-size:13px;font-family:'Inter',sans-serif}
+/* highlight row + AI tools inside the editor */
+.v3hl{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:-2px 0 12px}
+.v3hl>span{font-size:12.5px;font-weight:600;color:var(--muted);margin-right:2px}
+.v3hl .chip,.v3tools .chip{padding:6px 12px;font-size:13px}
+.v3tools{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.v3toolhead{display:flex;align-items:center;gap:8px;margin-bottom:10px;color:var(--accent)}
+.v3toolhead b{flex:1;font-size:14px;color:var(--text)}
+.v3toolhead .btn{min-height:32px}
+.v3tools .keyhint{margin:0 0 10px}
+#cardTextSect h4 .btn{min-height:32px}
+/* stage actions */
+.stagebar{display:flex!important;flex-wrap:nowrap;gap:8px;justify-content:center}
+#v3ExportBtn{position:relative;min-width:150px}
+.v3dot{position:absolute;top:7px;right:9px;width:8px;height:8px;border-radius:50%;background:transparent;box-shadow:0 0 0 2px var(--accent)}
+#v3ExportBtn[data-mono="warn"] .v3dot{background:#f5b301}
+#v3ExportBtn[data-mono="bad"] .v3dot{background:#ff5a4f}
+#ratioSeg,#monoBtn,#reelBtn,#pngBtn,#jpgBtn,#shareBtn,#previewBtn,#undoBtn,#redoBtn,#shuffleBtn,#pvBtn{order:0!important}
+/* finish sheet */
+.v3sheetT{display:block;font-size:17px;margin:2px 6px 12px}
+.v3mono{width:100%;display:flex;align-items:center;gap:10px;border:0;border-radius:14px;background:var(--surface-2);padding:12px 12px;margin:0 0 10px;font-size:14.5px;font-weight:600;color:var(--text);text-align:left}
+.v3mono>span:first-of-type{flex:1}
+.v3mono #monoBadge{font-weight:700;font-family:'Inter','Hind Siliguri',sans-serif}
+.v3mono.ok{color:var(--ok)}.v3mono.warn{color:#b07400}.v3mono.bad{color:var(--danger)}
+.v3mono.ok>span:first-of-type,.v3mono.warn>span:first-of-type,.v3mono.bad>span:first-of-type{color:var(--text)}
+.v3opt{width:100%;display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px;text-align:left;color:var(--text);min-height:64px;transition:background .15s,transform .08s}
+.v3opt:active{transform:scale(.985)}
+.v3opt .ic{width:40px;height:40px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;flex:none;color:var(--text)}
+.v3opt .tx{display:flex;flex-direction:column;min-width:0}
+.v3opt b{font-size:15px;line-height:1.3}
+.v3opt small{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:1px}
+.v3opt.hero{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);margin-bottom:8px}
+.v3opt.hero .ic{background:rgba(255,255,255,.18);color:var(--accent-ink)}
+.v3opt.hero small{color:var(--accent-ink);opacity:.82}
+.v3grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.v3grid .v3opt{flex-direction:column;align-items:flex-start;gap:8px}
+.v3opt.slim{min-height:50px;justify-content:center;border-style:dashed}
+.v3opt.slim .ic{width:auto;height:auto;background:none}
+#v3export .v2sbox{max-height:92vh;overflow:auto}
+@media (hover:hover){.v3opt:not(.hero):hover{background:var(--surface-2)}}
+/* settings pane spacing on phone */
+@media (max-width:900px){
+  .stagebar{padding:10px 0 0}
+  .stagebar .btn{flex:1 1 0;flex-direction:column;min-height:52px}
+  #v3ExportBtn{flex:1.7 1 0;flex-direction:row;gap:8px;font-size:14.5px!important;min-width:0}
+  .v3seg button{font-size:13.5px;padding:9px 4px}
+}
+@media (min-width:901px){
+  .v3grid{grid-template-columns:repeat(4,1fr)}
+  #v3export .v2sbox{max-width:620px}
+}
+</style>
 </head>
 <body>
 <header class="top">
   <div class="in">
-    <div class="brand"><img src="icon-192.png" alt=""><b>TF QuoteCard</b></div>
+    <div class="brand"><img src="icon-192.png" alt=""><b>TF Post Maker</b></div>
     <div class="ctrls">
       <button type="button" class="btn primary hidden install-ui" id="installBtn"><span data-i18n="install"></span></button>
       <button type="button" class="icobtn" id="newPostBtn" title="New post" aria-label="New post"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg></button>
@@ -535,60 +592,49 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
       <button type="button" class="btn desk-only" id="themeBtn" title="theme">🌙</button>
     </div>
   </div>
-</header>
 
 <main class="app">
-  <!-- ===== STAGE ===== -->
+  <!-- ===== STAGE: mode, live card, the few actions used on every post ===== -->
   <section class="stage card">
     <div class="v2top">
       <div class="seg mode" role="group" aria-label="mode">
         <button type="button" data-mode="general"><span class="lbl" data-i18n="mGeneral"></span></button>
         <button type="button" data-mode="islamic"><span class="lbl" data-i18n="mIslamic"></span></button>
       </div>
-      <div class="seg" id="ratioSeg">
-        <button type="button" data-ratio="1:1">1:1</button>
-        <button type="button" data-ratio="4:5">4:5</button>
-        <button type="button" data-ratio="9:16">9:16</button>
-        <button type="button" data-ratio="16:9">16:9</button>
-      </div>
     </div>
     <div class="canvasbox"><canvas id="cv" width="1080" height="1080" aria-label="card preview"></canvas></div>
     <p class="warnline hidden" id="stageWarn"></p>
     <p class="hint" data-i18n="stageHint"></p>
     <div class="stagebar">
-      <button type="button" class="btn monobtn" id="monoBtn" title="Monetization check"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.5 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span id="monoBadge"></span></button>
-      <button type="button" class="btn" id="pvBtn" data-i18n="pvSize"></button>
-      <div class="grp">
-        <button type="button" class="btn" id="undoBtn" title="Ctrl+Z"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span data-i18n="undo"></span></button>
-        <button type="button" class="btn" id="redoBtn" title="Ctrl+Y"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg><span data-i18n="redo"></span></button>
-        <button type="button" class="btn" id="shuffleBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.6 2.4-1.2-1.2a1.2 1.2 0 0 0-1.7 0L2.4 17.5a1.2 1.2 0 0 0 0 1.7l1.2 1.2a1.2 1.2 0 0 0 1.7 0L21.6 4.1a1.2 1.2 0 0 0 0-1.7Z"/><path d="m14 7 3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/></svg><span data-i18n="shuffle"></span></button>
-        <button type="button" class="btn" id="previewBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg><span data-i18n="preview"></span></button>
-        <button type="button" class="btn primary hidden" id="shareBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg><span data-i18n="share"></span></button>
-        <button type="button" class="btn reelbtn" id="reelBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="4"/><path d="m10 9 5 3-5 3z"/></svg><span data-i18n="reelBtn"></span></button>
-        <button type="button" class="btn" id="jpgBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.1-1.1a2 2 0 0 0-2.8 0L10 22"/></svg><span>JPG</span></button>
-        <button type="button" class="btn primary" id="pngBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 10l5 5 5-5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg><span data-i18n="dlPng"></span></button>
-      </div>
+      <button type="button" class="btn" id="undoBtn" title="Ctrl+Z"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span data-i18n="undo"></span></button>
+      <button type="button" class="btn" id="redoBtn" title="Ctrl+Y"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg><span data-i18n="redo"></span></button>
+      <button type="button" class="btn" id="shuffleBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.6 2.4-1.2-1.2a1.2 1.2 0 0 0-1.7 0L2.4 17.5a1.2 1.2 0 0 0 0 1.7l1.2 1.2a1.2 1.2 0 0 0 1.7 0L21.6 4.1a1.2 1.2 0 0 0 0-1.7Z"/><path d="m14 7 3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/></svg><span data-i18n="shuffle"></span></button>
+      <button type="button" class="btn primary" id="v3ExportBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg><span data-v3t="export"></span><i class="v3dot" aria-hidden="true"></i></button>
+      <button type="button" class="btn hidden" id="pvBtn" data-i18n="pvSize"></button>
     </div>
   </section>
 
-  <!-- ===== PANEL ===== -->
+  <!-- ===== PANEL: write → design → caption → saved ===== -->
   <section class="panel card">
     <nav class="tabs" role="tablist">
       <button type="button" class="tab on" data-tab="text"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></i><span data-i18n="tText"></span></button>
-      <button type="button" class="tab" data-tab="story"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg></i><span data-i18n="tStory"></span></button>
       <button type="button" class="tab" data-tab="design"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c1 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2A5.6 5.6 0 0 0 22 11c0-5-4.5-9-10-9z"/></svg></i><span data-i18n="tDesign"></span></button>
-      <button type="button" class="tab" data-tab="image"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg></i><span data-i18n="tImage"></span></button>
-      <button type="button" class="tab" data-tab="brand"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg></i><span data-i18n="tBrand"></span></button>
       <button type="button" class="tab" data-tab="caption"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></i><span data-i18n="tCaption"></span></button>
-      <button type="button" class="tab" data-tab="library"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg></i><span data-i18n="tLibrary"></span></button>
-      <button type="button" class="tab" data-tab="settings"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></i><span data-i18n="tSettings"></span></button>
+      <button type="button" class="tab" data-tab="library"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></i><span data-i18n="tLibrary"></span></button>
     </nav>
 
-    <!-- TEXT -->
+    <!-- WRITE -->
     <div class="pane" id="p-text">
       <div class="newrow"><button type="button" class="btn" id="newPostBtn2" data-i18n="newPost2"></button><small data-i18n="newPostHint"></small></div>
       <div class="banner hidden install-ui" id="installBanner"><b data-i18n="installBannerText"></b><button type="button" class="btn primary sm" id="installBtn2" data-i18n="install"></button><button type="button" class="btn sm" id="installX" aria-label="close">✕</button></div>
       <div class="warn hidden" id="brandNudge"><b data-i18n="nudgeTitle"></b><span class="row" style="margin-top:6px;gap:6px"><input type="text" id="nudgeName" data-i18n-ph="nudgePh" style="flex:1 1 160px"><button type="button" class="btn primary sm" id="nudgeSave" data-i18n="save"></button></span></div>
+      <div class="seg full v3seg" id="genSeg" role="tablist">
+        <button type="button" data-gen="quick" data-v3t="genQuick"></button>
+        <button type="button" data-gen="story" data-v3t="genStory"></button>
+        <button type="button" class="isl-only" data-gen="hadith" data-v3t="genHadith"></button>
+        <button type="button" class="isl-only" data-gen="ayah" data-v3t="genAyah"></button>
+      </div>
+      <div id="gen-quick">
       <div class="sect qgen" id="qgen">
         <h4><span data-i18n="qgTitle"></span><small><span class="writerTag"></span> <span id="qgCount"></span></small></h4>
         <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
@@ -621,26 +667,26 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
         <div class="opts" id="aiOpts"></div>
       </div>
       </div></details>
-
-      <div class="sect">
-        <h4><span data-i18n="cardText"></span><span class="row" style="gap:6px"><button type="button" class="btn sm" id="smartPasteBtn" data-i18n="smartPaste"></button><button type="button" class="btn sm" id="clearTextBtn" data-i18n="clear"></button><button type="button" class="btn sm" id="saveLibBtn" data-i18n="saveLib"></button></span></h4>
-        <label class="fld"><span data-i18n="fHeading"></span><input type="text" id="f-heading" data-f="heading"></label>
-        <label class="fld isl-only"><span data-i18n="fArabic"></span><textarea id="f-arabic" data-f="arabic" class="ar" rows="2" dir="rtl"></textarea></label>
-        <label class="fld"><span data-i18n="fText"></span><textarea id="f-text" data-f="text" rows="5"></textarea><small data-i18n="hlHint"></small></label>
-        <div class="row" style="margin:-2px 0 10px;gap:6px"><button type="button" class="btn sm" id="hlSelBtn" data-i18n="hlSel"></button><button type="button" class="btn sm" id="hlAutoBtn" data-i18n="hlAuto"></button><button type="button" class="btn sm" id="hlClearBtn" data-i18n="hlClear"></button></div>
-        <div class="grid2">
-          <label class="fld"><span data-i18n="fRef"></span><input type="text" id="f-ref" data-f="ref"></label>
-          <label class="fld"><span data-i18n="fNote"></span><input type="text" id="f-note" data-f="note"></label>
+      </div>
+      <div id="gen-story" class="hidden">
+      <div class="sect qgen">
+        <h4><span data-i18n="stTitle"></span><small><span class="writerTag"></span> <span id="stCount"></span></small></h4>
+        <p class="note" style="margin:0 0 10px" data-i18n="stIntro"></p>
+        <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
+        <div class="fld isl-only"><span data-i18n="stKindLbl"></span><div class="seg full" id="stKind"><button type="button" data-kind="life" data-i18n="stK1"></button><button type="button" data-kind="quran" data-i18n="stK2"></button><button type="button" data-kind="hadith" data-i18n="stK3"></button></div></div>
+        <div id="stLifeBox">
+          <label class="fld"><span data-i18n="qgTopicLbl"></span><select id="stTopics"></select></label>
+          <label class="fld"><input type="text" id="stCustom" data-i18n-ph="stCustomPh"></label>
         </div>
-        <div class="warn hidden" id="sacredWarn" data-i18n="sacredWarn"></div>
+        <div class="okbox hidden" id="stSacredNote" data-i18n="stSacredNote"></div>
+        <div class="fld"><span data-i18n="stImgLbl"></span><div class="seg full" id="stImg"><button type="button" data-img="paint" data-i18n="stI1"></button><button type="button" data-img="cine" data-i18n="stI2"></button><button type="button" data-img="none" data-i18n="stI3"></button></div></div>
+        <label class="chk" style="margin-bottom:10px"><input type="checkbox" id="stMore" checked> <span data-i18n="stMoreLbl"></span></label>
+        <div class="row qgbtns"><button type="button" class="btn sm" id="stPrev" data-i18n="qgPrev" disabled></button><button type="button" class="btn primary big" id="stNext" data-i18n="stNext"></button></div>
+        <span class="status hidden" id="stStatus" style="margin-top:8px"><span class="spin"></span><span id="stStatusTxt"></span></span>
+        <div class="opts" id="stOut"></div>
+        <p class="note"><span data-i18n="stNote"></span> <button type="button" class="btn sm" id="stClear" data-i18n="qgClear" style="margin-left:4px"></button></p>
       </div>
-
-      <div class="subtabs" id="srcTabs">
-        <button type="button" class="chip isl-only" data-src="hadith" data-i18n="sHadith"></button>
-        <button type="button" class="chip isl-only" data-src="ayah" data-i18n="sAyah"></button>
-        <button type="button" class="chip" data-src="tools" data-i18n="sTools"></button>
       </div>
-
       <div class="sect hidden" id="src-hadith">
         <h4><span data-i18n="hTitle"></span><small>fawazahmed0/hadith-api</small></h4>
         <div class="row">
@@ -666,7 +712,6 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
           <button type="button" class="btn sm" id="hFullBtn" data-i18n="hFull"></button>
         </div>
       </div>
-
       <div class="sect hidden" id="src-ayah">
         <h4><span data-i18n="aTitle"></span><small>api.alquran.cloud</small></h4>
         <div class="row">
@@ -683,48 +728,48 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
         <span class="status hidden" id="aStatus" style="margin-top:8px"><span class="spin"></span><span data-i18n="loading"></span></span>
         <div class="meta hidden" id="aMeta"></div>
       </div>
-
-      <div class="sect hidden" id="src-tools">
-        <h4><span data-i18n="toolsTitle"></span></h4>
-        <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
-        <div class="row">
-          <button type="button" class="btn" data-tool="shorten" data-i18n="toolShorten"></button>
-          <button type="button" class="btn" data-tool="fix" data-i18n="toolFix"></button>
-          <button type="button" class="btn" data-tool="emotional" data-i18n="toolEmotional"></button>
-          <button type="button" class="btn" data-tool="translate" data-i18n="toolTranslate"></button>
-          <button type="button" class="btn" data-tool="heading" data-i18n="toolHeading"></button>
+      <div class="sect" id="cardTextSect">
+        <h4><span data-i18n="cardText"></span><span class="row" style="gap:6px"><button type="button" class="btn sm" id="smartPasteBtn" data-i18n="smartPaste"></button><button type="button" class="btn sm hidden" id="clearTextBtn" data-i18n="clear"></button></span></h4>
+        <label class="fld"><span data-i18n="fHeading"></span><input type="text" id="f-heading" data-f="heading"></label>
+        <label class="fld isl-only"><span data-i18n="fArabic"></span><textarea id="f-arabic" data-f="arabic" class="ar" rows="2" dir="rtl"></textarea></label>
+        <label class="fld"><span data-i18n="fText"></span><textarea id="f-text" data-f="text" rows="5"></textarea><small data-i18n="hlHint"></small></label>
+        <div class="v3hl"><span data-v3t="hlLbl"></span><button type="button" class="chip" id="hlSelBtn" data-i18n="hlSel"></button><button type="button" class="chip" id="hlAutoBtn" data-i18n="hlAuto"></button><button type="button" class="chip" id="hlClearBtn" data-i18n="hlClear"></button></div>
+        <div class="grid2">
+          <label class="fld"><span data-i18n="fRef"></span><input type="text" id="f-ref" data-f="ref"></label>
+          <label class="fld"><span data-i18n="fNote"></span><input type="text" id="f-note" data-f="note"></label>
         </div>
-        <span class="status hidden" id="toolStatus" style="margin-top:8px"><span class="spin"></span><span data-i18n="aiWorking"></span></span>
-        <p class="note" data-i18n="toolsNote"></p>
-        <button type="button" class="btn sm" id="undoTextBtn" data-i18n="undoText" style="margin-top:6px"></button>
-      </div>
-    </div>
-
-    <!-- STORY -->
-    <div class="pane hidden" id="p-story">
-      <div class="sect qgen">
-        <h4><span data-i18n="stTitle"></span><small><span class="writerTag"></span> <span id="stCount"></span></small></h4>
-        <p class="note" style="margin:0 0 10px" data-i18n="stIntro"></p>
-        <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
-        <div class="fld isl-only"><span data-i18n="stKindLbl"></span><div class="seg full" id="stKind"><button type="button" data-kind="life" data-i18n="stK1"></button><button type="button" data-kind="quran" data-i18n="stK2"></button><button type="button" data-kind="hadith" data-i18n="stK3"></button></div></div>
-        <div id="stLifeBox">
-          <label class="fld"><span data-i18n="qgTopicLbl"></span><select id="stTopics"></select></label>
-          <label class="fld"><input type="text" id="stCustom" data-i18n-ph="stCustomPh"></label>
+        <div class="warn hidden" id="sacredWarn" data-i18n="sacredWarn"></div>
+        <div class="v3tools" id="src-tools">
+          <div class="v3toolhead"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><b data-v3t="aiTools"></b><button type="button" class="btn sm" id="undoTextBtn" data-i18n="undoText"></button></div>
+          <div class="keyhint warn hidden" data-keyhint><span data-i18n="needKey"></span> <button type="button" class="btn sm" data-goto="settings" data-i18n="openSettings"></button></div>
+          <div class="qchips">
+            <button type="button" class="chip" data-tool="shorten" data-i18n="toolShorten"></button>
+            <button type="button" class="chip" data-tool="fix" data-i18n="toolFix"></button>
+            <button type="button" class="chip" data-tool="emotional" data-i18n="toolEmotional"></button>
+            <button type="button" class="chip" data-tool="translate" data-i18n="toolTranslate"></button>
+            <button type="button" class="chip" data-tool="heading" data-i18n="toolHeading"></button>
+          </div>
+          <span class="status hidden" id="toolStatus" style="margin-top:8px"><span class="spin"></span><span data-i18n="aiWorking"></span></span>
         </div>
-        <div class="okbox hidden" id="stSacredNote" data-i18n="stSacredNote"></div>
-        <div class="fld"><span data-i18n="stImgLbl"></span><div class="seg full" id="stImg"><button type="button" data-img="paint" data-i18n="stI1"></button><button type="button" data-img="cine" data-i18n="stI2"></button><button type="button" data-img="none" data-i18n="stI3"></button></div></div>
-        <label class="chk" style="margin-bottom:10px"><input type="checkbox" id="stMore" checked> <span data-i18n="stMoreLbl"></span></label>
-        <div class="row qgbtns"><button type="button" class="btn sm" id="stPrev" data-i18n="qgPrev" disabled></button><button type="button" class="btn primary big" id="stNext" data-i18n="stNext"></button></div>
-        <span class="status hidden" id="stStatus" style="margin-top:8px"><span class="spin"></span><span id="stStatusTxt"></span></span>
-        <div class="opts" id="stOut"></div>
-        <p class="note"><span data-i18n="stNote"></span> <button type="button" class="btn sm" id="stClear" data-i18n="qgClear" style="margin-left:4px"></button></p>
       </div>
     </div>
 
     <!-- DESIGN -->
     <div class="pane hidden" id="p-design">
-      <div class="posbar"><small data-i18n="posHint"></small><span class="row" style="gap:6px;flex:none"><button type="button" class="btn sm" id="posResetBtn" data-i18n="posReset"></button><button type="button" class="btn sm" id="resetDesignBtn" data-i18n="resetDesign"></button></span></div>
-      <details class="sect dd" id="elemBox"><summary><span data-i18n="elemTitle"></span><small data-i18n="ddOpen"></small></summary><div class="ddb"><p class="note" data-i18n="elemHint" style="margin:0 0 8px"></p><div id="elemRows"></div></div></details>
+      <div class="seg full v3seg" id="desSeg" role="tablist">
+        <button type="button" data-des="look" data-v3t="desLook"></button>
+        <button type="button" data-des="image" data-v3t="desImage"></button>
+        <button type="button" data-des="brand" data-v3t="desBrand"></button>
+      </div>
+      <div id="des-look">
+        <div class="sect v3ratio"><h4><span data-v3t="ratio"></span>
+          <div class="seg" id="ratioSeg">
+            <button type="button" data-ratio="1:1">1:1</button>
+            <button type="button" data-ratio="4:5">4:5</button>
+            <button type="button" data-ratio="9:16">9:16</button>
+            <button type="button" data-ratio="16:9">16:9</button>
+          </div></h4>
+        </div>
       <div class="sect"><h4><span data-i18n="templates"></span><small data-i18n="tplHint"></small></h4><div class="gallery" id="gallery"></div></div>
       <div class="sect"><h4><span data-i18n="palettes"></span></h4><div class="pals" id="pals"></div>
         <div class="colors" style="margin-top:10px">
@@ -747,14 +792,14 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
         <label class="fld"><span data-i18n="textY"></span><input type="range" id="textY" min="-400" max="400"></label>
         <label class="fld"><span data-i18n="overlay"></span><input type="range" id="overlay" min="0" max="100"></label>
       </div></details>
+      <details class="sect dd" id="elemBox"><summary><span data-i18n="elemTitle"></span><small data-i18n="ddOpen"></small></summary><div class="ddb"><p class="note" data-i18n="elemHint" style="margin:0 0 8px"></p><div id="elemRows"></div></div></details>
       <div class="sect"><h4><span data-i18n="presets"></span><small data-i18n="presetsHint"></small></h4>
         <div class="row"><label class="fld"><input type="text" id="presetName" data-i18n-ph="presetPh"></label><button type="button" class="btn primary" id="presetSaveBtn" data-i18n="presetSave"></button></div>
         <div class="lib" id="presetList" style="max-height:240px"></div>
       </div>
-    </div>
-
-    <!-- IMAGE -->
-    <div class="pane hidden" id="p-image">
+      <div class="posbar"><small data-i18n="posHint"></small><span class="row" style="gap:6px;flex:none"><button type="button" class="btn sm" id="posResetBtn" data-i18n="posReset"></button><button type="button" class="btn sm" id="resetDesignBtn" data-i18n="resetDesign"></button></span></div>
+      </div>
+      <div id="des-image" class="hidden">
       <div class="sect"><h4><span data-i18n="bgImage"></span></h4>
         <div class="seg full" id="imgSrcSeg">
           <button type="button" data-isrc="none" data-i18n="iNone"></button>
@@ -783,10 +828,8 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
         <div class="row" style="margin-top:8px"><button type="button" class="btn sm" id="imgDlBtn" data-i18n="imgDl"></button></div>
         <p class="note" id="imgModelInfo"></p>
       </div>
-    </div>
-
-    <!-- BRAND -->
-    <div class="pane hidden" id="p-brand">
+      </div>
+      <div id="des-brand" class="hidden">
       <div class="okbox" id="brandFor"></div>
       <div class="sect"><h4><span data-i18n="brandPage"></span></h4>
         <div class="grid2">
@@ -810,6 +853,7 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
         <label class="fld"><input type="text" id="b-tags" data-b="tags"></label>
       </div>
       <button type="button" class="btn sm" id="resetBrandBtn" data-i18n="resetBrand"></button>
+      </div>
     </div>
 
     <!-- CAPTION -->
@@ -854,8 +898,9 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
       </div>
     </div>
 
-    <!-- SETTINGS -->
+    <!-- SETTINGS (opened from the menu) -->
     <div class="pane hidden" id="p-settings">
+      <div class="v3pagehead"><b data-v2t="settings"></b></div>
       <div class="sect"><h4><span data-i18n="appLook"></span></h4>
         <div class="row"><button type="button" class="btn" id="langBtn2"></button><button type="button" class="btn" id="themeBtn2"></button><button type="button" class="btn primary install-ui" id="installBtn3" data-i18n="installHow"></button></div>
       </div>
@@ -983,10 +1028,21 @@ details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
   </div>
 </div>
 <div id="newBar" class="hidden"><span data-i18n="newDone"></span><button type="button" class="btn sm" id="newUndo" data-i18n="newUndo"></button></div>
+<div id="v3export" class="v2sheet hidden" role="dialog" aria-modal="true"><div class="v2sbox">
+  <div class="v2grab"></div>
+  <b class="v3sheetT" data-v3t="exTitle"></b>
+  <button type="button" class="v3mono" id="monoBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.5 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span data-v3t="monoLbl"></span><span id="monoBadge"></span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+  <button type="button" class="v3opt hero" id="shareBtn"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg></span><span class="tx"><b data-v3t="exShare"></b><small data-v3t="exShareS"></small></span></button>
+  <div class="v3grid">
+    <button type="button" class="v3opt" id="pngBtn"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 10l5 5 5-5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg></span><span class="tx"><b data-v3t="exPng"></b><small data-v3t="exPngS"></small></span></button>
+    <button type="button" class="v3opt" id="jpgBtn"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.1-1.1a2 2 0 0 0-2.8 0L10 22"/></svg></span><span class="tx"><b data-v3t="exJpg"></b><small data-v3t="exJpgS"></small></span></button>
+    <button type="button" class="v3opt" id="reelBtn"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="4"/><path d="m10 9 5 3-5 3z"/></svg></span><span class="tx"><b data-v3t="exReel"></b><small data-v3t="exReelS"></small></span></button>
+    <button type="button" class="v3opt" id="saveLibBtn"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></span><span class="tx"><b data-v3t="exLib"></b><small data-v3t="exLibS"></small></span></button>
+  </div>
+  <button type="button" class="v3opt slim" id="previewBtn"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span><span class="tx"><b data-v3t="exPrev"></b></span></button>
+</div></div>
 <div id="v2menu" class="v2sheet hidden" role="dialog" aria-modal="true"><div class="v2sbox">
   <div class="v2grab"></div>
-  <button type="button" class="v2item" data-v2go="brand"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg></span><span data-v2t="brand"></span></button>
-  <button type="button" class="v2item" data-v2go="library"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg></span><span data-v2t="library"></span></button>
   <button type="button" class="v2item" data-v2go="settings"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span data-v2t="settings"></span></button>
   <div class="v2sep"></div>
   <button type="button" class="v2item" id="v2Lang"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span data-v2t="lang"></span><small id="v2LangNow"></small></button>
@@ -2288,12 +2344,16 @@ function setMode(m){
   MODE = m; store.set('mode', m); document.documentElement.dataset.mode = m;
   document.querySelectorAll('button[data-mode]').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
   C.undo = []; fillSelects(); buildPalettes(); buildElemRows(); buildGallery(); renderPresets(); if(HIST[m].last === null) HIST[m].last = snap(); histButtons(); syncFields(); syncDesign(); syncBrand(); loadLogo();
-  showSrc(m === 'islamic' ? (S.srcI || 'hadith') : (S.srcG || 'tools'));
+  showSrc(m === 'islamic' ? (S.srcI || 'hadith') : (S.srcG || 'quick'));
   $('capText').value = store.get('cap_' + m, ''); $('styleEx').value = getStyle(m); $('aiOpts').innerHTML = ''; qgBuildUi(); stBuildUi(); $('stOut').innerHTML = '';
   render();
 }
+const TAB_ALIAS = { story:['text','story'], hadith:['text','hadith'], ayah:['text','ayah'], image:['design','image'], brand:['design','brand'] };
 function showTab(k){
+  let sub = null; if(TAB_ALIAS[k]){ sub = TAB_ALIAS[k][1]; k = TAB_ALIAS[k][0]; }
   S.tab = k;
+  if(k === 'text' && sub) showSrc(sub);
+  if(k === 'design') showDes(sub);
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === k));
   document.querySelectorAll('.pane').forEach(p => p.classList.toggle('hidden', p.id !== 'p-' + k));
   if(k === 'design') renderGallery();
@@ -2303,12 +2363,25 @@ function showTab(k){
   refreshKeyHints();
   if(matchMedia('(max-width:900px)').matches && window.scrollY > 0) window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+/* write tab: one switch for every way to get words onto the card */
 function showSrc(k){
-  if(k === 'ai' || (MODE === 'general' && (k === 'hadith' || k === 'ayah'))) k = MODE === 'general' ? 'tools' : 'hadith';
+  if(!['quick', 'story', 'hadith', 'ayah'].includes(k)) k = 'quick';
+  if(MODE === 'general' && (k === 'hadith' || k === 'ayah')) k = 'quick';
   if(MODE === 'islamic') S.srcI = k; else S.srcG = k;
-  document.querySelectorAll('#srcTabs [data-src]').forEach(b => b.classList.toggle('on', b.dataset.src === k));
-  ['hadith', 'ayah', 'tools'].forEach(x => $('src-' + x).classList.toggle('hidden', x !== k));
+  document.querySelectorAll('#genSeg [data-gen]').forEach(b => b.classList.toggle('on', b.dataset.gen === k));
+  $('gen-quick').classList.toggle('hidden', k !== 'quick');
+  $('gen-story').classList.toggle('hidden', k !== 'story');
+  $('src-hadith').classList.toggle('hidden', k !== 'hadith');
+  $('src-ayah').classList.toggle('hidden', k !== 'ayah');
   refreshKeyHints();
+}
+/* design tab: style · background · page & logo */
+function showDes(k){
+  if(!['look', 'image', 'brand'].includes(k)) k = S.des || 'look';
+  S.des = k;
+  document.querySelectorAll('#desSeg [data-des]').forEach(b => b.classList.toggle('on', b.dataset.des === k));
+  ['look', 'image', 'brand'].forEach(x => $('des-' + x).classList.toggle('hidden', x !== k));
+  if(k === 'look' && S.tab === 'design') renderGallery();
 }
 function focusField(k){
   if(k === 'brand'){ showTab('brand'); const e = $('b-name'); e.focus(); flash(e); return; }
@@ -2840,7 +2913,7 @@ function fullBackup(){
     captions: { general: store.get('cap_general', ''), islamic: store.get('cap_islamic', '') }, presets: PRESETS, library: LIB,
     settings: { gmodel: S.gmodel, imodel: S.imodel }, memory: memData() };
   const d = new Date(), stamp = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-  download(new Blob([JSON.stringify(data)], { type: 'application/json' }), 'TF QuoteCard backup ' + stamp + '.json'); toast(t('tBackupOk'));
+  download(new Blob([JSON.stringify(data)], { type: 'application/json' }), 'TF Post Maker backup ' + stamp + '.json'); toast(t('tBackupOk'));
 }
 async function fullRestore(file){
   try{
@@ -3607,7 +3680,8 @@ function init(){
   $('themeBtn').addEventListener('click', () => { S.theme = S.theme === 'dark' ? 'light' : 'dark'; store.set('theme', S.theme); document.documentElement.dataset.theme = S.theme; $('themeBtn').textContent = S.theme === 'dark' ? '☀️' : '🌙'; });
   document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
   document.querySelectorAll('[data-goto]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.goto)));
-  document.querySelectorAll('#srcTabs [data-src]').forEach(b => b.addEventListener('click', () => showSrc(b.dataset.src)));
+  document.querySelectorAll('#genSeg [data-gen]').forEach(b => b.addEventListener('click', () => showSrc(b.dataset.gen)));
+  document.querySelectorAll('#desSeg [data-des]').forEach(b => b.addEventListener('click', () => showDes(b.dataset.des)));
   // text fields
   document.querySelectorAll('[data-f]').forEach(el => el.addEventListener('input', () => { const f = F(); f[el.dataset.f] = el.value; if(!norm(f.text) && !norm(f.arabic)){ f.origin = 'manual'; f.full = null; syncFields(); } saveSoon(); render(); }));
   $('clearTextBtn').addEventListener('click', () => setFields({}, 'manual'));
@@ -3812,7 +3886,7 @@ function pubRecord(kind){
 }
 function memData(){ const o = {}; MEM.keys().forEach(k => { o[k] = MEM.get(k); }); return o; }
 function memFile(){ const d = new Date(), st = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-  return new File([JSON.stringify({ app:'tf-post-card-studio', kind:'memory', version:1, saved:d.toISOString(), memory:memData() })], 'TF QuoteCard memory ' + st + '.json', { type:'application/json' }); }
+  return new File([JSON.stringify({ app:'tf-post-card-studio', kind:'memory', version:1, saved:d.toISOString(), memory:memData() })], 'TF Post Maker memory ' + st + '.json', { type:'application/json' }); }
 async function memSave(share){
   const f = memFile();
   if(share){ let can = false; try{ can = !!(navigator.canShare && navigator.canShare({ files:[f] })); }catch(e){} if(can){ try{ await navigator.share({ files:[f] }); store.set('mem_since', 0); memUi(); return; }catch(e){ if(e && e.name === 'AbortError') return; } } }
@@ -4488,7 +4562,7 @@ MEM.load().then(startApp, startApp);
 })();
 </script>
 <script id="v2js">
-/* ===== TF QuoteCard v2 — interface layer: clean labels, menu sheet, theme icon ===== */
+/* ===== TF Post Maker v2 — interface layer: clean labels, menu sheet, theme icon ===== */
 (function(){
   'use strict';
   const $ = id => document.getElementById(id);
@@ -4590,6 +4664,58 @@ MEM.load().then(startApp, startApp);
     let ticking = false;
     addEventListener('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(() => { document.body.classList.toggle('v2scrolled', scrollY > 4); ticking = false; }); }, { passive:true });
     sweep(); syncLabels(); syncTheme(); observe();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else setTimeout(start, 0);
+})();
+</script>
+<script id="v3js">
+/* ===== TF Post Maker v3 — labels for the regrouped layout, the finish sheet ===== */
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const root = document.documentElement;
+  const T = {
+    bn:{ export:'সেভ ও শেয়ার', genQuick:'AI পোস্ট', genStory:'গল্প', genHadith:'হাদিস', genAyah:'আয়াত',
+         desLook:'স্টাইল', desImage:'ব্যাকগ্রাউন্ড', desBrand:'পেজ ও লোগো', ratio:'কার্ডের সাইজ',
+         hlLbl:'হাইলাইট', aiTools:'AI দিয়ে লেখা ঠিক করুন',
+         exTitle:'পোস্ট রেডি — এখন কী করবেন?', monoLbl:'মনিটাইজেশন চেক',
+         exShare:'ফেসবুকে শেয়ার করুন', exShareS:'ছবি + ক্যাপশন একসাথে, সরাসরি অ্যাপে',
+         exPng:'ছবি সেভ', exPngS:'PNG · সবচেয়ে ভালো মান', exJpg:'ছোট সাইজে সেভ', exJpgS:'JPG · দ্রুত আপলোড',
+         exReel:'রিল বানান', exReelS:'মোশন ও মিউজিকসহ ভিডিও', exLib:'লাইব্রেরিতে রাখুন', exLibS:'পরে আবার ব্যবহার করতে',
+         exPrev:'বড় করে দেখুন' },
+    en:{ export:'Save & share', genQuick:'AI post', genStory:'Story', genHadith:'Hadith', genAyah:'Ayah',
+         desLook:'Style', desImage:'Background', desBrand:'Page & logo', ratio:'Card size',
+         hlLbl:'Highlight', aiTools:'Improve the text with AI',
+         exTitle:'Post ready — what next?', monoLbl:'Monetization check',
+         exShare:'Share to Facebook', exShareS:'Image + caption together, straight to the app',
+         exPng:'Save image', exPngS:'PNG · best quality', exJpg:'Save smaller', exJpgS:'JPG · faster upload',
+         exReel:'Make a reel', exReelS:'Video with motion & music', exLib:'Save to library', exLibS:'To reuse it later',
+         exPrev:'View full size' }
+  };
+  const lang = () => (root.lang === 'bn' ? 'bn' : 'en');
+  function labels(){
+    const d = T[lang()];
+    document.querySelectorAll('[data-v3t]').forEach(e => { const v = d[e.dataset.v3t]; if(v != null && e.textContent !== v) e.textContent = v; });
+  }
+  const sheet = () => $('v3export');
+  function openSheet(){ labels(); sheet().classList.remove('hidden'); }
+  function closeSheet(){ sheet().classList.add('hidden'); }
+  function mirrorMono(){
+    const b = $('monoBtn'), x = $('v3ExportBtn'); if(!b || !x) return;
+    const st = b.classList.contains('bad') ? 'bad' : b.classList.contains('warn') ? 'warn' : 'ok';
+    if(x.dataset.mono !== st) x.dataset.mono = st;
+  }
+  function start(){
+    $('v3ExportBtn').addEventListener('click', openSheet);
+    /* the app's own handlers run first (they sit on the buttons); then the sheet closes */
+    sheet().addEventListener('click', e => {
+      if(e.target === e.currentTarget){ closeSheet(); return; }
+      if(e.target.closest('button')) setTimeout(closeSheet, 0);
+    });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeSheet(); });
+    new MutationObserver(mirrorMono).observe($('monoBtn'), { attributes:true, attributeFilter:['class'] });
+    new MutationObserver(labels).observe(root, { attributes:true, attributeFilter:['lang'] });
+    labels(); mirrorMono();
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else setTimeout(start, 0);
 })();

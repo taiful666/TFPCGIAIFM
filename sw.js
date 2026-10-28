@@ -1,5 +1,5 @@
-/* TF QuoteCard — service worker (offline + fast start) */
-const VERSION = 'tfqc-v15';
+/* TF Post Maker — service worker (offline + fast start) */
+const VERSION = 'tfpm-v16';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './mp4-muxer.mjs'];
 const RUNTIME = 'tfpc-runtime';
 
