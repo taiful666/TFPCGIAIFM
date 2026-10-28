@@ -1,5 +1,5 @@
-/* TF Post Card Studio — service worker (offline + fast start) */
-const VERSION = 'tfpc-v14';
+/* TF QuoteCard — service worker (offline + fast start) */
+const VERSION = 'tfqc-v15';
 const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './mp4-muxer.mjs'];
 const RUNTIME = 'tfpc-runtime';
 

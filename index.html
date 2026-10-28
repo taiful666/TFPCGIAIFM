@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" id="themeColor" content="#f5f4f1">
-<meta name="description" content="Photo cards & captions for Facebook — General and Islamic (প্রশান্তির বার্তা)">
+<meta name="theme-color" id="themeColor" content="#f4f5f7">
+<meta name="description" content="TF QuoteCard — Islamic &amp; motivational quote cards, stories and captions for Facebook">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Post Card">
+<meta name="apple-mobile-web-app-title" content="TF QuoteCard">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>TF Post Card Studio</title>
+<title>TF QuoteCard — ইসলামিক ও মোটিভেশনাল পোস্ট মেকার</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231f6b4a'/%3E%3Crect x='14' y='12' width='36' height='40' rx='5' fill='%23fbf6e9'/%3E%3Cpath d='M38 20a9 9 0 1 0 0 14 7 7 0 1 1 0-14z' fill='%23c9a227'/%3E%3Crect x='20' y='40' width='24' height='3' rx='1.5' fill='%231f6b4a'/%3E%3C/svg%3E">
@@ -305,18 +305,232 @@ html.reel-open,html.reel-open body{overflow:hidden}
   .rfoot{justify-content:flex-end}.rfoot .btn,.rfoot .btn.primary{flex:0 0 auto;min-width:190px}
 }
 </style>
+<style id="v2pro">
+/* ===================== TF QuoteCard v2 — calm, minimal, app-like (same language as TF NewsCard) ===================== */
+:root{
+  --bg:#f4f5f7;--surface:#fff;--surface-2:#f1f2f5;--surface-3:#e9ebef;--text:#121417;--muted:#5f6672;--faint:#9aa0aa;--line:#e5e7eb;
+  --accent:#17704a;--accent-2:#125e3d;--accent-soft:#e6f3ec;--accent-ink:#fff;--gold:#17704a;--ok:#14804a;--danger:#d1342b;
+  --warn-bg:#fff8e8;--warn-line:transparent;--warn-text:#7a4b00;
+  --sans:'Hind Siliguri','Nirmala UI','Inter','Segoe UI',system-ui,sans-serif;
+  --r:16px;--r-sm:12px;--hdr:56px;--shadow-lg:0 20px 48px rgba(16,24,40,.18);
+}
+html[data-mode="general"]{--accent:#2952e3;--accent-2:#1f43c4;--accent-soft:#eaefff;--gold:#2952e3}
+html[data-theme="dark"]{--bg:#0d0f13;--surface:#16191f;--surface-2:#1e2229;--surface-3:#272c35;--text:#eef0f4;--muted:#9aa1ad;--faint:#6b7280;--line:#262b34;--accent-ink:#0d0f13;--warn-bg:#2a2214;--warn-text:#f0c879;--shadow-lg:0 20px 48px rgba(0,0,0,.6)}
+html[data-theme="dark"][data-mode="islamic"]{--accent:#4fc28a;--accent-2:#6fd3a1;--accent-soft:#15291f}
+html[data-theme="dark"][data-mode="general"]{--accent:#7090ff;--accent-2:#8aa3ff;--accent-soft:#1c2647}
+body{background:var(--bg);font-size:15px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent-soft)}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;display:block}
+
+/* ---------- clutter off: helper notes, hints, static warnings ---------- */
+.hint,.note,.fld small,.posbar small,.newrow,#installBanner,.warn[data-i18n],.okbox[data-i18n],p.okbox,#brandFor,
+.sect h4 small[data-i18n],#src-hadith h4 small,#src-ayah h4 small,details.dd>summary small,.top::after,.brand small,
+#langBtn,#themeBtn,#pvBtn,#shareModal .okbox,#instFileNote,.rcode,#v2hide{display:none!important}
+.note:has(> button){display:block!important;margin:10px 0 0}
+.note:has(> button) > span{display:none}
+#rvDone .note,#shareModal .note{display:none!important}
+
+/* ---------- buttons & inputs ---------- */
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:var(--r-sm);min-height:42px;padding:8px 14px;font-weight:600;font-size:14px;gap:7px;box-shadow:none!important;transition:background .15s,border-color .15s,transform .08s}
+.btn:hover{background:var(--surface-2)}
+.btn:active{transform:scale(.98)}
+.btn.sm{min-height:34px;padding:5px 12px;font-size:13px;border-radius:10px}
+.btn.primary,html[data-theme="dark"] .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{background:var(--accent-2);border-color:var(--accent-2);filter:none}
+.btn.big{min-height:48px;font-size:15px}
+.btn[disabled]{opacity:.4}
+.seg{background:var(--surface-2);border:0;border-radius:var(--r-sm);padding:3px;gap:2px;overflow:visible}
+.seg button{border:0!important;border-radius:9px;color:var(--muted);font-weight:600;font-size:13.5px;padding:8px 10px;background:transparent}
+.seg button.on,html[data-theme="dark"] .seg button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(16,24,40,.12)}
+html[data-theme="dark"] .seg button.on{background:var(--surface-3)}
+.pane input[type=text],.pane input[type=url],.pane input[type=password],.pane input[type=number],.pane select,.pane textarea,#libSearch,#brandNudge input{
+  background:var(--surface-2)!important;border:1px solid transparent!important;border-radius:var(--r-sm)!important;color:var(--text);font-size:15px;padding:11px 12px!important;outline:none;box-shadow:none}
+.pane input:focus,.pane select:focus,.pane textarea:focus{border-color:var(--accent)!important;background:var(--surface)!important;box-shadow:0 0 0 3px var(--accent-soft)!important}
+.pane input[type=color]{border:0;background:var(--surface-2);border-radius:10px;width:46px;height:36px}
+.fld{font-size:12.5px;font-weight:600;color:var(--muted);gap:6px;margin-bottom:12px}
+.chk{font-size:14px;gap:9px}
+input[type=range]{accent-color:var(--accent)}
+input[type=checkbox]{accent-color:var(--accent);width:18px;height:18px;margin:0}
+.chip{border:1px solid var(--line)!important;background:var(--surface)!important;color:var(--muted);font-weight:600;border-radius:999px!important;padding:7px 14px}
+.chip.on{background:var(--text)!important;color:var(--bg)!important;border-color:var(--text)!important}
+.warn{background:var(--warn-bg);border:0;border-radius:var(--r-sm);color:var(--warn-text)}
+.okbox{background:var(--surface-2);color:var(--text);border-radius:var(--r-sm)}
+.keyhint{background:var(--surface-2)!important;color:var(--text)!important;border:0!important;border-radius:var(--r-sm)!important;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 8px 8px 12px!important}
+.keyhint.hidden{display:none!important}
+.keyhint .btn{border:0;background:var(--surface);color:var(--accent)}
+.status{color:var(--muted);font-size:13px}
+
+/* ---------- header ---------- */
+.top{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+body.v2scrolled .top{border-bottom-color:var(--line)}
+.top .in{height:var(--hdr)}
+.brand{gap:10px}
+.brand img{width:32px;height:32px;border-radius:9px;display:block;flex:none}
+.brand b{display:block!important;font-size:17px;font-weight:700;letter-spacing:-.1px;font-family:'Inter','Hind Siliguri',sans-serif}
+.ctrls{gap:2px}
+.icobtn{width:40px;height:40px;border:0;border-radius:12px;background:transparent;color:var(--text);display:grid;place-items:center;padding:0}
+.icobtn:hover{background:var(--surface-2)}
+@media (hover:none){.icobtn:hover,.btn:hover,.v2item:hover{background:inherit}.btn.primary:hover{background:var(--accent)}}
+.icobtn svg.i{width:21px;height:21px}
+#newPostBtn{color:var(--accent)}
+#installBtn{min-height:36px;padding:6px 12px;border-radius:12px;margin-right:4px}
+#toast{background:var(--text)!important;color:var(--bg)!important;border-radius:12px!important;font-weight:600;padding:11px 16px!important;box-shadow:var(--shadow-lg)}
+#updateBar{border-radius:12px}
+#updateBar .btn{background:var(--accent);color:var(--accent-ink)}
+
+/* ---------- stage ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:none}
+.stage.card{background:transparent;border:0}
+.v2top{display:flex;gap:8px;align-items:center;margin:0 0 10px}
+.v2top .seg.mode{flex:1 1 auto;display:flex}
+.v2top .seg.mode button{flex:1;padding:8px 10px;font-size:14px}
+.v2top #ratioSeg{order:2;flex:none}
+.v2top #ratioSeg button{padding:8px 9px;font-size:12.5px;font-family:'Inter',sans-serif}
+.canvasbox{background:transparent;border-radius:0;padding:0}
+#cv{border-radius:10px;box-shadow:0 1px 2px rgba(16,24,40,.08),0 8px 28px rgba(16,24,40,.14)}
+html[data-theme="dark"] #cv{box-shadow:0 8px 28px rgba(0,0,0,.5)}
+.warnline{margin:10px 0 0;border:0;border-radius:var(--r-sm)}
+.stagebar{border:0;padding:12px 0 0;gap:6px}
+.stagebar .btn{background:var(--surface);border:1px solid var(--line)}
+.stagebar .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.reelbtn{background:var(--surface)!important;color:var(--text)!important;border:1px solid var(--line)!important;font-weight:600}
+.monobtn{font-weight:600}
+.monobtn.ok{color:var(--ok);border-color:var(--line)}
+.monobtn.warn{color:#b07400;border-color:var(--line)}
+.monobtn.bad{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 40%,var(--line));background:var(--surface)}
+
+/* ---------- panel & tabs ---------- */
+.panel.card{background:transparent;border:0;overflow:visible}
+.tabs{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:4px;gap:2px;margin:0 0 12px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border-radius:11px;padding:9px 12px;font-size:13.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:7px}
+.tab svg.i{width:18px;height:18px}
+.tab[data-tab="brand"],.tab[data-tab="library"],.tab[data-tab="settings"]{display:none!important}
+.tabs{display:flex}.tabs .tab{flex:1 1 0;justify-content:center}
+.tab.on,html[data-theme="dark"] .tab.on{background:var(--accent-soft);color:var(--accent);box-shadow:none}
+.pane{padding:0}
+.sect,.sect[style]{background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:var(--r)!important;padding:16px;margin:0 0 10px}
+.sect h4{font-size:15px;font-weight:700;margin:0 0 12px;letter-spacing:-.1px}
+.sect h4 small{font-size:12.5px;font-weight:600;color:var(--muted)}
+.sect .sect,#src-ai{background:transparent!important;border:0!important;padding:0!important;margin:0!important}
+.qgen,.rstyle{background:var(--surface)!important;border:1px solid var(--line)!important}
+details.sect>summary,details.dd>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;padding:0;font-size:15px;font-weight:700;cursor:pointer}
+details.sect>summary::-webkit-details-marker{display:none}
+details#advAi>summary{padding:16px!important}
+details.sect>summary::after,details.dd>summary::after{content:'';width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin:-4px 4px 0 0;transition:transform .2s;font-size:0}
+details.sect[open]>summary::after,details.dd[open]>summary::after{transform:rotate(-135deg);margin-top:4px}
+details.dd{padding:0!important}
+details.dd>summary{padding:16px}
+details.dd>.ddb{padding:0 16px 16px}
+details.sect:not(.dd):not(#advAi){padding:16px}
+details.sect:not(.dd)[open]>summary{margin-bottom:12px}
+details:not(.sect)>summary{font-size:14px!important;color:var(--muted)}
+.opt,.qcard,.libi,.mi,.shopt{border:1px solid var(--line)!important;border-radius:var(--r-sm)!important;background:var(--surface)!important;box-shadow:none}
+.opt .oh,.qcard .qh{color:var(--accent)}
+.qcard .qt{font-size:16.5px}
+.qcard .qc{border-top:1px solid var(--line)}
+.meta{background:var(--surface-2);border:0;border-radius:var(--r-sm)}
+.gallery{gap:10px}
+.tpl{border-radius:12px;background:var(--surface-2);border:0;outline:2px solid transparent;outline-offset:2px}
+.tpl.on{outline-color:var(--accent)}
+.tpl span{font-size:11.5px;font-weight:600}
+.pal{border:0;border-radius:9px;box-shadow:0 0 0 1px var(--line);width:40px;height:30px}
+.pal:hover{box-shadow:0 0 0 2px var(--accent)}
+.colors label{font-weight:600}
+.prev img{border:0;border-radius:10px}
+.thumbs button{border-radius:10px}
+.shopt.on{border-color:var(--accent)!important;background:var(--accent-soft)!important}
+.posbar{justify-content:flex-end;margin:0 0 10px}
+.erow b{font-weight:600}
+
+/* ---------- menu sheet ---------- */
+.v2sheet{position:fixed;inset:0;z-index:88;background:rgba(10,12,16,.45);display:flex;align-items:flex-end;justify-content:center;animation:v2f .18s ease}
+.v2sheet.hidden{display:none!important}
+.v2sbox{width:100%;max-width:520px;background:var(--surface);border-radius:22px 22px 0 0;padding:8px 12px calc(16px + env(safe-area-inset-bottom));animation:v2u .22s cubic-bezier(.2,.8,.2,1)}
+.v2grab{width:38px;height:4px;border-radius:9px;background:var(--surface-3);margin:4px auto 10px}
+.v2item{width:100%;display:flex;align-items:center;gap:14px;border:0;background:transparent;padding:13px 10px;border-radius:12px;font-size:15.5px;font-weight:600;color:var(--text);text-align:left}
+.v2item:hover,.v2item:active{background:var(--surface-2)}
+.v2item .ic{width:38px;height:38px;border-radius:11px;background:var(--surface-2);display:grid;place-items:center;color:var(--text)}
+.v2item small{margin-left:auto;color:var(--muted);font-weight:600;font-size:13px}
+.v2sep{height:1px;background:var(--line);margin:6px 10px}
+@keyframes v2f{from{opacity:0}}
+@keyframes v2u{from{transform:translateY(40px);opacity:.4}}
+@media (min-width:901px){.v2sheet{align-items:center}.v2sbox{border-radius:22px;max-width:400px}}
+
+/* ---------- modals ---------- */
+.modal{background:rgba(10,12,16,.6)}
+.modal-box{border-radius:20px!important;background:var(--surface)}
+#modal{background:rgba(10,12,16,.85)}
+#modal .modal-box{background:transparent}
+#modal .btn{min-height:46px}
+#pasteBar,#newBar{background:var(--text);color:var(--bg);border-radius:14px;box-shadow:var(--shadow-lg)}
+#pasteBar .btn,#newBar .btn{background:var(--bg);color:var(--text)}
+
+/* ---------- reel studio ---------- */
+.rhead{background:var(--bg);border-bottom:1px solid var(--line)}
+.rhead .btn{border:0;background:var(--surface-2)}
+.rbar i,.rprog i{background:var(--accent)}
+.rtag{background:var(--surface-2);border:0;font-weight:600}
+.rtag.fix{background:var(--accent-soft);color:var(--accent)}
+.rfoot{background:var(--bg)}
+.rctl .sect{margin-bottom:10px}
+
+/* ---------- desktop ---------- */
+@media (min-width:901px){
+  .app{gap:24px;padding:20px 20px 40px}
+  .stage{top:calc(var(--hdr) + 16px)}
+  #cv{max-height:calc(100vh - 250px)}
+  .stagebar{justify-content:center;flex-wrap:wrap}
+  .stagebar .grp{display:contents}
+  #pngBtn{order:9}
+  .stagebar .btn{padding:8px 12px}
+}
+
+/* ---------- phone ---------- */
+@media (max-width:900px){
+  .top .in{height:var(--hdr);padding:0 10px 0 14px}
+  .app{padding:6px 14px calc(84px + env(safe-area-inset-bottom));gap:12px}
+  .stage{top:calc(var(--hdr) + env(safe-area-inset-top));background:var(--bg)!important;border-radius:0;margin:0 -14px;padding:4px 14px 10px;border-bottom:1px solid var(--line)!important}
+  #cv{max-height:var(--pvh,34vh)}
+  .v2top{margin-bottom:8px}
+  .v2top .seg.mode button{padding:7px 6px;font-size:13.5px}
+  .v2top #ratioSeg{flex:none}
+  .v2top #ratioSeg button{padding:7px 7px;font-size:12px}
+  .stagebar{display:grid!important;grid-template-columns:repeat(6,1fr);gap:6px;padding:10px 0 0;overflow:visible}
+  .stagebar .grp{display:contents}
+  .stagebar .btn{flex-direction:column;gap:3px;min-height:52px;padding:6px 2px!important;font-size:11.5px;border:0;border-radius:12px;background:var(--surface);white-space:nowrap}
+  html[data-theme="dark"] .stagebar .btn:not(.primary){background:var(--surface-2)}
+  .stagebar .btn.primary{border:0}
+  .stagebar .btn svg.i{width:19px;height:19px}
+  .stagebar{grid-template-columns:none!important;grid-auto-columns:minmax(0,1fr);grid-auto-flow:column}
+  #monoBtn,#jpgBtn,#previewBtn{display:none!important}
+  #undoBtn{order:1}#redoBtn{order:2}#shuffleBtn{order:3}#reelBtn{order:4}#shareBtn{order:5}#pngBtn{order:6}
+  .tabs{position:fixed;left:0;right:0;bottom:0;margin:0;border:0;border-top:1px solid var(--line);border-radius:0;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:none;padding:4px 6px calc(4px + env(safe-area-inset-bottom));justify-content:space-around}
+  .tab{flex:1 1 0;min-height:56px;flex-direction:column;gap:3px;font-size:11.5px;padding:4px 0;background:transparent!important}
+  .tab .ti{padding:4px 18px;border-radius:999px;transition:background .15s;display:grid;place-items:center}
+  .tab svg.i{width:22px;height:22px}
+  .tab.on,html[data-theme="dark"] .tab.on{background:transparent!important;color:var(--accent)}
+  .tab.on .ti{background:var(--accent-soft)}
+  .sect,.sect[style]{padding:14px}
+  .pane input[type=text],.pane input[type=url],.pane input[type=password],.pane input[type=number],.pane select,.pane textarea{font-size:16px}
+  #toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+  #pasteBar,#newBar{bottom:calc(72px + env(safe-area-inset-bottom))}
+}
+@media (max-width:380px){
+  .brand b{font-size:16px}
+  .v2top #ratioSeg button{padding:7px 5px}
+}
+</style>
 </head>
 <body>
 <header class="top">
   <div class="in">
-    <div class="brand"><div class="logo">✦</div><div><b>TF Post Card Studio</b><small data-i18n="tagline"></small></div></div>
+    <div class="brand"><img src="icon-192.png" alt=""><b>TF QuoteCard</b></div>
     <div class="ctrls">
-      <button type="button" class="btn newbtn" id="newPostBtn"><span>🧹</span> <span data-i18n="newPost"></span></button>
-      <div class="seg mode" role="group" aria-label="mode">
-        <button type="button" data-mode="general"><span>🌸</span> <span class="lbl" data-i18n="mGeneral"></span></button>
-        <button type="button" data-mode="islamic"><span>🕌</span> <span class="lbl" data-i18n="mIslamic"></span></button>
-      </div>
-      <button type="button" class="btn primary hidden install-ui" id="installBtn"><span>📲</span> <span class="lbl" data-i18n="install"></span></button>
+      <button type="button" class="btn primary hidden install-ui" id="installBtn"><span data-i18n="install"></span></button>
+      <button type="button" class="icobtn" id="newPostBtn" title="New post" aria-label="New post"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.4 2.6a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg></button>
+      <button type="button" class="icobtn" id="v2Theme" title="Theme" aria-label="Theme"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
+      <button type="button" class="icobtn" id="v2MenuBtn" title="Menu" aria-label="Menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg></button>
       <button type="button" class="btn desk-only" id="langBtn">বাংলা</button>
       <button type="button" class="btn desk-only" id="themeBtn" title="theme">🌙</button>
     </div>
@@ -326,27 +540,33 @@ html.reel-open,html.reel-open body{overflow:hidden}
 <main class="app">
   <!-- ===== STAGE ===== -->
   <section class="stage card">
-    <div class="canvasbox"><canvas id="cv" width="1080" height="1080" aria-label="card preview"></canvas></div>
-    <p class="warnline hidden" id="stageWarn"></p>
-    <p class="hint" data-i18n="stageHint"></p>
-    <div class="stagebar">
-      <button type="button" class="btn monobtn" id="monoBtn" title="Monetization check"><span id="monoBadge">🛡️</span></button>
-      <button type="button" class="btn" id="pvBtn" data-i18n="pvSize"></button>
+    <div class="v2top">
+      <div class="seg mode" role="group" aria-label="mode">
+        <button type="button" data-mode="general"><span class="lbl" data-i18n="mGeneral"></span></button>
+        <button type="button" data-mode="islamic"><span class="lbl" data-i18n="mIslamic"></span></button>
+      </div>
       <div class="seg" id="ratioSeg">
         <button type="button" data-ratio="1:1">1:1</button>
         <button type="button" data-ratio="4:5">4:5</button>
         <button type="button" data-ratio="9:16">9:16</button>
         <button type="button" data-ratio="16:9">16:9</button>
       </div>
+    </div>
+    <div class="canvasbox"><canvas id="cv" width="1080" height="1080" aria-label="card preview"></canvas></div>
+    <p class="warnline hidden" id="stageWarn"></p>
+    <p class="hint" data-i18n="stageHint"></p>
+    <div class="stagebar">
+      <button type="button" class="btn monobtn" id="monoBtn" title="Monetization check"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.5 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span id="monoBadge"></span></button>
+      <button type="button" class="btn" id="pvBtn" data-i18n="pvSize"></button>
       <div class="grp">
-        <button type="button" class="btn" id="undoBtn" title="Ctrl+Z" data-i18n="undo"></button>
-        <button type="button" class="btn" id="redoBtn" title="Ctrl+Y" data-i18n="redo"></button>
-        <button type="button" class="btn" id="shuffleBtn" data-i18n="shuffle"></button>
-        <button type="button" class="btn" id="previewBtn" data-i18n="preview"></button>
-        <button type="button" class="btn primary hidden" id="shareBtn" data-i18n="share"></button>
-        <button type="button" class="btn reelbtn" id="reelBtn" data-i18n="reelBtn"></button>
-        <button type="button" class="btn" id="jpgBtn">JPG</button>
-        <button type="button" class="btn primary" id="pngBtn" data-i18n="dlPng"></button>
+        <button type="button" class="btn" id="undoBtn" title="Ctrl+Z"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg><span data-i18n="undo"></span></button>
+        <button type="button" class="btn" id="redoBtn" title="Ctrl+Y"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg><span data-i18n="redo"></span></button>
+        <button type="button" class="btn" id="shuffleBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.6 2.4-1.2-1.2a1.2 1.2 0 0 0-1.7 0L2.4 17.5a1.2 1.2 0 0 0 0 1.7l1.2 1.2a1.2 1.2 0 0 0 1.7 0L21.6 4.1a1.2 1.2 0 0 0 0-1.7Z"/><path d="m14 7 3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/></svg><span data-i18n="shuffle"></span></button>
+        <button type="button" class="btn" id="previewBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg><span data-i18n="preview"></span></button>
+        <button type="button" class="btn primary hidden" id="shareBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/></svg><span data-i18n="share"></span></button>
+        <button type="button" class="btn reelbtn" id="reelBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="4"/><path d="m10 9 5 3-5 3z"/></svg><span data-i18n="reelBtn"></span></button>
+        <button type="button" class="btn" id="jpgBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><circle cx="10" cy="13" r="2"/><path d="m20 17-1.1-1.1a2 2 0 0 0-2.8 0L10 22"/></svg><span>JPG</span></button>
+        <button type="button" class="btn primary" id="pngBtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 10l5 5 5-5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg><span data-i18n="dlPng"></span></button>
       </div>
     </div>
   </section>
@@ -354,14 +574,14 @@ html.reel-open,html.reel-open body{overflow:hidden}
   <!-- ===== PANEL ===== -->
   <section class="panel card">
     <nav class="tabs" role="tablist">
-      <button type="button" class="tab on" data-tab="text"><i>📝</i><span data-i18n="tText"></span></button>
-      <button type="button" class="tab" data-tab="story"><i>📖</i><span data-i18n="tStory"></span></button>
-      <button type="button" class="tab" data-tab="design"><i>🎨</i><span data-i18n="tDesign"></span></button>
-      <button type="button" class="tab" data-tab="image"><i>🖼️</i><span data-i18n="tImage"></span></button>
-      <button type="button" class="tab" data-tab="brand"><i>🏷️</i><span data-i18n="tBrand"></span></button>
-      <button type="button" class="tab" data-tab="caption"><i>💬</i><span data-i18n="tCaption"></span></button>
-      <button type="button" class="tab" data-tab="library"><i>📚</i><span data-i18n="tLibrary"></span></button>
-      <button type="button" class="tab" data-tab="settings"><i>⚙️</i><span data-i18n="tSettings"></span></button>
+      <button type="button" class="tab on" data-tab="text"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></i><span data-i18n="tText"></span></button>
+      <button type="button" class="tab" data-tab="story"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg></i><span data-i18n="tStory"></span></button>
+      <button type="button" class="tab" data-tab="design"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c1 0 1.7-.8 1.7-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2A5.6 5.6 0 0 0 22 11c0-5-4.5-9-10-9z"/></svg></i><span data-i18n="tDesign"></span></button>
+      <button type="button" class="tab" data-tab="image"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg></i><span data-i18n="tImage"></span></button>
+      <button type="button" class="tab" data-tab="brand"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg></i><span data-i18n="tBrand"></span></button>
+      <button type="button" class="tab" data-tab="caption"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></i><span data-i18n="tCaption"></span></button>
+      <button type="button" class="tab" data-tab="library"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg></i><span data-i18n="tLibrary"></span></button>
+      <button type="button" class="tab" data-tab="settings"><i class="ti"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></i><span data-i18n="tSettings"></span></button>
     </nav>
 
     <!-- TEXT -->
@@ -763,6 +983,15 @@ html.reel-open,html.reel-open body{overflow:hidden}
   </div>
 </div>
 <div id="newBar" class="hidden"><span data-i18n="newDone"></span><button type="button" class="btn sm" id="newUndo" data-i18n="newUndo"></button></div>
+<div id="v2menu" class="v2sheet hidden" role="dialog" aria-modal="true"><div class="v2sbox">
+  <div class="v2grab"></div>
+  <button type="button" class="v2item" data-v2go="brand"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg></span><span data-v2t="brand"></span></button>
+  <button type="button" class="v2item" data-v2go="library"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg></span><span data-v2t="library"></span></button>
+  <button type="button" class="v2item" data-v2go="settings"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span data-v2t="settings"></span></button>
+  <div class="v2sep"></div>
+  <button type="button" class="v2item" id="v2Lang"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span><span data-v2t="lang"></span><small id="v2LangNow"></small></button>
+  <button type="button" class="v2item install-ui" id="v2Install"><span class="ic"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M12 7v7M9 11l3 3 3-3M10 18h4"/></svg></span><span data-v2t="install"></span></button>
+</div></div>
 <div id="toast" role="status" aria-live="polite"></div>
 <script>
 'use strict';
@@ -819,7 +1048,7 @@ function friendly(m){ const e = new Error(m); e.friendly = true; return e; }
 /* ================= i18n ================= */
 const T = {
  en:{install:'Install',installHow:'📲 Install on phone',installBannerText:'📲 Install this app on your phone — it opens like a normal app from your home screen and works even with weak internet.',
-  installTitle:'📲 Install TF Post Card Studio',instAndroid:'Android (Chrome):',instA1:'Open the app link in Chrome.',instA2:'Tap the ⋮ menu (top-right).',instA3:'Tap “Install app” (or “Add to Home screen”) → Install.',
+  installTitle:'📲 Install TF QuoteCard',instAndroid:'Android (Chrome):',instA1:'Open the app link in Chrome.',instA2:'Tap the ⋮ menu (top-right).',instA3:'Tap “Install app” (or “Add to Home screen”) → Install.',
   instIos:'iPhone (Safari):',instI1:'Open the app link in Safari.',instI2:'Tap the Share button □↑.',instI3:'Tap “Add to Home Screen” → Add.',
   instFile:'Note: installing works only from the website link (GitHub Pages), not from a file opened on the computer.',tInstalled:'✅ Installed — open it from your home screen',
   updateText:'✨ A new version is ready',reload:'Reload',pvSize:'⇕ Preview',appLook:'Language, theme & install',langNow:'🌐 বাংলা',themeDark:'🌙 Dark theme',themeLight:'☀️ Light theme',tShareCap:'📋 Caption copied — paste it in Facebook',
@@ -929,7 +1158,7 @@ const T = {
   stUsedAll:'All built-in authentic stories have been used once — now finding new ones from the Quran/hadith…',stQuran:'Quran',stHadith:'Hadith',stCardLbl:'On the card',stCapLbl:'Caption — the full story',stRefLbl:'Reference',
   stConfirmClear:'Clear the memory of earlier stories? (After this, old stories may come again.)',tCapMade:'✨ Caption ready — check it, then press 📤 Share again',monoAll:'all clear',monoScore:'{a}/{b} passed'},
  bn:{install:'ইনস্টল',installHow:'📲 ফোনে ইনস্টল',installBannerText:'📲 অ্যাপটি ফোনে ইনস্টল করুন — হোম স্ক্রিনের আইকন থেকে সাধারণ অ্যাপের মতো খুলবে, দুর্বল ইন্টারনেটেও চলবে।',
-  installTitle:'📲 TF Post Card Studio ইনস্টল করুন',instAndroid:'অ্যান্ড্রয়েড (Chrome):',instA1:'অ্যাপের লিংকটি Chrome-এ খুলুন।',instA2:'উপরে ডান কোণের ⋮ মেনুতে চাপুন।',instA3:'“Install app” (বা “Add to Home screen”) → Install চাপুন।',
+  installTitle:'📲 TF QuoteCard ইনস্টল করুন',instAndroid:'অ্যান্ড্রয়েড (Chrome):',instA1:'অ্যাপের লিংকটি Chrome-এ খুলুন।',instA2:'উপরে ডান কোণের ⋮ মেনুতে চাপুন।',instA3:'“Install app” (বা “Add to Home screen”) → Install চাপুন।',
   instIos:'আইফোন (Safari):',instI1:'অ্যাপের লিংকটি Safari-তে খুলুন।',instI2:'নিচের Share বাটন □↑ চাপুন।',instI3:'“Add to Home Screen” → Add চাপুন।',
   instFile:'মনে রাখবেন: ইনস্টল শুধু ওয়েবসাইটের লিংক (GitHub Pages) থেকে হয়, কম্পিউটারে খোলা ফাইল থেকে নয়।',tInstalled:'✅ ইনস্টল হয়েছে — হোম স্ক্রিন থেকে খুলুন',
   updateText:'✨ নতুন ভার্সন প্রস্তুত',reload:'রিলোড',pvSize:'⇕ প্রিভিউ',appLook:'ভাষা, থিম ও ইনস্টল',langNow:'🌐 English',themeDark:'🌙 ডার্ক থিম',themeLight:'☀️ লাইট থিম',tShareCap:'📋 ক্যাপশন কপি হয়েছে — ফেসবুকে পেস্ট করুন',
@@ -2606,12 +2835,12 @@ function renderPresets(){
 /* ================= full backup / restore / resets ================= */
 function fullBackup(){
   persistNow();
-  const data = { app: 'tf-post-card-studio', version: 2, saved: new Date().toISOString(), mode: MODE, lang: LANG,
+  const data = { app: 'tf-quotecard', version: 2, saved: new Date().toISOString(), mode: MODE, lang: LANG,
     design: DESIGN, fields: FIELDS, brand: BRAND, logos: { general: getLogo('general'), islamic: getLogo('islamic') }, styles: { general: getStyle('general'), islamic: getStyle('islamic') },
     captions: { general: store.get('cap_general', ''), islamic: store.get('cap_islamic', '') }, presets: PRESETS, library: LIB,
     settings: { gmodel: S.gmodel, imodel: S.imodel }, memory: memData() };
   const d = new Date(), stamp = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-  download(new Blob([JSON.stringify(data)], { type: 'application/json' }), 'TF Post Card Studio backup ' + stamp + '.json'); toast(t('tBackupOk'));
+  download(new Blob([JSON.stringify(data)], { type: 'application/json' }), 'TF QuoteCard backup ' + stamp + '.json'); toast(t('tBackupOk'));
 }
 async function fullRestore(file){
   try{
@@ -3583,7 +3812,7 @@ function pubRecord(kind){
 }
 function memData(){ const o = {}; MEM.keys().forEach(k => { o[k] = MEM.get(k); }); return o; }
 function memFile(){ const d = new Date(), st = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-  return new File([JSON.stringify({ app:'tf-post-card-studio', kind:'memory', version:1, saved:d.toISOString(), memory:memData() })], 'TF Post Card memory ' + st + '.json', { type:'application/json' }); }
+  return new File([JSON.stringify({ app:'tf-post-card-studio', kind:'memory', version:1, saved:d.toISOString(), memory:memData() })], 'TF QuoteCard memory ' + st + '.json', { type:'application/json' }); }
 async function memSave(share){
   const f = memFile();
   if(share){ let can = false; try{ can = !!(navigator.canShare && navigator.canShare({ files:[f] })); }catch(e){} if(can){ try{ await navigator.share({ files:[f] }); store.set('mem_since', 0); memUi(); return; }catch(e){ if(e && e.name === 'AbortError') return; } } }
@@ -4256,6 +4485,113 @@ function reelWire(){
 window.TFPC = { mem: MEM, reel: { RS, RX, compose: reelCompose, count: reelCount, synth: reelSynth }, state: C, F: () => F(), D: () => D(), B: () => B(), renderTo, setMode, showTab };
 const startApp = () => { if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init(); };
 MEM.load().then(startApp, startApp);
+})();
+</script>
+<script id="v2js">
+/* ===== TF QuoteCard v2 — interface layer: clean labels, menu sheet, theme icon ===== */
+(function(){
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const root = document.documentElement;
+  const ICON = {
+    moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/>'
+  };
+  const L = {
+    bn:{ brand:'পেজের নাম ও লোগো', library:'লাইব্রেরি', settings:'সেটিংস', lang:'ভাষা', langNow:'বাংলা', install:'ফোনে ইনস্টল',
+         undo:'আগে', redo:'পরে', shuffle:'নতুন লুক', preview:'বড় করে', dlPng:'সেভ', reelBtn:'রিল', share:'শেয়ার', newPost:'নতুন পোস্ট' },
+    en:{ brand:'Page name & logo', library:'Library', settings:'Settings', lang:'Language', langNow:'English', install:'Install on phone',
+         undo:'Undo', redo:'Redo', shuffle:'New look', preview:'Preview', dlPng:'Save', reelBtn:'Reel', share:'Share', newPost:'New post' }
+  };
+  const lang = () => (root.lang === 'bn' ? 'bn' : 'en');
+
+  /* ---- 1. strip decorative emoji / symbols from interface labels (not from your posts) ---- */
+  const LEAD = /^[\s←-⇿⌀-⏿①-➿⤀-⥿⬀-⯿⟲〰️‍⃣]*(?:[\p{Extended_Pictographic}←-⇿⌀-⏿①-➿⬀-⯿⟲⟲↺↩↪⬇⇕✓✕✦][️‍⃣]*\s*)+/u;
+  const SKIP = '.opt,.qcard,.libi,.shprev,.meta,#capText,textarea,.monolist,#hMeta,#aMeta,#toast';
+  const OWN = new Set(['undo','redo','shuffle','preview','dlPng','reelBtn','share']);
+  const TRAIL = /\s*(?:[\p{Extended_Pictographic}\u23E9-\u23FA\u2190-\u21FF][\uFE0F\u200D\u20E3]*\s*)+$/u;
+  function cleanEl(el){
+    if(!el || el.nodeType !== 1 || el.closest(SKIP)) return;
+    const k = el.dataset && el.dataset.i18n;
+    if(k && OWN.has(k) && el.closest('.stagebar')){ const v = L[lang()][k]; if(el.textContent !== v) el.textContent = v; return; }
+    const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, { acceptNode: n => (n.parentElement && n.parentElement.closest(SKIP + ',script,style,option')) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
+    let n;
+    while((n = w.nextNode())){
+      const t = n.nodeValue; if(!t || !(LEAD.test(t) || TRAIL.test(t))) continue;
+      const c = t.replace(LEAD, '').replace(TRAIL, '');
+      if(c.trim()) n.nodeValue = c;
+    }
+  }
+  function cleanSelect(sel){ for(const o of sel.options){ const c = o.text.replace(LEAD, ''); if(c.trim() && c !== o.text) o.text = c; } }
+  function sweep(){
+    document.querySelectorAll('[data-i18n],.chip,.qchips button,.rtag,#monoBadge,#themeBtn2,#langBtn2,#rvPlay,#cKeyState,#keyState').forEach(cleanEl);
+    document.querySelectorAll('.pane select,.rctl select').forEach(cleanSelect);
+  }
+  const queue = new Set(); let pend = false;
+  const mo = new MutationObserver(muts => {
+    for(const m of muts){
+      const t = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+      if(t && !t.closest('#rvBusy,canvas')) queue.add(t);
+    }
+    if(pend || !queue.size) return; pend = true;
+    requestAnimationFrame(() => {
+      pend = false; mo.disconnect();
+      try{
+        queue.forEach(el => {
+          if(!el.isConnected) return;
+          const sel = el.tagName === 'SELECT' ? el : el.closest('select');
+          if(sel){ cleanSelect(sel); return; }
+          cleanEl(el);
+        });
+      }finally{ queue.clear(); observe(); }
+    });
+  });
+  function observe(){ mo.observe(document.body, { childList:true, subtree:true, characterData:true }); }
+
+  /* ---- 2. labels that belong to this layer ---- */
+  function syncLabels(){
+    const d = L[lang()];
+    document.querySelectorAll('[data-v2t]').forEach(e => { const v = d[e.dataset.v2t]; if(e.textContent !== v) e.textContent = v; });
+    const ln = $('v2LangNow'); if(ln && ln.textContent !== d.langNow) ln.textContent = d.langNow;
+    const nb = $('newPostBtn'); if(nb){ nb.title = d.newPost; nb.setAttribute('aria-label', d.newPost); }
+    const inst = $('installBtn'); const ib = $('v2Install');
+    if(ib) ib.classList.toggle('hidden', matchMedia('(display-mode: standalone)').matches);
+  }
+
+  /* ---- 3. theme icon + status-bar colour ---- */
+  function syncTheme(){
+    const dark = root.dataset.theme === 'dark';
+    const b = $('v2Theme'); if(b){ const svg = b.querySelector('svg'); const want = dark ? ICON.sun : ICON.moon; if(svg && svg.dataset.k !== (dark ? 's' : 'm')){ svg.innerHTML = want; svg.dataset.k = dark ? 's' : 'm'; } }
+    const m = $('themeColor'); const c = dark ? '#0d0f13' : '#f4f5f7'; if(m && m.content !== c) m.content = c;
+  }
+  new MutationObserver(syncTheme).observe(root, { attributes:true, attributeFilter:['data-theme','data-mode','lang'] });
+  new MutationObserver(() => { syncLabels(); sweep(); }).observe(root, { attributes:true, attributeFilter:['lang'] });
+
+  /* ---- 4. menu sheet ---- */
+  function openMenu(){ syncLabels(); $('v2menu').classList.remove('hidden'); }
+  function closeMenu(){ $('v2menu').classList.add('hidden'); }
+  function go(tab){
+    closeMenu();
+    if(window.TFPC && window.TFPC.showTab) window.TFPC.showTab(tab);
+    else { const t = document.querySelector('.tab[data-tab="' + tab + '"]'); if(t) t.click(); }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function start(){
+    $('v2MenuBtn').addEventListener('click', openMenu);
+    $('v2menu').addEventListener('click', e => {
+      if(e.target === e.currentTarget){ closeMenu(); return; }
+      const g = e.target.closest('[data-v2go]'); if(g) go(g.dataset.v2go);
+    });
+    $('v2Lang').addEventListener('click', () => { $('langBtn').click(); setTimeout(syncLabels, 30); });
+    $('v2Install').addEventListener('click', () => { closeMenu(); const b = $('installBtn3') || $('installBtn'); if(b) b.click(); });
+    $('v2Theme').addEventListener('click', () => { $('themeBtn').click(); syncTheme(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
+    let ticking = false;
+    addEventListener('scroll', () => { if(ticking) return; ticking = true; requestAnimationFrame(() => { document.body.classList.toggle('v2scrolled', scrollY > 4); ticking = false; }); }, { passive:true });
+    sweep(); syncLabels(); syncTheme(); observe();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else setTimeout(start, 0);
 })();
 </script>
 </body>
